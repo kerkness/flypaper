@@ -6,6 +6,7 @@
         data-base-url="{{URL::to('/')}}" 
         data-user="{{ json_encode($user) }}" 
         data-img-server="{{ $serverless }}"
+        data-token="{{ $token }}"
     ></div>
 </div>
 @endsection
