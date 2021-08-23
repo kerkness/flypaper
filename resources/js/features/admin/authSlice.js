@@ -24,7 +24,7 @@ export const { setUserAction, setToken } = authSlice.actions
 
 export const useAuth = () => {
 	const dispatch = useDispatch();
-	const { user } = useSelector(state => state.auth);
+	const { user, token } = useSelector(state => state.auth);
 	return {
 		user,
 		token,
