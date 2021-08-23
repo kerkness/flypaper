@@ -21,7 +21,7 @@ class Api {
 		const headers = this.requestHeaders(token);
 
 		return window.axios.get(url, {
-			withCredentials: false,
+			withCredentials: true,
 			params: {
 				...params,
 			},
@@ -38,7 +38,7 @@ class Api {
 		return window.axios.post(url, {
 			...inputs,
 		}, { 
-			withCredentials: false,
+			withCredentials: true,
 			headers
 		});
 	}
@@ -51,7 +51,7 @@ class Api {
 		return window.axios.put(url, {
 			...inputs,
 		}, { 
-			withCredentials: false,
+			withCredentials: true,
 			headers 
 		});
 	}
@@ -62,7 +62,7 @@ class Api {
 		const headers = this.requestHeaders(token);
 
 		return window.axios.delete(url, {
-			withCredentials: false,
+			withCredentials: true,
 			params: {
 				...params,
 			},

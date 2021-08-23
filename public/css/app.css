@@ -1,18 +1,1 @@
-body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-  background-color: #333333;
-}
-
-.uppy-DragDrop-container {
-  background-color: transparent !important;
-  width: 100%;
-  text-align: center;
-}
-.uppy-DragDrop-container .uppy-DragDrop-browse {
-  color: #EEEEEE;
-}
-.uppy-DragDrop-container .uppy-DragDrop-label {
-  color: #EEEEEE;
-}
+body{background-color:#333;margin:0;overflow-x:hidden;padding:0}.uppy-DragDrop-container{background-color:transparent!important;text-align:center;width:100%}.uppy-DragDrop-container .uppy-DragDrop-browse,.uppy-DragDrop-container .uppy-DragDrop-label{color:#eee}
