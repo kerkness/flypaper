@@ -47,9 +47,18 @@ class PaperController extends Controller
 
     public function browse_paper(Request $request)
     {
+        // Get a token
+        $token = '';
+
+        if (Auth::check()) {
+            $user = Auth::user();
+            $token = $user->createToken('app')->plainTextToken;
+        }
+
         return view('flypaper', [
             'user' => Auth::check() ? Auth::user() : [],
             'serverless' => getenv('UPPY_SERVERLESS'),
+            'token' => $token,
         ]);
     }
 

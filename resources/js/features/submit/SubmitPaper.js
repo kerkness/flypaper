@@ -79,7 +79,7 @@ export default function SubmitPaper(props) {
 
     const classes = useStyles();
 
-    const { user } = useAuth();
+    const { user, token } = useAuth();
     const { addPapers, addNewPaper } = usePaper();
     const { submitOpen, openSubmit, closeSubmit } = useNav();
     const is_saving = useRef();
@@ -196,7 +196,8 @@ export default function SubmitPaper(props) {
             "/api/inspect-upload",
             {
                 source: form.values.source,
-            }
+            }, 
+            token
         ).then(response => {
 
             return response.data;
@@ -217,7 +218,8 @@ export default function SubmitPaper(props) {
                     {
                         ...form.values,
                         ...response,
-                    }
+                    },
+                    token
                 ).then(response => {
         
                     addNewPaper(response.data);
