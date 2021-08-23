@@ -16,9 +16,9 @@ const FlyPaperApp = (props) => {
             setUser(JSON.parse(props.user));
             setToken(props.token);
 
-            window.api.axiosGet('/sanctum/csrf-cookie').then(response => {
-                // console.log("got them cookies", response);
-            });
+            // window.api.axiosGet('/sanctum/csrf-cookie').then(response => {
+            //     // console.log("got them cookies", response);
+            // });
         }
     }, [])
 
