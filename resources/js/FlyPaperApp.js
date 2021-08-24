@@ -11,11 +11,16 @@ const FlyPaperApp = (props) => {
 
     const { setUser, setToken } = useAuth();
 
+    console.log(props);
+
     useEffect(() => {
-        if (props.user !== null) {
+        if (props.token) {
             setUser(JSON.parse(props.user));
             setToken(props.token);
 
+            window.api.axiosGet('/api/user', {}, props.token).then(response => {
+                console.log("user roles", response);
+            });
             // window.api.axiosGet('/sanctum/csrf-cookie').then(response => {
             //     // console.log("got them cookies", response);
             // });

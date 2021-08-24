@@ -7,6 +7,7 @@ use App\Models\PaperDownload;
 use App\Models\PaperLike;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 
 class PaperController extends Controller
@@ -28,8 +29,7 @@ class PaperController extends Controller
         $offset = $request->input('offset', 0);
 
         $papers = Paper::query()
-            ->where('approved', '=', 1)
-            ->withCurrentUser()
+            ->withPermissions($request->user())
             ->limit(4)
             ->offset($offset)
             ->orderBy('created_at', 'DESC')
@@ -37,8 +37,7 @@ class PaperController extends Controller
 
 
         $count = Paper::query()
-            ->where('approved', '=', 1)
-            ->withCurrentUser()
+            ->withPermissions($request->user())
             ->count();
 
 
@@ -64,8 +63,6 @@ class PaperController extends Controller
 
     public function record_download(Request $request, $paper_id)
     {
-        if (!Auth::check()) return;
-
         $user = Auth::user();
         $result = PaperDownload::firstOrCreate(['user_id' => $user->id, 'paper_id' => $paper_id]);
 
@@ -74,8 +71,6 @@ class PaperController extends Controller
 
     public function record_like(Request $request, $paper_id)
     {
-        if (!Auth::check()) return;
-
         $user = Auth::user();
         $result = PaperLike::firstOrCreate(['user_id' => $user->id, 'paper_id' => $paper_id]);
 
@@ -84,8 +79,6 @@ class PaperController extends Controller
 
     public function record_unlike(Request $request, $paper_id)
     {
-        if (!Auth::check()) return;
-
         $user = Auth::user();
         $like = PaperLike::firstOrCreate(['user_id' => $user->id, 'paper_id' => $paper_id]);
 

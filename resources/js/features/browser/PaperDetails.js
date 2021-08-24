@@ -5,6 +5,7 @@ import { Grid, Typography, IconButton } from "@material-ui/core";
 import ContentBox from "../../components/ContentBox";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { displaySize } from "../../components/useSizes";
+import useWindowSize from "../../components/useWindowSize";
 import FileDownloadIcon from '@material-ui/icons/GetApp';
 import { categories } from "./paperSlice";
 import { saveAs } from 'file-saver'
@@ -47,6 +48,7 @@ const PaperDetails = (props) => {
     const [liked, setLiked] = useState(false);
     const { isUser } = useAuth();
     const { openLogin, closeLogin } = useNav();
+    const windowSize = useWindowSize();
 
     useEffect(() => {
 
@@ -84,6 +86,8 @@ const PaperDetails = (props) => {
             .then(response => console.log("unlike recorded", response))
             .catch(error => console.log("error", error));
     }
+
+    const width = windowSize.width ? '' : ''
 
     return (
         <ContentBox width={400} height={200}>

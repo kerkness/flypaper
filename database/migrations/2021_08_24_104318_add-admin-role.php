@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddVerifiedToUsersTable extends Migration
+class AddAdminRole extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,7 @@ class AddVerifiedToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->tinyInteger('verified')->default(0);
-        });
+        //
     }
 
     /**
@@ -25,8 +23,6 @@ class AddVerifiedToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('verified');
-        });
+        //
     }
 }
