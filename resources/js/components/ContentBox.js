@@ -7,9 +7,12 @@ const useStyles = makeStyles({
       color: '#EEEEEE',
       backgroundColor: "rgba(20,20,20,0.5)",
       padding: 20,
+      margin: 20,
       "&:hover": {
         backgroundColor: "rgba(20,20,20,0.75)",
-      }
+      },
+      width: 300,
+      maxWidth: '100%'
   },
 });
 
@@ -17,13 +20,9 @@ const useStyles = makeStyles({
 export default function ContentBox(props) {
 
   const classes = useStyles();
-  const {width} = props;
 
   return (
     <Box className={classes.root}
-      sx={{
-        width,
-      }}
     >{props.children}</Box>
   );
 }

@@ -14,6 +14,7 @@ class PaperController extends Controller
 {
 
     public $user;
+    public $limit = 4;
 
     /**
      * Create a new controller instance.
@@ -30,7 +31,7 @@ class PaperController extends Controller
 
         $papers = Paper::query()
             ->withPermissions($request->user())
-            ->limit(4)
+            ->limit($this->limit)
             ->offset($offset)
             ->orderBy('created_at', 'DESC')
             ->get();
@@ -41,7 +42,10 @@ class PaperController extends Controller
             ->count();
 
 
-        return response()->json(['papers' => $papers, 'total' => $count]);
+        return response()->json([
+            'papers' => $papers, 
+            'total' => $count
+        ]);
     }
 
     public function browse_paper(Request $request)

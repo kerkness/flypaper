@@ -1,6 +1,6 @@
 
 
-export const displaySize = (bytes) => {
+export const displayByteSize = (bytes) => {
 
     let size = bytes; // just init the variables.
     let label = "B";

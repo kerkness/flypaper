@@ -12,7 +12,8 @@ const useStyles = makeStyles({
     },
     paperContainer: {
         flexGrow: 1,
-        padding: 30
+        padding: 0,
+        // padding: 30
     }
 
 });

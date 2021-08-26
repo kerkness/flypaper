@@ -4,7 +4,7 @@ import {
     Route,
 } from "react-router-dom";
 import SubmitPaper from "../submit/SubmitPaper";
-import PaperBrowser from "../browser/PaperBrowser";
+import PaperBrowser from "../paper/PaperBrowser";
 
 const PaperRoutes = (props) => {
     return (

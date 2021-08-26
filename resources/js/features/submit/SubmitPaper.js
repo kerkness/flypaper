@@ -23,7 +23,7 @@ import '@uppy/drag-drop/dist/style.css'
 import { useSubmission } from './submitSlice';
 import { useFormik } from 'formik';
 import { paperSchema } from '../../schema/paper';
-import { usePaper } from '../browser/paperSlice';
+import { usePaper } from '../paper/paperSlice';
 
 
 const useStyles = makeStyles({
@@ -81,7 +81,7 @@ export default function SubmitPaper(props) {
 
     const { user, token } = useAuth();
     const { addPapers, addNewPaper } = usePaper();
-    const { submitOpen, openSubmit, closeSubmit } = useNav();
+    const { submit, toggleDrawer } = useNav();
     const is_saving = useRef();
     const {
         upload,
@@ -156,16 +156,16 @@ export default function SubmitPaper(props) {
             });
     });
 
-    const toggleDrawer = (open) => (event) => {
-        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-            return;
-        }
-        if (open) {
-            openSubmit();
-        } else {
-            cancelSubmit();
-        }
-    };
+    // const toggleDrawer = (open) => (event) => {
+    //     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    //         return;
+    //     }
+    //     if (open) {
+    //         openSubmit();
+    //     } else {
+    //         cancelSubmit();
+    //     }
+    // };
 
     const onChange = (value, field) => {
         setFieldValue(field, value)
@@ -238,7 +238,7 @@ export default function SubmitPaper(props) {
 
     const cancelSubmit = () => {
         clearSubmission();
-        closeSubmit();
+        toggleDrawer('submit', false);
         uppy.reset();
         form.resetForm();
     }
@@ -246,7 +246,7 @@ export default function SubmitPaper(props) {
     return (
         <div>
             <React.Fragment>
-                <Drawer className={classes.drawer} anchor={'right'} open={submitOpen} onClose={toggleDrawer(false)}>
+                <Drawer className={classes.drawer} anchor={'right'} open={submit} onClose={() => toggleDrawer('submit', false)}>
                     <div
                         className={clsx(classes.list)}
                         role="presentation"

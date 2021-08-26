@@ -4,12 +4,20 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
 import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
-import { Grid, Typography, IconButton, FormControl, Stack, FormControlLabel, RadioGroup, Radio, responsiveFontSizes } from "@material-ui/core";
+import {
+    Grid,
+    Typography,
+    FormControl,
+    FormControlLabel,
+    RadioGroup,
+    Radio,
+} from "@material-ui/core";
 import { saveAs } from 'file-saver';
 import FileDownloadIcon from '@material-ui/icons/GetApp';
 import { useAuth } from '../admin/authSlice';
 import { useNav } from '../nav/navSlice';
 import InputTextField from '../../components/InputTextField';
+import IconButton from '../../components/IconButton';
 import { usePaper } from './paperSlice';
 import { buildURL } from 'react-imgix';
 
@@ -50,12 +58,6 @@ const CssRadio = withStyles({
 })(Radio)
 
 
-const CssIconButton = withStyles({
-    root: {
-        color: '#FFFFFF',
-    },
-})(IconButton);
-
 export default function PaperDownload(props) {
 
     const { paper } = props;
@@ -84,8 +86,8 @@ export default function PaperDownload(props) {
     };
 
     const changeCustom = (name, value) => {
-        if(!Number(value)) return;
-        setCustomSize({...customSize, [name]: value});
+        if (!Number(value)) return;
+        setCustomSize({ ...customSize, [name]: value });
     }
 
     const downloadPaper = () => {
@@ -95,7 +97,7 @@ export default function PaperDownload(props) {
             return;
         }
 
-        const selectedRes = _.find( resolutions, r => r.label === resolution );
+        const selectedRes = _.find(resolutions, r => r.label === resolution);
 
         const width = resolution === 'custom'
             ? customSize.width
@@ -104,7 +106,7 @@ export default function PaperDownload(props) {
         const height = resolution === 'custom'
             ? customSize.height
             : selectedRes.height
-            
+
         // Build Params
         const params = {
             fit: crop,
@@ -131,9 +133,13 @@ export default function PaperDownload(props) {
 
     return (
         <Fragment>
-            <CssIconButton aria-describedby={id} color="default" onClick={handleClick}>
+            <IconButton
+                aria-describedby={id}
+                color="default"
+                onClick={handleClick}
+            >
                 <FileDownloadIcon />
-            </CssIconButton>
+            </IconButton>
             <CssPopOver
                 id={id}
                 open={open}

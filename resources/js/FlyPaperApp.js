@@ -9,7 +9,7 @@ import { useAuth } from "./features/admin/authSlice";
 
 const FlyPaperApp = (props) => {
 
-    const { setUser, setToken } = useAuth();
+    const { setUser, setToken, setRoles } = useAuth();
 
     console.log(props);
 
@@ -19,7 +19,7 @@ const FlyPaperApp = (props) => {
             setToken(props.token);
 
             window.api.axiosGet('/api/user', {}, props.token).then(response => {
-                console.log("user roles", response);
+                setRoles(response.data.roles);
             });
             // window.api.axiosGet('/sanctum/csrf-cookie').then(response => {
             //     // console.log("got them cookies", response);

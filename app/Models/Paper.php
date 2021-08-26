@@ -51,15 +51,15 @@ class Paper extends Model
         return $this->hasMany(PaperDownload::class);
     }
 
-    public function scopeWithPermissions( $query, User $user )
+    public function scopeWithPermissions( $query, User $user = null )
     {
-        if ( $user->exists() && $user->hasRole(['god', 'editor']) ) {
+        if ( is_object($user) && $user->exists() && $user->hasRole(['god', 'editor']) ) {
             return $query;
         }
 
         $query->where('approved', '=', 1);
 
-        if ( $user->exists() ) {
+        if ( is_object($user) && $user->exists() ) {
             $query->orWhere('user_id', '='. $user->id);
         }
 
