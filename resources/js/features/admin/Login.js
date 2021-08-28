@@ -38,26 +38,26 @@ export default function LoginDrawer() {
 
     const classes = useStyles();
 
-    const { loginOpen, openLogin, closeLogin } = useNav();
+    const { login, toggleDrawer, drawerOpen } = useNav();
 
-
-    const toggleDrawer = (open) => (event) => {
-        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-            return;
-        }
-        if (open) {
-            openLogin();
-        } else {
-            closeLogin();
-        }
-    };
+    console.log("login Drawer", login, drawerOpen);
+    // const toggleDrawer = (open) => (event) => {
+    //     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    //         return;
+    //     }
+    //     if (open) {
+    //         openLogin();
+    //     } else {
+    //         closeLogin();
+    //     }
+    // };
 
     const list = () => (
         <div
             className={clsx(classes.list)}
             role="presentation"
-            onClick={toggleDrawer(false)}
-            onKeyDown={toggleDrawer(false)}
+            onClick={() => toggleDrawer('login', false)}
+            onKeyDown={() => toggleDrawer('login', false)}
         >
             <Grid container
                 className={classes.grid}
@@ -94,7 +94,7 @@ export default function LoginDrawer() {
     return (
         <div className={classes.root}>
             <React.Fragment>
-                <Drawer anchor={'right'} open={loginOpen} onClose={toggleDrawer(false)}>
+                <Drawer anchor={'right'} open={login} onClose={() => toggleDrawer('login', false)}>
                     {list()}
                 </Drawer>
             </React.Fragment>

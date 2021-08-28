@@ -51,31 +51,19 @@ const useStyles = makeStyles({
     },
 });
 
-export default function InfoDrawer() {
+export default function AccountDrawer() {
 
     const classes = useStyles();
 
-    const { infoOpen, openInfo, closeInfo } = useNav();
+    const { account, toggleDrawer } = useNav();
     const { user } = useAuth();
-
-
-    const toggleDrawer = (open) => (event) => {
-        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-            return;
-        }
-        if (open) {
-            openInfo();
-        } else {
-            closeInfo();
-        }
-    };
 
     const list = () => (
         <div
             className={clsx(classes.list)}
             role="presentation"
-            onClick={toggleDrawer(false)}
-            onKeyDown={toggleDrawer(false)}
+            onClick={() => toggleDrawer('account', false)}
+            onKeyDown={() => toggleDrawer('account', false)}
         >
             <Grid container
                 className={classes.grid}
@@ -86,47 +74,20 @@ export default function InfoDrawer() {
             >
                 <Grid item>
                     <Typography className={classes.paragraph} variant="body1">
-                        FlyPaper is a collection of desktop wallpapers and screen shots for fans of flight simulators like MSFS or aviation in general.
+                        Welcome {user.name}
                     </Typography>
-                    <Typography className={classes.paragraph} variant="body1">
-                        This site is free for you to use and enjoy with a few small guidelines.
-                    </Typography>
-
-                    <List className={classes.paragraph} aria-label="main mailbox folders">
-                        <ListItem>
-                            <CssListItemIcon>
-                                <VerifiedUser />
-                            </CssListItemIcon>
-                            <CssListItemText
-                                primary="Authenticate"
-                                secondary="Login with a Twitch or Discord account" 
-                            />
-                        </ListItem>
-                        <ListItem>
-                            <CssListItemIcon>
-                                <Copyright />
-                            </CssListItemIcon>
-                            <CssListItemText 
-                                primary="Creative Commons"
-                                secondary="Only submit your own images that can be shared publicly" 
-                            />
-                        </ListItem>
-                    </List>
                     <Typography className={classes.paragraph} variant="body1">
                         Contact Kerkness on discord for suggestions or assistance. Enjoy!
                     </Typography>
 
                 </Grid>
-                {
-                    (user && user.id) && <Grid item>
+                <Grid item>
                     <Button
                         variant="contained"
                         color="default"
                         href="/logout"
                     >Logout</Button>
                 </Grid>
-
-                }
             </Grid>
         </div>
     );
@@ -134,7 +95,7 @@ export default function InfoDrawer() {
     return (
         <div className={classes.root}>
             <React.Fragment>
-                <Drawer anchor={'right'} open={infoOpen} onClose={toggleDrawer(false)}>
+                <Drawer anchor={'right'} open={account} onClose={() => toggleDrawer('account', false)}>
                     {list()}
                 </Drawer>
             </React.Fragment>

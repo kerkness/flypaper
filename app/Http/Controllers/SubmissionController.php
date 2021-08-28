@@ -57,6 +57,10 @@ class SubmissionController extends Controller
         $paper->category = $request->input('category');
         $paper->user_id = $user->id;
 
+        if ($user->can('publish paper')) {
+            $paper->approved = 1;
+        }
+
         $paper->save();
 
         // Add tags

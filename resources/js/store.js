@@ -2,7 +2,7 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import navReducer from './features/nav/navSlice';
 import authReducer from './features/admin/authSlice';
 import submissionReducer from './features/submit/submitSlice';
-import paperReducer from './features/browser/paperSlice';
+import paperReducer from './features/paper/paperSlice';
 
 export const store = configureStore({
     reducer: {

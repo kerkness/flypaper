@@ -16,6 +16,7 @@
         "league/flysystem-aws-s3-v3": "^1.0",
         "socialiteproviders/discord": "^4.1",
         "socialiteproviders/twitch": "^5.3",
+        "spatie/laravel-permission": "^4.3",
         "tapp/laravel-uppy-s3-multipart-upload": "^0.3.4"
     },
     "require-dev": {

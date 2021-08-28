@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { createSlice } from '@reduxjs/toolkit';
 import { useSelector, useDispatch } from 'react-redux';
-import { categories } from '../browser/paperSlice';
+import { categories } from '../paper/paperSlice';
 
 const defaultSubmission = {
 	tags: ['MSFS'],

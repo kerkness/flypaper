@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/paper', [App\Http\Controllers\PaperController::class, 'fetch'])->name('get-papers');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    return response()->json([$request->user(), 'roles' => $request->user()->getRoleNames()]);
 });
 
 Route::middleware(['auth:sanctum', 'sanitizer'])->post('/submit-paper',  

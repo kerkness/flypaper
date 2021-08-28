@@ -13,11 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/auth/discord/redirect', [App\Http\Controllers\LoginController::class, 'auth_redirect'])->name('discord-redirect');
-Route::get('/auth/discord/callback', [App\Http\Controllers\LoginController::class, 'auth_callback'])->name('discord-callback');
+Route::get('/auth/{social}/redirect', [App\Http\Controllers\LoginController::class, 'auth_redirect'])
+    ->where('social', 'twitch|discord')
+    ->name('auth-redirect');
+Route::get('/auth/{social}/callback', [App\Http\Controllers\LoginController::class, 'auth_callback'])
+    ->where('social', 'twitch|discord')
+    ->name('auth-callback');
 
-Route::get('/auth/twitch/redirect', [App\Http\Controllers\LoginController::class, 'auth_redirect'])->name('twitch-redirect');
-Route::get('/auth/twitch/callback', [App\Http\Controllers\LoginController::class, 'auth_callback'])->name('twitch-callback');
+// Route::get('/auth/twitch/redirect', [App\Http\Controllers\LoginController::class, 'auth_redirect'])->name('twitch-redirect');
+// Route::get('/auth/twitch/callback', [App\Http\Controllers\LoginController::class, 'auth_callback'])->name('twitch-callback');
 
 
 Route::get('/', [App\Http\Controllers\PaperController::class, 'browse_paper'])->name('browse-paper');

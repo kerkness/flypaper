@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { alpha, makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, Typography, Button, ButtonGroup, IconButton } from "@material-ui/core";
+import { AppBar, Toolbar, Typography, Button, ButtonGroup } from "@material-ui/core";
 import LoginDrawer from "../admin/Login";
 import Fade from '@material-ui/core/Fade';
 import InfoIcon from '@material-ui/icons/Info';
@@ -8,11 +8,14 @@ import ImageSearchIcon from "@material-ui/icons/ImageSearch";
 import { useAuth } from "../admin/authSlice";
 import { useNav } from "../nav/navSlice";
 import SubmitPaper from "../submit/SubmitPaper";
-import InfoDrawer from "../browser/InfoDrawer";
+import InfoDrawer from "../paper/InfoDrawer";
 import SearchIcon from '@material-ui/icons/Search';
 import CloseIcon from '@material-ui/icons/Close';
 import InputBase from '@material-ui/core/InputBase';
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
+import AccountIcon from '@material-ui/icons/AccountCircle';
+import IconButton from '../../components/IconButton';
+import AccountDrawer from "../admin/AccountDrawer";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -90,7 +93,7 @@ const FlyPaperNavigation = (props) => {
     const [showFilter, setShowFilter] = useState(false)
     const classes = useStyles();
     const { user } = useAuth();
-    const { openLogin, openSubmit, openInfo, infoOpen } = useNav();
+    const { login, submit, info, account, toggleDrawer } = useNav();
 
 
     const toggleSubmit = (event) => {
@@ -98,16 +101,34 @@ const FlyPaperNavigation = (props) => {
             return;
         }
         if (!user.id) {
-            openLogin();
+            toggleDrawer('login', true);
+            // openLogin();
         }
         else {
-            openSubmit();
+            toggleDrawer('submit', true);
+            // openSubmit();
         }
     };
 
     const toggleInfo = (event) => {
-        openInfo();
+        toggleDrawer('info', true);
+        // openInfo();
     }
+
+    const toggleAccount = (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+        if (!user.id) {
+            toggleDrawer('login', true);
+            // openLogin();
+        }
+        else {
+            toggleDrawer('account', true);
+            // openSubmit();
+        }
+    };
+
 
     return (
         <div className={classes.grow}>
@@ -142,6 +163,13 @@ const FlyPaperNavigation = (props) => {
                         className={classes.iconbutton}
                     >
                         <InfoIcon />
+                    </IconButton>
+                    <IconButton
+                        onClick={toggleAccount}
+                        aria-label="info"
+                        className={classes.iconbutton}
+                    >
+                        <AccountIcon />
                     </IconButton>
                 </Toolbar>
 
@@ -205,8 +233,9 @@ const FlyPaperNavigation = (props) => {
 
             </AppBar>
             <LoginDrawer />
-            <SubmitPaper imgServer={props.imgServer} />
+            <SubmitPaper />
             <InfoDrawer />
+            <AccountDrawer />
         </div>
     )
 }

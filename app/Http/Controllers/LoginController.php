@@ -7,7 +7,7 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-
+use Spatie\Permission\Models\Role;
 
 class LoginController extends Controller
 {
@@ -35,14 +35,14 @@ class LoginController extends Controller
         return redirect('/');
     }
 
-    public function auth_redirect()
+    public function auth_redirect(Request $request, $social)
     {
-        return Socialite::driver('discord')->redirect();
+        return Socialite::driver($social)->redirect();
     }
 
-    public function auth_callback()
+    public function auth_callback(Request $request, $social)
     {
-        $user = Socialite::driver('discord')->user();
+        $user = Socialite::driver($social)->user();
 
         $users = User::where(['email' => $user->getEmail()])->first();
     
@@ -64,10 +64,13 @@ class LoginController extends Controller
                 'provider'      => $user,
                 'password'      => $hashed,
             ]);
+
+            $creator = Role::firstWhere('name', 'creator');
+            $user->assignRole($creator);
     
             Auth::login($user, true);
     
-            return redirect()->route('submit-paper');
+            return redirect()->route('browse-paper');
         }    
     }
 

@@ -1,32 +1,30 @@
 import React, { useEffect, useState } from "react";
 import _ from 'lodash';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { Grid, Typography, IconButton } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import ContentBox from "../../components/ContentBox";
+import IconButton from "../../components/IconButton";
+import { displayByteSize } from "../../components/useFileSizeConverter";
+import useWindowSize from "../../components/useWindowSize";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import { displaySize } from "../../components/useSizes";
-import FileDownloadIcon from '@material-ui/icons/GetApp';
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from '@material-ui/icons/Edit';
 import { categories } from "./paperSlice";
 import { saveAs } from 'file-saver'
 import { useAuth } from "../admin/authSlice";
 import { useNav } from "../nav/navSlice";
 import PaperDownload from "./PaperDownload";
+import PaperDelete from "./PaperDelete";
+import PaperEdit from "./PaperEdit";
 
 const useStyles = makeStyles({
     tagLink: {
         marginLeft: '6px',
+    },
+    actionButtons: {
+        textAlign: 'right',
     }
 });
-
-const CssIconButton = withStyles({
-    root: {
-        color: '#FFFFFF'
-    },
-    colorSecondary: {
-        color: 'hotpink'
-    },
-})(IconButton);
-
 
 const TagLink = (props) => {
 
@@ -43,10 +41,12 @@ const TagLink = (props) => {
 
 const PaperDetails = (props) => {
 
+    const classes = useStyles();
     const { paper } = props;
     const [liked, setLiked] = useState(false);
-    const { isUser } = useAuth();
+    const { isUser, canEdit } = useAuth();
     const { openLogin, closeLogin } = useNav();
+    const windowSize = useWindowSize();
 
     useEffect(() => {
 
@@ -86,17 +86,17 @@ const PaperDetails = (props) => {
     }
 
     return (
-        <ContentBox width={400} height={200}>
+        <ContentBox>
             <Grid container
                 direction="row"
                 justifyContent="space-between"
                 alignItems="center"
             >
-                <Grid item>
+                <Grid xs={12} sm={12} item>
                     <Typography variant="body2">
                         {paper.user.name}
                         &nbsp;| {categoryLabel(paper.category)}
-                        &nbsp;| {displaySize(paper.size)}
+                        &nbsp;| {displayByteSize(paper.size)}
                         {
                             !paper.approved && <span style={{
                                 paddingLeft: 20
@@ -115,10 +115,16 @@ const PaperDetails = (props) => {
                     <Typography variant="body1">
                     </Typography>
                 </Grid>
-                <Grid item>
-                    <CssIconButton color={liked ? "secondary" : "default"} onClick={heartPaper}>
+                    { canEdit(paper) && 
+                        <Grid item xs={6}>
+                            <PaperDelete paper={paper} />
+                            <PaperEdit paper={paper} />
+                        </Grid>
+                    }
+                    <Grid className={classes.actionButtons} xs={canEdit(paper) ? 6 : 12} item>
+                    <IconButton color={liked ? "secondary" : "default"} onClick={heartPaper}>
                         <FavoriteIcon />
-                    </CssIconButton>
+                    </IconButton>
                     <PaperDownload paper={paper} />
                 </Grid>
             </Grid>

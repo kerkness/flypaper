@@ -1,4 +1,29 @@
 import { useState, useEffect } from "react";
+import useDebounce from './useDebounce';
+
+export const useScreen = () => {
+
+    const [screen, setScreen] = useState({
+        isMobile: false,
+        isTablet: false,
+        isDesktop: true,
+    })
+    const windowSize = useWindowSize();
+    const size = useDebounce(windowSize);
+    
+    useEffect(() => {
+        if (isNaN(size.width)) return;
+
+        setScreen({
+            isMobile: size.width <= 600,
+            isTabled: size.width > 600 && size.width <= 1080,
+            isDesktop: size.width > 1080,
+        })
+
+    }, [])
+
+    return screen;
+}
 
 // Hook
 export default function useWindowSize() {
