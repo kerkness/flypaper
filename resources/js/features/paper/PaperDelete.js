@@ -3,32 +3,27 @@ import _ from 'lodash';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
 import Button from '@material-ui/core/Button';
-import SaveIcon from '@material-ui/icons/Save';
-import {
-    Grid,
-    Typography,
-    FormControl,
-    FormControlLabel,
-    RadioGroup,
-    Radio,
-} from "@material-ui/core";
-import { saveAs } from 'file-saver';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Typography from "@material-ui/core/Typography";
 import DeleteIcon from '@material-ui/icons/Delete';
-import { useAuth } from '../admin/authSlice';
-import { useNav } from '../nav/navSlice';
-import InputTextField from '../../components/InputTextField';
 import IconButton from '../../components/IconButton';
 import { usePaper } from './paperSlice';
-import { buildURL } from 'react-imgix';
 
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        // color: '#EEEEEE',
+    },
+    buttonGroup: {
+        marginTop: 20,
+    }
 }));
 
 const CssPopOver = withStyles({
     paper: {
         backgroundColor: '#333333',
         padding: 40,
+        color: '#EEEEEE'
     }
 })(Popover)
 
@@ -38,9 +33,7 @@ export default function PaperDelete(props) {
     const { paper } = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
-    const { isUser } = useAuth();
-    const { openLogin } = useNav();
-    const { customSize, setCustomSize, crop, setCrop, resolution, setResolution } = usePaper();
+    const { removePaper } = usePaper();
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -49,6 +42,16 @@ export default function PaperDelete(props) {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const deletePaper = () => {
+        window.api.axiosDelete(`/api/paper/${paper.id}`)
+            .then(response => {
+                console.log("paper deleted", response);
+                removePaper(paper);
+                handleClose();
+            })
+            .catch(error => console.log("delete error", error));
+    }
 
     const open = Boolean(anchorEl);
     const id = open ? 'delete-popover' : undefined;
@@ -76,7 +79,12 @@ export default function PaperDelete(props) {
                     horizontal: 'center',
                 }}
             >
-                <Typography>Are you sure you want to delete this paper?</Typography>
+                <Typography className={classes.root}>Are you sure you want to delete this paper?</Typography>
+
+                <ButtonGroup className={classes.buttonGroup} variant="contained" color="primary">
+                    <Button onClick={deletePaper}>Yes</Button>
+                    <Button onClick={handleClose}>No</Button>
+                </ButtonGroup>
             </CssPopOver>
         </Fragment>
     );

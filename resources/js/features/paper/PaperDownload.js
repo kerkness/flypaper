@@ -64,7 +64,7 @@ export default function PaperDownload(props) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const { isUser } = useAuth();
-    const { openLogin } = useNav();
+    const { toggleDrawer } = useNav();
     const { customSize, setCustomSize, crop, setCrop, resolution, setResolution } = usePaper();
 
     const resolutions = [
@@ -77,7 +77,7 @@ export default function PaperDownload(props) {
         if (isUser) {
             setAnchorEl(event.currentTarget);
         } else {
-            openLogin();
+            toggleDrawer('login', true);
         }
     };
 
@@ -93,7 +93,7 @@ export default function PaperDownload(props) {
     const downloadPaper = () => {
         console.log(paper);
         if (!isUser) {
-            openLogin();
+            toggleDrawer('login', true);
             return;
         }
 
@@ -123,7 +123,7 @@ export default function PaperDownload(props) {
     }
 
     const recordDownload = () => {
-        window.api.axiosPost(`/api/downloaded/${paper.id}`)
+        window.api.axiosPost(`/api/paper/${paper.id}/downloaded`)
             .then(response => console.log("download recorded", response))
             .catch(error => console.log("error", error));
     }

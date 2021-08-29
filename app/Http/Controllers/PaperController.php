@@ -90,4 +90,38 @@ class PaperController extends Controller
 
         return response()->json($like);
     }
+
+    public function delete_paper(Request $request, $paper_id)
+    {
+        $user = $request->user();
+
+        $paper = Paper::withPermissions($user)
+            ->where('id', '=', $paper_id)->first();
+
+        if (!$paper->exists()) {
+            abort(401, 'Unauthorized delete');
+        }
+
+        $affected = $paper->delete();
+
+        return response()->json($affected, 200);        
+    }
+
+    public function update_paper(Request $request, $paper_id)
+    {
+        $user = $request->user();
+
+        $paper = Paper::withPermissions($user)
+            ->where('id', '=', $paper_id)->first();
+
+        if (!$paper->exists()) {
+            abort(401, 'Unauthorized delete');
+        }
+
+        $category = $request->input('category');
+        $tags = $request->input('tags');
+
+        return response()->json([$category, $tags], 200);
+
+    }
 }

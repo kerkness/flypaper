@@ -45,7 +45,7 @@ const PaperDetails = (props) => {
     const { paper } = props;
     const [liked, setLiked] = useState(false);
     const { isUser, canEdit } = useAuth();
-    const { openLogin, closeLogin } = useNav();
+    const { toggleDrawer } = useNav();
     const windowSize = useWindowSize();
 
     useEffect(() => {
@@ -62,7 +62,8 @@ const PaperDetails = (props) => {
 
     const heartPaper = () => {
         if (!isUser) {
-            openLogin();
+            toggleDrawer('login', true);
+
             return;
         }
 
@@ -74,13 +75,13 @@ const PaperDetails = (props) => {
     }
 
     const recordLike = () => {
-        window.api.axiosPost(`/api/like/${paper.id}`)
+        window.api.axiosPost(`/api/paper/${paper.id}/like`)
             .then(response => console.log("like recorded", response))
             .catch(error => console.log("error", error));
     }
 
     const recordUnLike = () => {
-        window.api.axiosPost(`/api/unlike/${paper.id}`)
+        window.api.axiosDelete(`/api/paper/${paper.id}/like`)
             .then(response => console.log("unlike recorded", response))
             .catch(error => console.log("error", error));
     }
