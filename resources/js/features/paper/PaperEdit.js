@@ -27,7 +27,11 @@ import { useSubmission } from '../submit/submitSlice';
 import { editPaperSchema } from '../../schema/paper';
 
 const useStyles = makeStyles((theme) => ({
-    grid: {}
+    grid: {},
+    cancelButton: {
+        marginLeft: '20px',
+        color: '#EEEEEE'
+    },
 }));
 
 const CssPopOver = withStyles({
@@ -46,10 +50,6 @@ export default function PaperEdit(props) {
     const { paper } = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
-    // const [values, setValues] = useState({
-    //     tags: [],
-    //     category: paper.category
-    // });
     const { updatePaper } = usePaper();
     const { categories } = useSubmission();
 
@@ -75,7 +75,6 @@ export default function PaperEdit(props) {
     };
 
     const onChange = (value, field) => {
-        console.log("value ", value, field);
         form.setFieldValue(field, value);
     }
 
@@ -85,10 +84,8 @@ export default function PaperEdit(props) {
             ...form.values
         }).then(response => {
 
-            console.log("update response", response);
-
-            // updatePaper(form.values.category, 'category', paper.id);
-            // updatePaper(form.values.tags, 'tags', paper.id);
+            updatePaper(response.data, paper.id);
+            handleClose();
 
         }).catch(error => console.log(error));
     };
@@ -155,6 +152,7 @@ export default function PaperEdit(props) {
                             Save
                         </Button>
                         <Button
+                            className={classes.cancelButton}
                             onClick={handleClose}
                         >
                             Cancel

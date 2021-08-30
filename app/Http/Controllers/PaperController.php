@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Paper;
 use App\Models\PaperDownload;
 use App\Models\PaperLike;
+use App\Models\PaperTag;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 
 
 class PaperController extends Controller
@@ -118,10 +121,73 @@ class PaperController extends Controller
             abort(401, 'Unauthorized delete');
         }
 
-        $category = $request->input('category');
-        $tags = $request->input('tags');
+        if ($request->has('category')) {
+            $paper->category = $request->input('category');
+        }
+        if ($request->has('approved') && $request->user()->can('publish paper')) {
+            $paper->approved = $request->input('approved') ? 1 : 0;
+        }
 
-        return response()->json([$category, $tags], 200);
+        $paper->save();
+
+        if ($request->has('tags')) {
+            $this->clear_tags($paper->id);
+            $this->add_tags($request->input('tags'), $paper->id);    
+        }
+
+        $paper->refresh();
+        $paper = Paper::query()->find($paper->id);
+
+        return response()->json($paper, 200);
 
     }
+
+    public function create_paper(Request $request)
+    {
+        $user = Auth::user();
+
+        $paper = new Paper();
+        $paper->filename = $request->input('filename');
+        $paper->source = $request->input('source');
+        $paper->mime_type = $request->input('mime_type');
+        $paper->width = $request->input('width');
+        $paper->height = $request->input('height');
+        $paper->size = $request->input('size');
+        $paper->category = $request->input('category');
+        $paper->user_id = $user->id;
+
+        if ($user->can('publish paper')) {
+            $paper->approved = 1;
+        }
+
+        $paper->save();
+
+        // Add tags
+        $tagged = $this->add_tags($request->input('tags'), $paper->id);
+
+        $paper->refresh();
+
+        $paper = Paper::query()->find($paper->id);
+
+        return response()->json($paper);
+    }
+
+    public function add_tags( $tags, $paper_id )
+    {
+        return collect($tags)->each(function($tag_label, $index) use ($paper_id) {
+
+            $slug = Str::slug($tag_label, "-");
+
+            $tag = Tag::firstOrCreate(['slug' => $slug], ['slug' => $slug, 'label' => $tag_label]);
+
+            return PaperTag::firstOrCreate(['tag_id' => $tag->id, 'paper_id' => $paper_id]);
+
+        });
+    }
+
+    public function clear_tags( $paper_id )
+    {
+        PaperTag::where('paper_id', '=', $paper_id)->delete();
+    }
+
 }

@@ -43,47 +43,5 @@ class SubmissionController extends Controller
         ]);        
     }
 
-    public function submit_paper(Request $request)
-    {
-        $user = Auth::user();
-
-        $paper = new Paper();
-        $paper->filename = $request->input('filename');
-        $paper->source = $request->input('source');
-        $paper->mime_type = $request->input('mime_type');
-        $paper->width = $request->input('width');
-        $paper->height = $request->input('height');
-        $paper->size = $request->input('size');
-        $paper->category = $request->input('category');
-        $paper->user_id = $user->id;
-
-        if ($user->can('publish paper')) {
-            $paper->approved = 1;
-        }
-
-        $paper->save();
-
-        // Add tags
-        $tagged = $this->add_tags($request->input('tags'), $paper->id);
-
-        $paper->refresh();
-
-        $paper = Paper::query()->find($paper->id);
-
-        return response()->json($paper);
-    }
-
-    public function add_tags( $tags, $paper_id )
-    {
-        return collect($tags)->each(function($tag_label, $index) use ($paper_id) {
-
-            $slug = Str::slug($tag_label, "-");
-
-            $tag = Tag::firstOrCreate(['slug' => $slug], ['slug' => $slug, 'label' => $tag_label]);
-
-            return PaperTag::firstOrCreate(['tag_id' => $tag->id, 'paper_id' => $paper_id]);
-
-        });
-    }
 
 }

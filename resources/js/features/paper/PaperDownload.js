@@ -25,6 +25,7 @@ import { buildURL } from 'react-imgix';
 const useStyles = makeStyles((theme) => ({
     typography: {
         padding: theme.spacing(2),
+        textAlign: 'center',
     },
     label: {
         color: '#FFFFFF'
@@ -42,8 +43,9 @@ const useStyles = makeStyles((theme) => ({
 
 const CssPopOver = withStyles({
     paper: {
-        backgroundColor: '#333333',
+        backgroundColor: 'rgba(60,80,90,0.9)',
         padding: 40,
+        color: '#EEEEEE',
     }
 })(Popover)
 
@@ -71,6 +73,7 @@ export default function PaperDownload(props) {
         { width: 3840, height: 1080, label: '32:9' },
         { width: 3440, height: 1440, label: '21:9' },
         { width: 2560, height: 1440, label: '16:9' },
+        { width: 2048,  height: 2732, label: 'Tablet' },
     ]
 
     const handleClick = (event) => {
@@ -101,10 +104,14 @@ export default function PaperDownload(props) {
 
         const width = resolution === 'custom'
             ? customSize.width
+            : resolution === 'default'
+            ? paper.width
             : selectedRes.width
 
         const height = resolution === 'custom'
             ? customSize.height
+            : resolution === 'default'
+            ? paper.height
             : selectedRes.height
 
         // Build Params
@@ -158,7 +165,6 @@ export default function PaperDownload(props) {
                     className={classes.root}
                     direction="column"
                 >
-
                     <FormControl component="fieldset">
                         <RadioGroup
                             row
@@ -167,41 +173,33 @@ export default function PaperDownload(props) {
                             aria-label="resolution"
                             name="row-radio-buttons-group"
                         >
+                        <Grid container
+                            direction='column'
+                        >
+                            <Grid item>
+                                <FormControlLabel className={classes.label} value="default" control={<CssRadio />} label={`Original size: ${paper.width} x ${paper.height}`} />    
+                            </Grid>
+                            <Grid item>
                             {resolutions.map((res, index) => <FormControlLabel className={classes.label}
                                 key={index}
                                 value={res.label}
                                 control={<CssRadio />}
                                 label={res.label}
                             />)}
-                            <FormControlLabel className={classes.label} value="custom" control={<CssRadio />} label="Custom" />
-                        </RadioGroup>
-                    </FormControl>
-
-                    <Grid container>
-
-                        <Grid item>
-                            <FormControl component="fieldset">
-                                <RadioGroup
-                                    row
-                                    value={crop}
-                                    onChange={(e) => setCrop(e.target.value)}
-                                    aria-label="resolution"
-                                    name="row-radio-buttons-group"
-                                >
-                                    <FormControlLabel className={classes.label} value="crop" control={<CssRadio />} label="Crop" />
-                                    <FormControlLabel className={classes.label} value="fill" control={<CssRadio />} label="Fit" />
-                                </RadioGroup>
-                            </FormControl>
-                        </Grid>
-                        <Grid item>
-
+                            </Grid>
+                            <Grid item>
+                           
+                           
                             <Grid
                                 container
                                 direction="row"
                                 spacing={2}
-                                justifyContent="center"
+                                justifyContent="space-between"
                                 alignItems="center"
                             >
+                            <Grid item>
+                            <FormControlLabel className={classes.label} value="custom" control={<CssRadio />} label="Custom" />
+                            </Grid>
                                 <Grid item className={classes.inputContainer}>
                                     <InputTextField
                                         disabled={resolution !== 'custom'}
@@ -227,6 +225,38 @@ export default function PaperDownload(props) {
                                     />
                                 </Grid>
                             </Grid>
+
+                           
+                           
+                            </Grid>
+                            </Grid>
+
+                        </RadioGroup>
+                    </FormControl>
+
+                    <Grid container
+                        justify="space-between"
+                        alignItems="center"
+                    >
+                    <Grid item>
+                        <Typography>Resize mode</Typography>
+                    </Grid>
+
+                        <Grid item>
+                            <FormControl component="fieldset">
+                                <RadioGroup
+                                    row
+                                    value={crop}
+                                    onChange={(e) => setCrop(e.target.value)}
+                                    aria-label="resolution"
+                                    name="row-radio-buttons-group"
+                                >
+                                    <FormControlLabel className={classes.label} value="crop" control={<CssRadio />} label="Crop" />
+                                    <FormControlLabel className={classes.label} value="fill" control={<CssRadio />} label="Fit" />
+                                </RadioGroup>
+                            </FormControl>
+                        </Grid>
+                        <Grid item>
 
                         </Grid>
 

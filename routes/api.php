@@ -23,7 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 })->name('get-user');
 
 Route::middleware(['auth:sanctum', 'sanitizer'])->post('/paper',  
-    [App\Http\Controllers\SubmissionController::class, 'submit_paper']
+    [App\Http\Controllers\PaperController::class, 'create_paper']
 )->name("add-paper");
 
 Route::middleware(['auth:sanctum', 'sanitizer'])->put('/paper/{paper_id}',  

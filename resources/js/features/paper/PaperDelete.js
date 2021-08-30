@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 const CssPopOver = withStyles({
     paper: {
-        backgroundColor: '#333333',
+        backgroundColor: 'rgba(60,80,90,0.9)',
         padding: 40,
         color: '#EEEEEE'
     }

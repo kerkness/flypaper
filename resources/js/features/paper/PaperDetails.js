@@ -16,6 +16,7 @@ import { useNav } from "../nav/navSlice";
 import PaperDownload from "./PaperDownload";
 import PaperDelete from "./PaperDelete";
 import PaperEdit from "./PaperEdit";
+import PaperApprove from "./PaperApprove";
 
 const useStyles = makeStyles({
     tagLink: {
@@ -44,7 +45,7 @@ const PaperDetails = (props) => {
     const classes = useStyles();
     const { paper } = props;
     const [liked, setLiked] = useState(false);
-    const { isUser, canEdit } = useAuth();
+    const { isUser, canEdit, canPublish } = useAuth();
     const { toggleDrawer } = useNav();
     const windowSize = useWindowSize();
 
@@ -85,7 +86,7 @@ const PaperDetails = (props) => {
             .then(response => console.log("unlike recorded", response))
             .catch(error => console.log("error", error));
     }
-
+    
     return (
         <ContentBox>
             <Grid container
@@ -120,6 +121,10 @@ const PaperDetails = (props) => {
                         <Grid item xs={6}>
                             <PaperDelete paper={paper} />
                             <PaperEdit paper={paper} />
+                            {
+                                canPublish() && 
+                                <PaperApprove paper={paper}/>
+                            }
                         </Grid>
                     }
                     <Grid className={classes.actionButtons} xs={canEdit(paper) ? 6 : 12} item>

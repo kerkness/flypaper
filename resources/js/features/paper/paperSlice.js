@@ -9,7 +9,7 @@ const initialState = {
 	papers: [],
 	customSize: { width: '', height: '' },
 	crop: 'crop',
-	resolution: '16:9',
+	resolution: 'default',
 }
 
 export const categories = [
@@ -37,7 +37,7 @@ export const paperSlice = createSlice({
 		updatePaper: (state, action) => {
 			state.papers = _.map(state.papers, p => {
 				if (p.id === action.payload.id) {
-					p[action.payload.field] = action.payload.value;
+					return action.payload.paper;
 				}				
 				return p;
 			});
@@ -74,8 +74,8 @@ export const usePaper = () => {
 		addPapers: payload => dispatch(addPapers(payload)),
 		addNewPaper: payload => dispatch(addNewPaper(payload)),
 		removePaper: payload => dispatch(removePaper(payload)),
-		updatePaper: (value, field, id) => dispatch(updatePaper({
-			value, field, id
+		updatePaper: (paper, id) => dispatch(updatePaper({
+			paper, id
 		})),
 		setCustomSize: payload => dispatch(setCustomSize(payload)),
 		setCrop: payload => dispatch(setCrop(payload)),
