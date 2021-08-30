@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import _ from 'lodash';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography, Badge } from "@material-ui/core";
 import ContentBox from "../../components/ContentBox";
 import IconButton from "../../components/IconButton";
 import { displayByteSize } from "../../components/useFileSizeConverter";
@@ -17,6 +17,18 @@ import PaperDownload from "./PaperDownload";
 import PaperDelete from "./PaperDelete";
 import PaperEdit from "./PaperEdit";
 import PaperApprove from "./PaperApprove";
+import PaperLike from "./PaperLike";
+
+// const StyledBadge = withStyles((theme) => ({
+//     badge: {
+//           right: 2,
+//           top: 2,
+//         //   border: `1px solid rgba(200,200,200,0.5)`,
+//         backgroundColor: 'transparent',
+//         //   padding: '0 4px',
+//         color: '#222222',
+//     },
+// }))(Badge);
 
 const useStyles = makeStyles({
     tagLink: {
@@ -44,49 +56,47 @@ const PaperDetails = (props) => {
 
     const classes = useStyles();
     const { paper } = props;
-    const [liked, setLiked] = useState(false);
-    const { isUser, canEdit, canPublish } = useAuth();
-    const { toggleDrawer } = useNav();
-    const windowSize = useWindowSize();
+    // const [liked, setLiked] = useState(false);
+    const { canEdit, canPublish } = useAuth();
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        if (paper.user_liked)
-            setLiked(true);
+    //     if (paper.user_liked)
+    //         setLiked(true);
 
-    }, [paper])
+    // }, [paper])
 
     const categoryLabel = (slug) => {
         const cat = _.find(categories, c => c.slug === slug);
         return cat ? cat.label : slug;
     }
 
-    const heartPaper = () => {
-        if (!isUser) {
-            toggleDrawer('login', true);
+    // const heartPaper = () => {
+    //     if (!isUser) {
+    //         toggleDrawer('login', true);
 
-            return;
-        }
+    //         return;
+    //     }
 
-        if (liked) recordUnLike();
-        if (!liked) recordLike();
+    //     if (liked) recordUnLike();
+    //     if (!liked) recordLike();
 
-        setLiked(!liked);
+    //     setLiked(!liked);
 
-    }
+    // }
 
-    const recordLike = () => {
-        window.api.axiosPost(`/api/paper/${paper.id}/like`)
-            .then(response => console.log("like recorded", response))
-            .catch(error => console.log("error", error));
-    }
+    // const recordLike = () => {
+    //     window.api.axiosPost(`/api/paper/${paper.id}/like`)
+    //         .then(response => console.log("like recorded", response))
+    //         .catch(error => console.log("error", error));
+    // }
 
-    const recordUnLike = () => {
-        window.api.axiosDelete(`/api/paper/${paper.id}/like`)
-            .then(response => console.log("unlike recorded", response))
-            .catch(error => console.log("error", error));
-    }
-    
+    // const recordUnLike = () => {
+    //     window.api.axiosDelete(`/api/paper/${paper.id}/like`)
+    //         .then(response => console.log("unlike recorded", response))
+    //         .catch(error => console.log("error", error));
+    // }
+
     return (
         <ContentBox>
             <Grid container
@@ -117,20 +127,18 @@ const PaperDetails = (props) => {
                     <Typography variant="body1">
                     </Typography>
                 </Grid>
-                    { canEdit(paper) && 
-                        <Grid item xs={6}>
-                            <PaperDelete paper={paper} />
-                            <PaperEdit paper={paper} />
-                            {
-                                canPublish() && 
-                                <PaperApprove paper={paper}/>
-                            }
-                        </Grid>
-                    }
-                    <Grid className={classes.actionButtons} xs={canEdit(paper) ? 6 : 12} item>
-                    <IconButton color={liked ? "secondary" : "default"} onClick={heartPaper}>
-                        <FavoriteIcon />
-                    </IconButton>
+                {canEdit(paper) &&
+                    <Grid item xs={6}>
+                        <PaperDelete paper={paper} />
+                        <PaperEdit paper={paper} />
+                        {
+                            canPublish() &&
+                            <PaperApprove paper={paper} />
+                        }
+                    </Grid>
+                }
+                <Grid className={classes.actionButtons} xs={canEdit(paper) ? 6 : 12} item>
+                    <PaperLike paper={paper} />   
                     <PaperDownload paper={paper} />
                 </Grid>
             </Grid>

@@ -6,7 +6,8 @@ import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Fade from '@material-ui/core/Fade';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
+// import IconButton from '@material-ui/core/IconButton';
+import IconButton from '../../components/IconButton';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import Grid from '@material-ui/core/Grid';
 import SelectField from '../../components/InputSelectField';
@@ -23,19 +24,19 @@ import { useSubmission } from './submitSlice';
 import { useFormik } from 'formik';
 import { paperSchema } from '../../schema/paper';
 import { usePaper } from '../paper/paperSlice';
-
+import CustomDrawer from '../../components/CustomDrawer';
 
 const useStyles = makeStyles({
     list: {
         margin: 0,
         flexGrow: 1,
-        width: '450px',
+        // width: '450px',
         // maxWidth: '90%',
         paddingRight: "20px",
         paddingLeft: "20px",
         overflowX: "hidden",
         overflowY: "auto",
-        backgroundColor: 'rgba(60,80,90,0.9)'
+        // backgroundColor: 'rgba(60,80,90,0.9)'
     },
     paragraph: {
         color: '#eeeeee',
@@ -234,7 +235,7 @@ export default function SubmitPaper(props) {
     return (
         <div>
             <React.Fragment>
-                <Drawer className={classes.drawer} anchor={'right'} open={submit} onClose={() => toggleDrawer('submit', false)}>
+                <CustomDrawer className={classes.drawer} anchor={'right'} open={submit} onClose={() => toggleDrawer('submit', false)}>
                     <div
                         className={clsx(classes.list)}
                         role="presentation"
@@ -340,7 +341,7 @@ export default function SubmitPaper(props) {
                             </Grid>
                         }
                     </div>
-                </Drawer>
+                </CustomDrawer>
             </React.Fragment>
         </div>
     );

@@ -70,10 +70,10 @@ export default function PaperDownload(props) {
     const { customSize, setCustomSize, crop, setCrop, resolution, setResolution } = usePaper();
 
     const resolutions = [
-        { width: 3840, height: 1080, label: '32:9' },
-        { width: 3440, height: 1440, label: '21:9' },
-        { width: 2560, height: 1440, label: '16:9' },
-        { width: 2048,  height: 2732, label: 'Tablet' },
+        { ar: '32:9', label: '32:9' },
+        { ar: '21:9', label: '21:9' },
+        { ar: '16:9', label: '16:9' },
+        { ar: '0.85:1', label: 'Tablet' },
     ]
 
     const handleClick = (event) => {
@@ -102,24 +102,29 @@ export default function PaperDownload(props) {
 
         const selectedRes = _.find(resolutions, r => r.label === resolution);
 
-        const width = resolution === 'custom'
-            ? customSize.width
-            : resolution === 'default'
-            ? paper.width
-            : selectedRes.width
+        let sizeParam = {
+            ar: selectedRes ? selectedRes.ar : '16:9'
+        }
 
-        const height = resolution === 'custom'
-            ? customSize.height
-            : resolution === 'default'
-            ? paper.height
-            : selectedRes.height
+        if (resolution === 'custom') {
+            sizeParam = {
+                w: customSize.width,
+                h: customSize.height,
+            }
+        }
+
+        if (resolution === 'default') {
+            sizeParam = {
+                w: paper.width,
+                h: paper.height,
+            }
+        }
 
         // Build Params
         const params = {
             fit: crop,
             'fill-color': '#000000',
-            'w': width,
-            'h': height
+            ...sizeParam,
         }
 
         const url = buildURL(`https://${process.env.IMGIX_URL}/${paper.source}`, params);

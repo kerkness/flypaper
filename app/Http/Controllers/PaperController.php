@@ -32,6 +32,7 @@ class PaperController extends Controller
     {
         $offset = $request->input('offset', 0);
 
+        // dd(is_object($request->user()) && $request->user()->exists());
         $papers = Paper::query()
             ->withPermissions($request->user())
             ->limit($this->limit)
@@ -46,6 +47,7 @@ class PaperController extends Controller
 
 
         return response()->json([
+            'user' => is_object($request->user()),
             'papers' => $papers, 
             'total' => $count
         ]);

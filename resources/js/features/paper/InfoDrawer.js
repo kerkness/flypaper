@@ -1,8 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { useNav } from '../nav/navSlice';
 import { Typography } from '@material-ui/core';
@@ -10,10 +8,9 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import VerifiedUser from '@material-ui/icons/VerifiedUser';
 import Copyright from '@material-ui/icons/Copyright';
-import { useAuth } from '../admin/authSlice';
+import CustomDrawer from '../../components/CustomDrawer';
 
 const CssListItemText = withStyles({
     primary: {
@@ -36,9 +33,6 @@ const useStyles = makeStyles({
     },
     list: {
         flexGrow: 1,
-        width: 450,
-        overflow: "hidden",
-        backgroundColor: 'rgba(60,80,90,0.9)'
     },
     grid: {
         minHeight: '100%',
@@ -54,21 +48,7 @@ const useStyles = makeStyles({
 export default function InfoDrawer() {
 
     const classes = useStyles();
-
     const { info, toggleDrawer } = useNav();
-    const { user } = useAuth();
-
-
-    // const toggleDrawer = (open) => (event) => {
-    //     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-    //         return;
-    //     }
-    //     if (open) {
-    //         openInfo();
-    //     } else {
-    //         closeInfo();
-    //     }
-    // };
 
     const list = () => (
         <div
@@ -124,9 +104,9 @@ export default function InfoDrawer() {
     return (
         <div className={classes.root}>
             <React.Fragment>
-                <Drawer anchor={'right'} open={info} onClose={() => toggleDrawer('info', false)}>
+                <CustomDrawer anchor={'right'} open={info} onClose={() => toggleDrawer('info', false)}>
                     {list()}
-                </Drawer>
+                </CustomDrawer>
             </React.Fragment>
         </div>
     );

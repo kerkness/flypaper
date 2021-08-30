@@ -1,19 +1,14 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { useNav } from '../nav/navSlice';
 import { Typography } from '@material-ui/core';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle'
-import VerifiedUser from '@material-ui/icons/VerifiedUser';
-import Copyright from '@material-ui/icons/Copyright';
 import { useAuth } from '../admin/authSlice';
+import CustomDrawer from '../../components/CustomDrawer';
 
 const CssListItemText = withStyles({
     primary: {
@@ -36,9 +31,9 @@ const useStyles = makeStyles({
     },
     list: {
         flexGrow: 1,
-        width: 450,
-        overflow: "hidden",
-        backgroundColor: 'rgba(60,80,90,0.9)'
+        // width: 450,
+        // overflow: "hidden",
+        // backgroundColor: 'rgba(60,80,90,0.9)'
     },
     grid: {
         minHeight: '100%',
@@ -95,9 +90,9 @@ export default function AccountDrawer() {
     return (
         <div className={classes.root}>
             <React.Fragment>
-                <Drawer anchor={'right'} open={account} onClose={() => toggleDrawer('account', false)}>
+                <CustomDrawer anchor={'right'} open={account} onClose={() => toggleDrawer('account', false)}>
                     {list()}
-                </Drawer>
+                </CustomDrawer>
             </React.Fragment>
         </div>
     );

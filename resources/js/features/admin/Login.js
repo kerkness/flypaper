@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import VerifiedUser from '@material-ui/icons/VerifiedUser';
 import { useNav } from '../nav/navSlice';
 import { Typography } from '@material-ui/core';
+import CustomDrawer from '../../components/CustomDrawer';
 
 const useStyles = makeStyles({
     paragraph: {
@@ -16,9 +17,9 @@ const useStyles = makeStyles({
     },
     list: {
         flexGrow: 1,
-        width: 450,
-        overflow: "hidden",
-        backgroundColor: 'rgba(60,80,90,0.9)'
+        // width: 450,
+        // overflow: "hidden",
+        // backgroundColor: 'rgba(60,80,90,0.9)'
     },
     grid: {
         minHeight: '100%',
@@ -39,18 +40,6 @@ export default function LoginDrawer() {
     const classes = useStyles();
 
     const { login, toggleDrawer, drawerOpen } = useNav();
-
-    console.log("login Drawer", login, drawerOpen);
-    // const toggleDrawer = (open) => (event) => {
-    //     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-    //         return;
-    //     }
-    //     if (open) {
-    //         openLogin();
-    //     } else {
-    //         closeLogin();
-    //     }
-    // };
 
     const list = () => (
         <div
@@ -94,9 +83,9 @@ export default function LoginDrawer() {
     return (
         <div className={classes.root}>
             <React.Fragment>
-                <Drawer anchor={'right'} open={login} onClose={() => toggleDrawer('login', false)}>
+                <CustomDrawer anchor={'right'} open={login} onClose={() => toggleDrawer('login', false)}>
                     {list()}
-                </Drawer>
+                </CustomDrawer>
             </React.Fragment>
         </div>
     );

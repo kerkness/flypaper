@@ -135,12 +135,9 @@ const FlyPaperNavigation = (props) => {
             <AppBar position="fixed" className={classes.appbar}>
                 <Toolbar>
                     <Typography onClick={() => window.location.href = '/'} variant="h6" className={classes.title}>
-                        FlyPaper
-                        {
-                            (user && user.id) && <span className={classes.name}>
-                                Hi {user.name}
-                            </span>
-                        }
+                        FlyPaper <span className={classes.name}>
+                        BETA
+                        </span>
                     </Typography>
                     <Typography className={classes.spacer}></Typography>
                     <IconButton

@@ -146,7 +146,7 @@ export default function PaperEdit(props) {
                     <Grid item>
                         <Button
                             variant="contained"
-                            color="primary"
+                            color="default"
                             onClick={handleSave}
                         >
                             Save

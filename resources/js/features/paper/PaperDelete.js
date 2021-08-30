@@ -81,7 +81,7 @@ export default function PaperDelete(props) {
             >
                 <Typography className={classes.root}>Are you sure you want to delete this paper?</Typography>
 
-                <ButtonGroup className={classes.buttonGroup} variant="contained" color="primary">
+                <ButtonGroup className={classes.buttonGroup} variant="contained" color="default">
                     <Button onClick={deletePaper}>Yes</Button>
                     <Button onClick={handleClose}>No</Button>
                 </ButtonGroup>
