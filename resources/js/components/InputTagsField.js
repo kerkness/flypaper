@@ -9,7 +9,7 @@ const availableTags = [];
 
 export default function Tags(props) {
 
-  const { onChange, ...textFieldProps } = props;
+  const { onChange, defaultValue, ...textFieldProps } = props;
 
   const handleChange = (event, tags) => {
     onChange && onChange(tags);
@@ -22,7 +22,7 @@ export default function Tags(props) {
         multiple
         id={textFieldProps.name}
         options={availableTags.map((option) => option.title)}
-        defaultValue={['MSFS']}
+        defaultValue={defaultValue ? defaultValue : ['MSFS']}
         freeSolo
         onChange={handleChange}
         renderTags={(value, getTagProps) =>

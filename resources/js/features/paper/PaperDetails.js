@@ -16,6 +16,7 @@ import { useNav } from "../nav/navSlice";
 import PaperDownload from "./PaperDownload";
 import PaperDelete from "./PaperDelete";
 import PaperEdit from "./PaperEdit";
+import PaperApprove from "./PaperApprove";
 
 const useStyles = makeStyles({
     tagLink: {
@@ -44,8 +45,8 @@ const PaperDetails = (props) => {
     const classes = useStyles();
     const { paper } = props;
     const [liked, setLiked] = useState(false);
-    const { isUser, canEdit } = useAuth();
-    const { openLogin, closeLogin } = useNav();
+    const { isUser, canEdit, canPublish } = useAuth();
+    const { toggleDrawer } = useNav();
     const windowSize = useWindowSize();
 
     useEffect(() => {
@@ -62,7 +63,8 @@ const PaperDetails = (props) => {
 
     const heartPaper = () => {
         if (!isUser) {
-            openLogin();
+            toggleDrawer('login', true);
+
             return;
         }
 
@@ -74,17 +76,17 @@ const PaperDetails = (props) => {
     }
 
     const recordLike = () => {
-        window.api.axiosPost(`/api/like/${paper.id}`)
+        window.api.axiosPost(`/api/paper/${paper.id}/like`)
             .then(response => console.log("like recorded", response))
             .catch(error => console.log("error", error));
     }
 
     const recordUnLike = () => {
-        window.api.axiosPost(`/api/unlike/${paper.id}`)
+        window.api.axiosDelete(`/api/paper/${paper.id}/like`)
             .then(response => console.log("unlike recorded", response))
             .catch(error => console.log("error", error));
     }
-
+    
     return (
         <ContentBox>
             <Grid container
@@ -119,6 +121,10 @@ const PaperDetails = (props) => {
                         <Grid item xs={6}>
                             <PaperDelete paper={paper} />
                             <PaperEdit paper={paper} />
+                            {
+                                canPublish() && 
+                                <PaperApprove paper={paper}/>
+                            }
                         </Grid>
                     }
                     <Grid className={classes.actionButtons} xs={canEdit(paper) ? 6 : 12} item>

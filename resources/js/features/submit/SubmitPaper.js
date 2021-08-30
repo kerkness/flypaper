@@ -9,7 +9,6 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import Grid from '@material-ui/core/Grid';
-// import TextField from '../../components/InputTextField';
 import SelectField from '../../components/InputSelectField';
 import InputTagsField from '../../components/InputTagsField';
 import Uppy from '@uppy/core';
@@ -156,17 +155,6 @@ export default function SubmitPaper(props) {
             });
     });
 
-    // const toggleDrawer = (open) => (event) => {
-    //     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-    //         return;
-    //     }
-    //     if (open) {
-    //         openSubmit();
-    //     } else {
-    //         cancelSubmit();
-    //     }
-    // };
-
     const onChange = (value, field) => {
         setFieldValue(field, value)
         form.setFieldValue(field, value)
@@ -214,7 +202,7 @@ export default function SubmitPaper(props) {
             response => {
 
                 api.axiosPost(
-                    "/api/submit-paper",
+                    "/api/paper",
                     {
                         ...form.values,
                         ...response,

@@ -49,7 +49,7 @@ class LoginController extends Controller
         if ($users) {
     
             Auth::login($users, true);
-            return redirect()->route('submit-paper');
+            return redirect()->route('browse-paper');
     
         } else {
     

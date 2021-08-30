@@ -15,4 +15,8 @@ export const paperSchema = yup.object().shape({
     source: yup.string(),
 });
 
+export const editPaperSchema = yup.object().shape({
+    tags: yup.array().of(yup.string()),
+    category: yup.string().required("Please select a category"),
+});
 

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { createSlice } from '@reduxjs/toolkit'
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -8,7 +9,7 @@ const initialState = {
 	papers: [],
 	customSize: { width: '', height: '' },
 	crop: 'crop',
-	resolution: '16:9',
+	resolution: 'default',
 }
 
 export const categories = [
@@ -29,6 +30,17 @@ export const paperSlice = createSlice({
 		},
 		addNewPaper: (state, action) => {
 			state.papers = [action.payload, ...state.papers];
+		},
+		removePaper: (state, action) => {
+			state.papers = [..._.filter(state.papers, p => p.id !== action.payload.id)];
+		},
+		updatePaper: (state, action) => {
+			state.papers = _.map(state.papers, p => {
+				if (p.id === action.payload.id) {
+					return action.payload.paper;
+				}				
+				return p;
+			});
 		},
 		setCustomSize: (state, action) => {
 			state.customSize = action.payload;
@@ -52,7 +64,7 @@ export const paperSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { addPapers, addNewPaper, setCustomSize, setCrop, setResolution, setLoading, setError, setHasNextPage } = paperSlice.actions
+export const { addPapers, addNewPaper, removePaper, updatePaper, setCustomSize, setCrop, setResolution, setLoading, setError, setHasNextPage } = paperSlice.actions
 
 export const usePaper = () => {
 	const dispatch = useDispatch();
@@ -61,6 +73,10 @@ export const usePaper = () => {
 		...state,
 		addPapers: payload => dispatch(addPapers(payload)),
 		addNewPaper: payload => dispatch(addNewPaper(payload)),
+		removePaper: payload => dispatch(removePaper(payload)),
+		updatePaper: (paper, id) => dispatch(updatePaper({
+			paper, id
+		})),
 		setCustomSize: payload => dispatch(setCustomSize(payload)),
 		setCrop: payload => dispatch(setCrop(payload)),
 		setResolution: payload => dispatch(setResolution(payload)),

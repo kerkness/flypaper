@@ -33,12 +33,16 @@ export const useAuth = () => {
 	const canEdit = ( paper ) => {
 		return user.id === paper.user_id || roles.includes('god');
 	} 
+	const canPublish = () => {
+		return roles.includes('god');
+	} 
 	
 	return {
 		user,
 		token,
 		roles,
 		canEdit,
+		canPublish,
 		isUser: user && user.id,
 		setUser: payload => dispatch(setUserAction(payload)),
 		setToken: payload => dispatch(setToken(payload)),
