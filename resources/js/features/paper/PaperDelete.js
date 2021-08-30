@@ -46,7 +46,6 @@ export default function PaperDelete(props) {
     const deletePaper = () => {
         window.api.axiosDelete(`/api/paper/${paper.id}`)
             .then(response => {
-                console.log("paper deleted", response);
                 removePaper(paper);
                 handleClose();
             })

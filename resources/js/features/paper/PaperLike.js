@@ -31,8 +31,8 @@ const PaperLike = (props) => {
         if (paper.user_liked)
             setLiked(true);
 
-        if (paper.like_count)
-            setCount(paper.like_count);
+        if (paper.likes_count)
+            setCount(paper.likes_count);
 
     }, [paper])
 
@@ -62,8 +62,6 @@ const PaperLike = (props) => {
             .then(response => console.log("unlike recorded", response))
             .catch(error => console.log("error", error));
     }
-
-    // const count = parseFloat(paper.like_count);
 
     return (
         <IconButton color={liked ? "secondary" : "default"} onClick={heartPaper}>

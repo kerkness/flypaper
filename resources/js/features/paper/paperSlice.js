@@ -34,6 +34,9 @@ export const paperSlice = createSlice({
 		removePaper: (state, action) => {
 			state.papers = [..._.filter(state.papers, p => p.id !== action.payload.id)];
 		},
+		removeAllPaper: (state, action) => {
+			state.papers = [];
+		},
 		updatePaper: (state, action) => {
 			state.papers = _.map(state.papers, p => {
 				if (p.id === action.payload.id) {
@@ -64,7 +67,7 @@ export const paperSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { addPapers, addNewPaper, removePaper, updatePaper, setCustomSize, setCrop, setResolution, setLoading, setError, setHasNextPage } = paperSlice.actions
+export const { addPapers, addNewPaper, removePaper, removeAllPaper, updatePaper, setCustomSize, setCrop, setResolution, setLoading, setError, setHasNextPage } = paperSlice.actions
 
 export const usePaper = () => {
 	const dispatch = useDispatch();
@@ -74,6 +77,7 @@ export const usePaper = () => {
 		addPapers: payload => dispatch(addPapers(payload)),
 		addNewPaper: payload => dispatch(addNewPaper(payload)),
 		removePaper: payload => dispatch(removePaper(payload)),
+		removeAllPaper: () => dispatch(removeAllPaper()),
 		updatePaper: (paper, id) => dispatch(updatePaper({
 			paper, id
 		})),

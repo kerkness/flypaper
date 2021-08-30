@@ -14,7 +14,6 @@ export default function PaperApprove (props) {
             approved: !paper.approved,
         })
             .then(response => {
-                console.log("paper updated", response);
                 updatePaper(response.data, paper.id);
             })
             .catch(error => console.log("delete error", error));

@@ -5,6 +5,7 @@ import PaperDetails from './PaperDetails';
 import { buildURL } from 'react-imgix';
 import useWindowSize from '../../components/useWindowSize';
 import useDebounce from '../../components/useDebounce';
+import Hidden from '@material-ui/core/Hidden';
 
 const useStyles = makeStyles({
     root: {
@@ -84,10 +85,13 @@ const BackgroundPaper = (props) => {
                             height: size.height
                         }}
                     >
-                        <PaperDetails paper={paper} />
+                        <Hidden xsDown>
+                            <PaperDetails paper={paper} />
+                        </Hidden>
                     </Grid>
                 </div>
             }
+            { loaded && <Hidden smUp><PaperDetails paper={paper} fullWidth /></Hidden> }
         </Fragment>
     )
 

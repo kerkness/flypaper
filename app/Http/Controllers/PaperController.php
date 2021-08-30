@@ -18,6 +18,11 @@ class PaperController extends Controller
 
     public $user;
     public $limit = 4;
+    public $valid_sort = [
+        'created_at',
+        'likes_count',
+        'downloads_count',
+    ];
 
     /**
      * Create a new controller instance.
@@ -32,17 +37,28 @@ class PaperController extends Controller
     {
         $offset = $request->input('offset', 0);
 
+        $sort = $request->input('sort', 'created_at');
+
+        // Validate sort methods
+        if (!in_array($sort, $this->valid_sort)) {
+            $sort = 'created_at';
+        }
+
         // dd(is_object($request->user()) && $request->user()->exists());
         $papers = Paper::query()
+            ->withLikeCount()
+            ->withDownloadCount()
             ->withPermissions($request->user())
+            ->withSearch($request->input('search', ''))
             ->limit($this->limit)
             ->offset($offset)
-            ->orderBy('created_at', 'DESC')
+            ->orderBy($sort, 'DESC')
             ->get();
 
 
         $count = Paper::query()
             ->withPermissions($request->user())
+            ->withSearch($request->input('search', ''))
             ->count();
 
 

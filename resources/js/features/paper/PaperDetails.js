@@ -18,6 +18,9 @@ import PaperDelete from "./PaperDelete";
 import PaperEdit from "./PaperEdit";
 import PaperApprove from "./PaperApprove";
 import PaperLike from "./PaperLike";
+import { Link, useLocation } from "react-router-dom";
+import queryString from 'query-string';
+
 
 // const StyledBadge = withStyles((theme) => ({
 //     badge: {
@@ -34,6 +37,10 @@ const useStyles = makeStyles({
     tagLink: {
         marginLeft: '6px',
     },
+    link: {
+        textDecoration: 'none',
+        color: '#F1F1F1',
+    },
     actionButtons: {
         textAlign: 'right',
     }
@@ -42,11 +49,23 @@ const useStyles = makeStyles({
 const TagLink = (props) => {
 
     const classes = useStyles()
+    const location = useLocation();
     const { tag, index } = props;
+    const params = queryString.parse(location.search);
 
+    const search = {
+        ...params,
+        search: tag.slug
+    }
     return (
         <span className={index ? classes.tagLink : null}>
-            {tag.label}
+            <Link
+                className={classes.link}
+                to={{
+                    pathname: '/',
+                    search: `?${queryString.stringify(search)}`
+                }}
+            >{tag.label}</Link>
         </span>
     )
 }
@@ -54,51 +73,19 @@ const TagLink = (props) => {
 
 const PaperDetails = (props) => {
 
+    const { fullWidth } = props;
     const classes = useStyles();
     const { paper } = props;
-    // const [liked, setLiked] = useState(false);
     const { canEdit, canPublish } = useAuth();
-
-    // useEffect(() => {
-
-    //     if (paper.user_liked)
-    //         setLiked(true);
-
-    // }, [paper])
 
     const categoryLabel = (slug) => {
         const cat = _.find(categories, c => c.slug === slug);
         return cat ? cat.label : slug;
     }
 
-    // const heartPaper = () => {
-    //     if (!isUser) {
-    //         toggleDrawer('login', true);
-
-    //         return;
-    //     }
-
-    //     if (liked) recordUnLike();
-    //     if (!liked) recordLike();
-
-    //     setLiked(!liked);
-
-    // }
-
-    // const recordLike = () => {
-    //     window.api.axiosPost(`/api/paper/${paper.id}/like`)
-    //         .then(response => console.log("like recorded", response))
-    //         .catch(error => console.log("error", error));
-    // }
-
-    // const recordUnLike = () => {
-    //     window.api.axiosDelete(`/api/paper/${paper.id}/like`)
-    //         .then(response => console.log("unlike recorded", response))
-    //         .catch(error => console.log("error", error));
-    // }
 
     return (
-        <ContentBox>
+        <ContentBox fullWidth={fullWidth}>
             <Grid container
                 direction="row"
                 justifyContent="space-between"

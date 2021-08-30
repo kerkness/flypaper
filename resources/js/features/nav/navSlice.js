@@ -2,20 +2,13 @@ import { createSlice } from '@reduxjs/toolkit'
 import { useSelector, useDispatch } from 'react-redux';
 
 const initialState = {
-	// drawerOpen: {
-	// 	login: false,
-	// 	submit: false,
-	// 	info: false,
-	// 	account: false,
-	// },
 	login: false,
 	submit: false,
 	info: false,
 	account: false,
-// loginOpen: false,
-	// submitOpen: false,
-	// infoOpen: false,
-	// accountOpen: false,
+	sort: 'created_at',
+	offset: 0,
+	search: ''
 }
 
 export const navSlice = createSlice({
@@ -23,58 +16,27 @@ export const navSlice = createSlice({
 	initialState,
 	reducers: {
 		toggleDrawer: (state, action) => {
-			console.log("toggle", action.payload);
 			const { drawer, open } = action.payload;
 			state[drawer] = open;
 		},
-		// openLogin: (state) => {
-		// 	state.loginOpen = true;
-		// 	state.submitOpen = false;
-		// 	state.infoOpen = false;
-		// 	state.accountOpen = false;
-		// },
-		// closeLogin: (state) => {
-		// 	state.loginOpen = false;
-		// },
-		// openSubmit: (state) => {
-		// 	state.submitOpen = true;
-		// 	state.loginOpen = false;
-		// 	state.infoOpen = false;
-		// 	state.accountOpen = false;
-		// },
-		// closeSubmit: (state) => {
-		// 	state.submitOpen = false;
-		// },
-		// openInfo: (state) => {
-		// 	state.infoOpen = true;
-		// 	state.loginOpen = false;
-		// 	state.submitOpen = false;
-		// 	state.accountOpen = false;
-		// },
-		// closeInfo: (state) => {
-		// 	state.infoOpen = false;
-		// },
-		// openAccount: (state) => {
-		// 	state.accountOpen = false;
-		// 	state.loginOpen = false;
-		// 	state.submitOpen = false;
-		// 	state.infoOpen = false;
-		// },
-		// closeAccount: (state) => {
-		// 	state.accountOpen = false;
-		// }
+		setOffset: (state, action) => {
+			state.offset = action.payload;
+		},
+		setSort: (state, action) => {
+			state.sort = action.payload;
+		},
+		setSearch: (state, action) => {
+			state.search = action.payload;
+		},
 	},
 })
 
 // Action creators are generated for each case reducer function
 export const {
 	toggleDrawer,
-	// openLogin,
-	// closeLogin,
-	// openSubmit,
-	// closeSubmit,
-	// openInfo,
-	// closeInfo
+	setOffset,
+	setSort,
+	setSearch,
 } = navSlice.actions
 
 export const useNav = () => {
@@ -82,16 +44,11 @@ export const useNav = () => {
 	const state = useSelector(state => state.nav);
 
 	return {
-		// ...state.drawerOpen,
 		...state,
-		// drawerOpen: state.drawerOpen,
 		toggleDrawer: (drawer, open) => dispatch(toggleDrawer({drawer, open})),
-		// openLogin: () => dispatch(openLogin()),
-		// closeLogin: () => dispatch(closeLogin()),
-		// openSubmit: () => dispatch(openSubmit()),
-		// closeSubmit: () => dispatch(closeSubmit()),
-		// openInfo: () => dispatch(openInfo()),
-		// closeInfo: () => dispatch(closeInfo()),
+		setOffset: payload => dispatch(setOffset(payload)),
+		setSort: payload => dispatch(setSort(payload)),
+		setSearch: payload => dispatch(setSearch(payload)),
 	}
 }
 

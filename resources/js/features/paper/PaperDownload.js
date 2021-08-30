@@ -94,7 +94,6 @@ export default function PaperDownload(props) {
     }
 
     const downloadPaper = () => {
-        console.log(paper);
         if (!isUser) {
             toggleDrawer('login', true);
             return;
@@ -240,7 +239,7 @@ export default function PaperDownload(props) {
                     </FormControl>
 
                     <Grid container
-                        justify="space-between"
+                        justifyContent="space-between"
                         alignItems="center"
                     >
                     <Grid item>

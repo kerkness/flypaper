@@ -26,8 +26,8 @@ class Paper extends Model
 
     protected $appends = [
         'src',
-        'like_count',
-        'download_count',
+        // 'like_count',
+        // 'download_count',
         'user_liked',
     ];
 
@@ -51,6 +51,16 @@ class Paper extends Model
         return $this->hasMany(PaperDownload::class);
     }
 
+    public function scopeWithLikeCount($query)
+    {
+        return $query->withCount('likes');
+    }
+
+    public function scopeWithDownloadCount($query)
+    {
+        return $query->withCount('downloads');
+    }
+
     public function scopeWithPermissions( $query, User $user = null )
     {
         if ( is_object($user) && $user->hasRole(['god', 'editor']) ) {
@@ -67,21 +77,31 @@ class Paper extends Model
 
     }
 
+    public function scopeWithSearch($query, $search)
+    {
+        if ($search) {
+            return $query->whereHas('tags', function($query) use ($search) {
+                $query->where('slug', 'like', '%'.strtolower($search).'%');
+            });    
+        }
+        return $query;
+    }
+
     public function getSrcAttribute()
     {
         $builder = new UrlBuilder("flypaper.imgix.net");
         return $builder->createURL($this->source, []);
     }
 
-    public function getLikeCountAttribute()
-    {
-        return $this->likes()->count();
-    }
+    // public function getLikeCountAttribute()
+    // {
+    //     return $this->likes()->count();
+    // }
 
-    public function getDownloadCountAttribute()
-    {
-        return $this->downloads()->count();
-    }
+    // public function getDownloadCountAttribute()
+    // {
+    //     return $this->downloads()->count();
+    // }
 
     public function getUserLikedAttribute()
     {

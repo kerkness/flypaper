@@ -11,8 +11,6 @@ const FlyPaperApp = (props) => {
 
     const { setUser, setToken, setRoles } = useAuth();
 
-    console.log(props);
-
     useEffect(() => {
         if (props.token) {
             setUser(JSON.parse(props.user));

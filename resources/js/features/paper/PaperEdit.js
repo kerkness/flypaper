@@ -5,24 +5,13 @@ import Popover from '@material-ui/core/Popover';
 import InputTagsField from '../../components/InputTagsField';
 import SelectField from '../../components/InputSelectField';
 import Button from '@material-ui/core/Button';
-import SaveIcon from '@material-ui/icons/Save';
 import {
     Grid,
-    Typography,
-    FormControl,
-    FormControlLabel,
-    RadioGroup,
-    Radio,
 } from "@material-ui/core";
-import { saveAs } from 'file-saver';
 import EditIcon from '@material-ui/icons/Edit';
 import { useFormik } from 'formik';
-import { useAuth } from '../admin/authSlice';
-import { useNav } from '../nav/navSlice';
-import InputTextField from '../../components/InputTextField';
 import IconButton from '../../components/IconButton';
 import { usePaper } from './paperSlice';
-import { buildURL } from 'react-imgix';
 import { useSubmission } from '../submit/submitSlice';
 import { editPaperSchema } from '../../schema/paper';
 
@@ -36,8 +25,8 @@ const useStyles = makeStyles((theme) => ({
 
 const CssPopOver = withStyles({
     paper: {
-        width: 550,
-        maxWidth: '90vw',
+        width: 450,
+        maxWidth: '70vw',
         backgroundColor: 'rgba(60,80,90,0.9)',
         padding: 40,
         color: '#EEEEEE'
