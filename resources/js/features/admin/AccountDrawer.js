@@ -9,21 +9,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { useAuth } from '../admin/authSlice';
 import CustomDrawer from '../../components/CustomDrawer';
-
-const CssListItemText = withStyles({
-    primary: {
-        color: '#FFFFFF'
-    },
-    secondary: {
-        color: '#EEEEEE'
-    }
-})(ListItemText);
-
-const CssListItemIcon = withStyles({
-    root: {
-        color: '#FFFFFF'
-    },
-})(ListItemIcon);
+import { Link } from "react-router-dom";
 
 
 const useStyles = makeStyles({
@@ -31,9 +17,10 @@ const useStyles = makeStyles({
     },
     list: {
         flexGrow: 1,
-        // width: 450,
-        // overflow: "hidden",
-        // backgroundColor: 'rgba(60,80,90,0.9)'
+    },
+    link: {
+        textDecoration: 'none',
+        color: '#F1F1F1',
     },
     grid: {
         minHeight: '100%',
@@ -72,7 +59,7 @@ export default function AccountDrawer() {
                         Welcome {user.name}
                     </Typography>
                     <Typography className={classes.paragraph} variant="body1">
-                        Contact Kerkness on discord for suggestions or assistance. Enjoy!
+                        Join <a className={classes.link} target="_blank" href='https://discord.gg/ZpGTDWfrxW'>TheFlyingFabio</a> discord for suggestions and/or assistance. Enjoy!
                     </Typography>
 
                 </Grid>

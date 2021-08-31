@@ -11,6 +11,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import VerifiedUser from '@material-ui/icons/VerifiedUser';
 import Copyright from '@material-ui/icons/Copyright';
 import CustomDrawer from '../../components/CustomDrawer';
+import { Link, useLocation } from "react-router-dom";
+
 
 const CssListItemText = withStyles({
     primary: {
@@ -34,6 +36,10 @@ const useStyles = makeStyles({
     list: {
         flexGrow: 1,
     },
+    link: {
+        textDecoration: 'none',
+        color: '#F1F1F1',
+    },
     grid: {
         minHeight: '100%',
         color: '#FFFFFF',
@@ -49,6 +55,11 @@ export default function InfoDrawer() {
 
     const classes = useStyles();
     const { info, toggleDrawer } = useNav();
+    const location = useLocation();
+
+    const gotoDiscord = () => {
+        console.log(`https://discord.gg/ZpGTDWfrxW`);
+    }
 
     const list = () => (
         <div
@@ -93,7 +104,7 @@ export default function InfoDrawer() {
                         </ListItem>
                     </List>
                     <Typography className={classes.paragraph} variant="body1">
-                        Contact Kerkness on discord for suggestions or assistance. Enjoy!
+                        Join <a className={classes.link} target="_blank" href='https://discord.gg/ZpGTDWfrxW'>TheFlyingFabio</a> discord for suggestions and/or assistance. Enjoy!
                     </Typography>
 
                 </Grid>
