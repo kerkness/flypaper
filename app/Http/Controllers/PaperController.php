@@ -9,8 +9,8 @@ use App\Models\PaperTag;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
+use Imgix\UrlBuilder;
 
 
 class PaperController extends Controller
@@ -80,7 +80,24 @@ class PaperController extends Controller
         ->first();
 
         return response()->json($paper);
+    }
 
+    public function random_image(Request $request)
+    {
+        $paper = Paper::query()
+        ->withApproved()
+        ->withSearch($request->input('search', ''))
+        ->inRandomOrder()
+        ->first();
+
+        $w = $request->input('w', 2056);
+
+        $builder = new UrlBuilder("flypaper.imgix.net");
+        $url = $builder->createURL($paper->source, ['w' => $w]);
+
+        return response()->stream(function() use ($url) {
+            echo file_get_contents($url);
+        }, 200, ['Content-Type' => $paper->mime_type]);
     }
 
     public function browse_paper(Request $request)
