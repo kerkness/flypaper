@@ -25,7 +25,7 @@ Route::get('/auth/{social}/callback', [App\Http\Controllers\LoginController::cla
 
 
 Route::get('/', [App\Http\Controllers\PaperController::class, 'browse_paper'])->name('browse-paper');
-Route::get('/random-paper.jpg', [App\Http\Controllers\PaperController::class, 'random_image'])->name('random-image-server');
+Route::get('/random-paper', [App\Http\Controllers\PaperController::class, 'random_image'])->name('random-image-server');
 // Route::any('/submit', [App\Http\Controllers\PaperController::class, 'browse_paper'])->name('submit-paper');
 Route::any('/login', [App\Http\Controllers\PaperController::class, 'browse_paper'])->name('login');
 Route::any('/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
