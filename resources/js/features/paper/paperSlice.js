@@ -3,7 +3,6 @@ import { createSlice } from '@reduxjs/toolkit'
 import { useSelector, useDispatch } from 'react-redux';
 
 const initialState = {
-	loading: false,
 	hasNextPage: true,
 	error: false,
 	papers: [],
@@ -13,11 +12,11 @@ const initialState = {
 }
 
 export const categories = [
-	{ label: "Standard", slug: "standard" },
-	{ label: "Wide", slug: "wide" },
-	{ label: "Ultra Wide", slug: "ultra-wide" },
-	{ label: "Dual", slug: "dual" },
-	{ label: "Triple", slug: "triple" },
+	{ label: "Standard - 16:9", slug: "standard" },
+	{ label: "Wide - 21:9", slug: "wide" },
+	{ label: "Ultra Wide - 32:9", slug: "ultra-wide" },
+	{ label: "Dual Monitor", slug: "dual" },
+	{ label: "Triple Monitor", slug: "triple" },
 ];
 
 
@@ -54,9 +53,6 @@ export const paperSlice = createSlice({
 		setResolution: (state, action) => {
 			state.resolution = action.payload;
 		},
-		setLoading: (state, action) => {
-			state.loading = action.payload;
-		},
 		setError: (state, action) => {
 			state.error = action.payload;
 		},
@@ -67,7 +63,7 @@ export const paperSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { addPapers, addNewPaper, removePaper, removeAllPaper, updatePaper, setCustomSize, setCrop, setResolution, setLoading, setError, setHasNextPage } = paperSlice.actions
+export const { addPapers, addNewPaper, removePaper, removeAllPaper, updatePaper, setCustomSize, setCrop, setResolution, setError, setHasNextPage } = paperSlice.actions
 
 export const usePaper = () => {
 	const dispatch = useDispatch();
@@ -84,7 +80,6 @@ export const usePaper = () => {
 		setCustomSize: payload => dispatch(setCustomSize(payload)),
 		setCrop: payload => dispatch(setCrop(payload)),
 		setResolution: payload => dispatch(setResolution(payload)),
-		setLoading: payload => dispatch(setLoading(payload)),
 		setError: payload => dispatch(setError(payload)),
 		setHasNextPage: payload => dispatch(setHasNextPage(payload)),
 	}

@@ -17,7 +17,7 @@ class PaperController extends Controller
 {
 
     public $user;
-    public $limit = 4;
+    public $limit = 6;
     public $valid_sort = [
         'created_at',
         'likes_count',
@@ -43,7 +43,7 @@ class PaperController extends Controller
         if (!in_array($sort, $this->valid_sort)) {
             $sort = 'created_at';
         }
-
+ 
         // dd(is_object($request->user()) && $request->user()->exists());
         $papers = Paper::query()
             ->withLikeCount()
@@ -52,7 +52,7 @@ class PaperController extends Controller
             ->withSearch($request->input('search', ''))
             ->limit($this->limit)
             ->offset($offset)
-            ->orderBy($sort, 'DESC')
+            ->withOrderBy($sort, 'DESC')
             ->get();
 
 
@@ -67,6 +67,20 @@ class PaperController extends Controller
             'papers' => $papers, 
             'total' => $count
         ]);
+    }
+
+    public function random(Request $request)
+    {
+        $paper = Paper::query()
+        ->withLikeCount()
+        ->withDownloadCount()
+        ->withApproved()
+        ->withSearch($request->input('search', ''))
+        ->inRandomOrder()
+        ->first();
+
+        return response()->json($paper);
+
     }
 
     public function browse_paper(Request $request)

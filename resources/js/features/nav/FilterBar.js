@@ -54,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: alpha(theme.palette.common.white, 0.25),
         },
         marginLeft: 0,
+        paddingRight: 15,
         width: '100%',
         // [theme.breakpoints.up('sm')]: {
         //     marginLeft: theme.spacing(1),
@@ -79,6 +80,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         justifyContent: 'center',
         paddingRight: theme.spacing(2),
+        marginRight: theme.spacing(2),
     },
     inputInput: {
         padding: theme.spacing(1, 1, 1, 0),

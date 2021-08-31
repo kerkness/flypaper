@@ -21,18 +21,6 @@ import PaperLike from "./PaperLike";
 import { Link, useLocation } from "react-router-dom";
 import queryString from 'query-string';
 
-
-// const StyledBadge = withStyles((theme) => ({
-//     badge: {
-//           right: 2,
-//           top: 2,
-//         //   border: `1px solid rgba(200,200,200,0.5)`,
-//         backgroundColor: 'transparent',
-//         //   padding: '0 4px',
-//         color: '#222222',
-//     },
-// }))(Badge);
-
 const useStyles = makeStyles({
     tagLink: {
         marginLeft: '6px',
@@ -49,27 +37,36 @@ const useStyles = makeStyles({
 const TagLink = (props) => {
 
     const classes = useStyles()
-    const location = useLocation();
     const { tag, index } = props;
-    const params = queryString.parse(location.search);
 
-    const search = {
-        ...params,
-        search: tag.slug
-    }
     return (
         <span className={index ? classes.tagLink : null}>
-            <Link
-                className={classes.link}
-                to={{
-                    pathname: '/',
-                    search: `?${queryString.stringify(search)}`
-                }}
-            >{tag.label}</Link>
+            <SearchLink keyword={tag.slug} label={tag.label} />
         </span>
     )
 }
 
+const SearchLink = (props) => {
+
+    const classes = useStyles()
+    const location = useLocation();
+    const { keyword, label } = props;
+    const params = queryString.parse(location.search);
+
+    const search = {
+        ...params,
+        search: keyword
+    }
+    return (
+        <Link
+            className={classes.link}
+            to={{
+                pathname: '/',
+                search: `?${queryString.stringify(search)}`
+            }}
+        >{label}</Link>
+    )
+}
 
 const PaperDetails = (props) => {
 
@@ -83,7 +80,6 @@ const PaperDetails = (props) => {
         return cat ? cat.label : slug;
     }
 
-
     return (
         <ContentBox fullWidth={fullWidth}>
             <Grid container
@@ -93,15 +89,11 @@ const PaperDetails = (props) => {
             >
                 <Grid xs={12} sm={12} item>
                     <Typography variant="body2">
-                        {paper.user.name}
-                        &nbsp;| {categoryLabel(paper.category)}
+                        <SearchLink keyword={paper.user.name} label={paper.user.name} />
+                        &nbsp;| <SearchLink keyword={paper.category} label={categoryLabel(paper.category)} />
                         &nbsp;| {displayByteSize(paper.size)}
                         {
-                            !paper.approved && <span style={{
-                                paddingLeft: 20
-                            }}>
-                                ( Private )
-                            </span>
+                            !paper.approved && <span>&nbsp;| Private</span>
                         }
                     </Typography>
                     {paper.tags.length > 0 &&
@@ -125,7 +117,7 @@ const PaperDetails = (props) => {
                     </Grid>
                 }
                 <Grid className={classes.actionButtons} xs={canEdit(paper) ? 6 : 12} item>
-                    <PaperLike paper={paper} />   
+                    <PaperLike paper={paper} />
                     <PaperDownload paper={paper} />
                 </Grid>
             </Grid>

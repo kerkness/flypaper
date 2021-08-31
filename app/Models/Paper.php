@@ -61,6 +61,11 @@ class Paper extends Model
         return $query->withCount('downloads');
     }
 
+    public function scopeWithApproved($query)
+    {
+        return $query->where('approved', '=', 1);
+    }
+
     public function scopeWithPermissions( $query, User $user = null )
     {
         if ( is_object($user) && $user->hasRole(['god', 'editor']) ) {
@@ -82,9 +87,20 @@ class Paper extends Model
         if ($search) {
             return $query->whereHas('tags', function($query) use ($search) {
                 $query->where('slug', 'like', '%'.strtolower($search).'%');
-            });    
+            })->orWhereHas('user', function($query) use ($search) {
+                $query->where('name', '=', $search);
+            })->orWhere('category', '=', $search);    
         }
         return $query;
+    }
+
+    public function scopeWithOrderBy($query, $sort, $dir)
+    {
+        if($sort !== 'created_at') {
+            return $query->orderBy($sort, $dir)->orderBy('created_at', 'DESC');
+        }
+
+        return $query->orderBy('created_at', 'DESC');
     }
 
     public function getSrcAttribute()

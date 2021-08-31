@@ -13,7 +13,7 @@ const useStyles = makeStyles({
   },
   notFullWidth: {
     margin: 20,
-    width: 300,
+    width: 375,
     maxWidth: '100%',
     backgroundColor: "rgba(20,20,20,0.5)",
     "&:hover": {

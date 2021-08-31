@@ -9,6 +9,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { useLocation } from "react-router-dom";
 import queryString from 'query-string';
 import { useNav } from "../nav/navSlice";
+import Loading from "../../components/Loading";
 
 const useStyles = makeStyles({
     noPaper: {
@@ -16,6 +17,10 @@ const useStyles = makeStyles({
         minWidth: '100vw',
         backgroundColor: '#444444',
         color: '#F1F1F1'
+    },
+    loading: {
+        minHeight: '50vh',
+        minWidth: '100vw',
     }
 })
 
@@ -26,15 +31,14 @@ const PaperBrowser = (props) => {
     // const [offset, setOffset] = useState(0);
     // const [sort, setSort] = useState('');
     const shouldRefresh = useRef();
+    const isLoading = useRef();
     const { sort, setSort, offset, setOffset, search, setSearch } = useNav();
     const {
         papers,
         addPapers,
         removeAllPaper,
-        loading,
         hasNextPage,
         error,
-        setLoading,
         setError,
         setHasNextPage
     } = usePaper();
@@ -69,7 +73,9 @@ const PaperBrowser = (props) => {
 
     const loadMore = () => {
 
-        setLoading(true);
+        if (isLoading.current) return;
+
+        isLoading.current = true;
 
         api.axiosGet('/api/paper', {
             offset,
@@ -79,21 +85,22 @@ const PaperBrowser = (props) => {
         .then(response => {
             if (response.data && response.data.papers) {
                 const loadedPaper = response.data.papers;
+
                 if (papers.length + loadedPaper.length >= response.data.total) {
                     setHasNextPage(false);
                 }
                 setOffset(papers.length + response.data.papers.length);
                 addPapers(response.data.papers);
             }
-            setLoading(false);
+            isLoading.current = false;
         }).catch(error => {
             setError(true);
-            setLoading(false);
+            isLoading.current = false;
         })
     }
 
     const [sentryRef] = useInfiniteScroll({
-        loading,
+        loading: isLoading.current === true ? true : false,
         hasNextPage,
         onLoadMore: loadMore,
         // When there is an error, we stop infinite loading.
@@ -128,9 +135,14 @@ const PaperBrowser = (props) => {
                 </Grid>
                 </Grid>}
 
-                {(loading || hasNextPage) && (
+                {(hasNextPage) && (
                     <Grid item ref={sentryRef}>
-                        <CircularProgress color="secondary" />
+                        <Grid container className={classes.loading}
+                            justifyContent='center'
+                            alignItems='center'
+                        >
+                            <Loading />
+                        </Grid>
                     </Grid>
                 )}
             </Grid>

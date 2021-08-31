@@ -18,6 +18,10 @@ Route::get('/paper',
     [App\Http\Controllers\PaperController::class, 'fetch'])
 ->name('get-papers');
 
+Route::get('/paper/random', 
+    [App\Http\Controllers\PaperController::class, 'random'])
+->name('random-papers');
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return response()->json([$request->user(), 'roles' => $request->user()->getRoleNames()]);
 })->name('get-user');
@@ -25,6 +29,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware(['auth:sanctum', 'sanitizer'])->post('/paper',  
     [App\Http\Controllers\PaperController::class, 'create_paper']
 )->name("add-paper");
+
 
 Route::middleware(['auth:sanctum', 'sanitizer'])->put('/paper/{paper_id}',  
     [App\Http\Controllers\PaperController::class, 'update_paper']
