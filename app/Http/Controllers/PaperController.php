@@ -33,9 +33,17 @@ class PaperController extends Controller
     {
     }
 
+    public function get_limit(Request $request)
+    {
+        $limit = intval($request->input('limit', $this->limit));
+
+        return $limit < 20 ? $limit : 20;
+    }
+
     public function fetch(Request $request)
     {
         $offset = $request->input('offset', 0);
+        $limit = $this->get_limit($request);
 
         $sort = $request->input('sort', 'created_at');
 
@@ -50,7 +58,7 @@ class PaperController extends Controller
             ->withDownloadCount()
             ->withPermissions($request->user())
             ->withSearch($request->input('search', ''))
-            ->limit($this->limit)
+            ->limit($limit)
             ->offset($offset)
             ->withOrderBy($sort, 'DESC')
             ->get();
@@ -71,15 +79,18 @@ class PaperController extends Controller
 
     public function random(Request $request)
     {
-        $paper = Paper::query()
+        $limit = $this->get_limit($request);
+       
+        $papers = Paper::query()
         ->withLikeCount()
         ->withDownloadCount()
         ->withApproved()
         ->withSearch($request->input('search', ''))
         ->inRandomOrder()
-        ->first();
+        ->limit($limit)
+        ->get();
 
-        return response()->json($paper);
+        return response()->json($papers);
     }
 
     public function random_image(Request $request)
