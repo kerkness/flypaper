@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 const initialState = {
 	hasNextPage: true,
 	error: false,
+	liked: [],
+	hasNextLikedPage: true,
 	papers: [],
 	customSize: { width: '', height: '' },
 	crop: 'crop',
@@ -30,6 +32,12 @@ export const paperSlice = createSlice({
 		addNewPaper: (state, action) => {
 			state.papers = [action.payload, ...state.papers];
 		},
+		addLikedPapers: (state, action) => {
+			state.liked = [...state.liked, ...action.payload];
+		},
+		addNewLikedPaper: (state, action) => {
+			state.liked = [action.payload, ...state.liked];
+		},
 		removePaper: (state, action) => {
 			state.papers = [..._.filter(state.papers, p => p.id !== action.payload.id)];
 		},
@@ -40,7 +48,7 @@ export const paperSlice = createSlice({
 			state.papers = _.map(state.papers, p => {
 				if (p.id === action.payload.id) {
 					return action.payload.paper;
-				}				
+				}
 				return p;
 			});
 		},
@@ -59,11 +67,28 @@ export const paperSlice = createSlice({
 		setHasNextPage: (state, action) => {
 			state.hasNextPage = action.payload;
 		},
+		setHasNextLikedPage: (state, action) => {
+			state.hasNextLikedPage = action.payload;
+		},
 	},
 })
 
 // Action creators are generated for each case reducer function
-export const { addPapers, addNewPaper, removePaper, removeAllPaper, updatePaper, setCustomSize, setCrop, setResolution, setError, setHasNextPage } = paperSlice.actions
+export const {
+	addPapers,
+	addNewPaper,
+	addLikedPapers,
+	addNewLikedPaper,
+	removePaper,
+	removeAllPaper,
+	updatePaper,
+	setCustomSize,
+	setCrop,
+	setResolution,
+	setError,
+	setHasNextPage,
+	setHasNextLikedPage,
+} = paperSlice.actions
 
 export const usePaper = () => {
 	const dispatch = useDispatch();
@@ -72,6 +97,8 @@ export const usePaper = () => {
 		...state,
 		addPapers: payload => dispatch(addPapers(payload)),
 		addNewPaper: payload => dispatch(addNewPaper(payload)),
+		addLikedPapers: payload => dispatch(addLikedPapers(payload)),
+		addNewLikedPaper: payload => dispatch(addNewLikedPaper(payload)),
 		removePaper: payload => dispatch(removePaper(payload)),
 		removeAllPaper: () => dispatch(removeAllPaper()),
 		updatePaper: (paper, id) => dispatch(updatePaper({
@@ -82,6 +109,7 @@ export const usePaper = () => {
 		setResolution: payload => dispatch(setResolution(payload)),
 		setError: payload => dispatch(setError(payload)),
 		setHasNextPage: payload => dispatch(setHasNextPage(payload)),
+		setHasNextLikedPage: payload => dispatch(setHasNextLikedPage(payload)),
 	}
 }
 

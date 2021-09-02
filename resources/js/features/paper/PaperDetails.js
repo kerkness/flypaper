@@ -17,9 +17,11 @@ import PaperDownload from "./PaperDownload";
 import PaperDelete from "./PaperDelete";
 import PaperEdit from "./PaperEdit";
 import PaperApprove from "./PaperApprove";
+import PaperFeatured from "./PaperFeatured";
 import PaperLike from "./PaperLike";
 import { Link, useLocation } from "react-router-dom";
 import queryString from 'query-string';
+import { Fragment } from "react-is";
 
 const useStyles = makeStyles({
     tagLink: {
@@ -107,16 +109,18 @@ const PaperDetails = (props) => {
                     </Typography>
                 </Grid>
                 {canEdit(paper) &&
-                    <Grid item xs={6}>
+                    <Grid item xs={8}>
                         <PaperDelete paper={paper} />
                         <PaperEdit paper={paper} />
                         {
-                            canPublish() &&
-                            <PaperApprove paper={paper} />
+                            canPublish() && <Fragment>
+                                <PaperApprove paper={paper} />
+                                <PaperFeatured paper={paper} />
+                            </Fragment>
                         }
                     </Grid>
                 }
-                <Grid className={classes.actionButtons} xs={canEdit(paper) ? 6 : 12} item>
+                <Grid className={classes.actionButtons} xs={canEdit(paper) ? 4 : 12} item>
                     <PaperLike paper={paper} />
                     <PaperDownload paper={paper} />
                 </Grid>

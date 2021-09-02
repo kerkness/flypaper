@@ -22,6 +22,10 @@ Route::get('/paper/random',
     [App\Http\Controllers\PaperController::class, 'random'])
 ->name('random-papers');
 
+Route::get('/paper/liked', 
+    [App\Http\Controllers\PaperController::class, 'fetch_liked'])
+->name('get-liked-papers');
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return response()->json([$request->user(), 'roles' => $request->user()->getRoleNames()]);
 })->name('get-user');
@@ -54,3 +58,11 @@ Route::middleware(['auth:sanctum'])->post('/paper/{paper_id}/like',
 Route::middleware(['auth:sanctum'])->delete('/paper/{paper_id}/like',  
     [App\Http\Controllers\PaperController::class, 'record_unlike']
 )->name("record-unlike");
+
+Route::get('/tag', 
+    [App\Http\Controllers\TagController::class, 'fetch'])
+->name('get-tags');
+
+Route::get('/creator', 
+    [App\Http\Controllers\CreatorController::class, 'fetch'])
+->name('get-creators');

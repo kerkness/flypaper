@@ -25,6 +25,7 @@ class CreatePaperTable extends Migration
             $table->integer('size')->nullable();
             $table->string('category', 50)->nullable();
             $table->tinyInteger('approved')->default(0);
+            $table->tinyInteger('featured')->default(0);
         });
 
         Schema::create('tags', function (Blueprint $table) {

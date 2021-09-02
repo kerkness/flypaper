@@ -14,4 +14,14 @@ class Tag extends Model
         'label',
     ];
 
+    public function papers()
+    {
+        return $this->belongsToMany(Paper::class);
+    }
+
+    public function scopeWithPaperCount($query)
+    {
+        return $query->withCount('papers');
+    }
+
 }

@@ -3,6 +3,8 @@ import navReducer from './features/nav/navSlice';
 import authReducer from './features/admin/authSlice';
 import submissionReducer from './features/submit/submitSlice';
 import paperReducer from './features/paper/paperSlice';
+import tagReducer from './features/tagged/tagSlice';
+import creatorReducer from './features/creators/creatorSlice';
 
 export const store = configureStore({
     reducer: {
@@ -10,7 +12,8 @@ export const store = configureStore({
         auth: authReducer,
         submission: submissionReducer,
         papers: paperReducer,
-        // uppy: ReduxStore.reducer,
+        tags: tagReducer,
+        creators: creatorReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

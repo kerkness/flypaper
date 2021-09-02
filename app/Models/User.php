@@ -38,6 +38,11 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $appends = [
+        'likes_count',
+        'downloads_count',
+        'rank'
+    ];
     /**
      * The attributes that should be cast to native types.
      *
@@ -51,5 +56,34 @@ class User extends Authenticatable
     public function papers()
     {
         return $this->hasMany(Paper::class);
+    }
+
+    public function getRankAttribute()
+    {
+        return $this->paper_likes + $this->papers_count + $this->paper_downloads;
+    }
+
+    public function getLikesCountAttribute()
+    {
+        $papers = $this->papers()->withLikeCount()->get();
+        return $papers->sum('likes_count');
+    }
+
+    public function getDownloadsCountAttribute()
+    {
+        $papers = $this->papers()->withDownloadCount()->get();
+        return $papers->sum('downloads_count');
+    }
+
+    public function scopeWithPaperCount($query)
+    {
+        return $query->withCount(['papers' => function($query) {
+            $query->where('approved', '=', 1);
+        }]);
+    }
+
+    public function scopeHasPapers($query)
+    {
+        return $query->withPaperCount()->having('papers_count', '>', 0);
     }
 }

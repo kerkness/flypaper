@@ -8,6 +8,7 @@ const initialState = {
 	account: false,
 	sort: 'created_at',
 	offset: 0,
+	likedOffset: 0,
 	search: ''
 }
 
@@ -22,6 +23,9 @@ export const navSlice = createSlice({
 		setOffset: (state, action) => {
 			state.offset = action.payload;
 		},
+		setLikedOffset: (state, action) => {
+			state.likedOffset = action.payload;
+		},
 		setSort: (state, action) => {
 			state.sort = action.payload;
 		},
@@ -35,6 +39,7 @@ export const navSlice = createSlice({
 export const {
 	toggleDrawer,
 	setOffset,
+	setLikedOffset,
 	setSort,
 	setSearch,
 } = navSlice.actions
@@ -47,6 +52,7 @@ export const useNav = () => {
 		...state,
 		toggleDrawer: (drawer, open) => dispatch(toggleDrawer({drawer, open})),
 		setOffset: payload => dispatch(setOffset(payload)),
+		setLikedOffset: payload => dispatch(setLikedOffset(payload)),
 		setSort: payload => dispatch(setSort(payload)),
 		setSearch: payload => dispatch(setSearch(payload)),
 	}

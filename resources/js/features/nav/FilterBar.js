@@ -9,6 +9,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import CloseIcon from '@material-ui/icons/Close';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '../../components/IconButton';
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import { useHistory, useLocation } from "react-router-dom";
 import { useNav } from "./navSlice";
 import queryString from 'query-string';
@@ -17,6 +18,8 @@ import queryString from 'query-string';
 const CssToggleButton = withStyles({
     label: {
         color: '#EEEEEE',
+        paddingLeft: 10,
+        paddingRight: 10,
     },
     selected: {
         color: 'hotpink'
@@ -32,6 +35,18 @@ const CssToggleButton = withStyles({
     },
 })(ToggleButton)
 
+
+
+const CssGroupButton = withStyles({
+    root: {
+        backgroundColor: 'rgba(20,20,20,0.5)',
+        '& span': {
+            color: '#EEEEEE'
+        },
+    },
+})(Button)
+
+
 const useStyles = makeStyles((theme) => ({
     spacer: {
         flexGrow: 1,
@@ -40,11 +55,12 @@ const useStyles = makeStyles((theme) => ({
     iconbutton: {
         color: '#ffffff'
     },
-    catButtons: {
-        // marginLeft: 20,
+    buttonItem: {
+        textAlign: 'center'
     },
     closeButton: {
         textAlign: 'right',
+        paddingRight: 30,
     },
     search: {
         position: 'relative',
@@ -56,10 +72,6 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: 0,
         paddingRight: 15,
         width: '100%',
-        // [theme.breakpoints.up('sm')]: {
-        //     marginLeft: theme.spacing(1),
-        //     width: 'auto',
-        // },
     },
     searchIcon: {
         padding: theme.spacing(0, 2),
@@ -84,17 +96,8 @@ const useStyles = makeStyles((theme) => ({
     },
     inputInput: {
         padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-        // transition: theme.transitions.create('width'),
         width: '100%',
-        // backgroundColor: 'hotpink'
-        // [theme.breakpoints.up('sm')]: {
-        //     width: '100%',
-        //     // '&:focus': {
-        //     //     width: '20ch',
-        //     // },
-        // },
     },
     toggleButton: {
 
@@ -105,11 +108,11 @@ const FilterBar = (props) => {
 
     const { onClose } = props;
     const classes = useStyles();
-    const { user } = useAuth();
+    const { isUser } = useAuth();
     const history = useHistory();
     const location = useLocation();
     const [inputSearch, setInputSearch] = useState('');
-    const { sort, search } = useNav();
+    const { sort, search, toggleDrawer } = useNav();
 
     useEffect(() => {
 
@@ -119,7 +122,7 @@ const FilterBar = (props) => {
             setInputSearch(params.search);
         }
 
-    }, [])
+    }, [search])
 
     const keyPress = (e) => {
         if (e.keyCode == 13) {
@@ -139,12 +142,10 @@ const FilterBar = (props) => {
     }
 
     const handleSort = (newSort) => {
-
         pushWithQuery({
             ...getParams,
             'sort': newSort
         })
-
     }
 
     const getParams = () => {
@@ -155,6 +156,17 @@ const FilterBar = (props) => {
         history.push(params ? `/?${queryString.stringify(params)}` : `/`)
     }
 
+    const goto = (page) => {
+        if (page === 'liked' && !isUser ) {
+            toggleDrawer('login', true);
+            return;
+        }
+
+        history.push(`/${page}`);
+    }
+
+    const sortValue = location.pathname !== '/' ? '' : sort;
+
     return (
         <Toolbar>
             <Grid container
@@ -163,7 +175,7 @@ const FilterBar = (props) => {
                 alignItems='center'
             >
                 <Grid item
-                    xs={12}
+                    xs={11}
                     md={3}
                 >
                     <div className={classes.search}>
@@ -192,52 +204,42 @@ const FilterBar = (props) => {
                     </div>
                 </Grid>
                 <Grid item
-                    md={5}
-                    xs={10}
-                >
+                    md={4}
+                    xs={12}
+                    className={classes.buttonItem}
+                    >
                     <ToggleButtonGroup
-                        className={classes.catButtons}
                         variant="contained"
                         exclusive
                         color="default"
-                        value={sort}
+                        value={sortValue}
                         onChange={(e, v) => handleSort(v)}
                         size='small'
                     >
-                        <CssToggleButton value="created_at">Most Recent</CssToggleButton>
-                        <CssToggleButton value="likes_count">Most Popular</CssToggleButton>
-                        <CssToggleButton value="downloads_count">Most Downloaded</CssToggleButton>
+                        <CssToggleButton value="featured">Featured</CssToggleButton>
+                        <CssToggleButton value="created_at">Recent</CssToggleButton>
+                        <CssToggleButton value="likes_count">Popular</CssToggleButton>
+                        <CssToggleButton value="downloads_count">Downloads</CssToggleButton>
                     </ToggleButtonGroup>
 
                 </Grid>
 
-                {/* <Grid item
-                    xs={5}
-                    md={3}
-                >
+                <Grid item
+                    xs={12}
+                    md={4}
+                    className={classes.buttonItem}
+                    >
                     <ButtonGroup
-                        className={classes.catButtons}
                         disableElevation
-                        variant="contained"
+                        variant="outlined"
                         color="default"
                     >
-                        <Button>All Tags</Button>
-                        <Button>Creators</Button>
+                        <CssGroupButton onClick={() => goto('liked')} endIcon={<FavoriteIcon />}>Your</CssGroupButton>
+                        <CssGroupButton onClick={() => goto('tags')}>Tags</CssGroupButton>
+                        <CssGroupButton onClick={() => goto('creators')}>Creators</CssGroupButton>
                     </ButtonGroup>
-                </Grid> */}
-
-                <Grid item
-                    xs={1}
-                    className={classes.closeButton}
-                >
-                    <IconButton
-                        onClick={onClose}
-                        color="inherit"
-                        className={classes.iconbutton}
-                    >
-                        <CloseIcon />
-                    </IconButton>
                 </Grid>
+
             </Grid>
         </Toolbar>
     )

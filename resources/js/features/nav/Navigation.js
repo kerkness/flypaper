@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import clsx from "clsx";
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import LoginDrawer from "../admin/Login";
 import Fade from '@material-ui/core/Fade';
 import InfoIcon from '@material-ui/icons/Info';
 import ImageSearchIcon from "@material-ui/icons/ImageSearch";
+import ImageSearchTwoToneIcon from '@material-ui/icons/ImageSearchTwoTone';
 import { useAuth } from "../admin/authSlice";
 import { useNav } from "../nav/navSlice";
 import SubmitPaper from "../submit/SubmitPaper";
@@ -39,6 +41,12 @@ const useStyles = makeStyles((theme) => ({
     iconbutton: {
         color: '#ffffff'
     },
+    iconbuttonActive: {
+        backgroundColor: 'rgba(50,50,50,0.7)',
+        '&:hover': {
+            backgroundColor: 'rgba(90,90,90,0.5)',
+        }
+    }
 }));
 
 const FlyPaperNavigation = (props) => {
@@ -97,9 +105,12 @@ const FlyPaperNavigation = (props) => {
                     <IconButton
                         onClick={() => setShowFilter(!showFilter)}
                         color="inherit"
-                        className={classes.iconbutton}
+                        className={clsx({
+                            [classes.iconbutton]: true,
+                            [classes.iconbuttonActive]: showFilter,
+                        })}
                     >
-                        <ImageSearchIcon />
+                        { showFilter ? <ImageSearchTwoToneIcon /> : <ImageSearchIcon />}
                     </IconButton>
                     <IconButton
                         onClick={toggleSubmit}

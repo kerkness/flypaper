@@ -44,12 +44,16 @@ class PaperController extends Controller
     {
         $offset = $request->input('offset', 0);
         $limit = $this->get_limit($request);
-
         $sort = $request->input('sort', 'created_at');
+        $search = $request->input('search', '');
 
         // Validate sort methods
         if (!in_array($sort, $this->valid_sort)) {
             $sort = 'created_at';
+        }
+
+        if ($request->has('sort') && $request->input('sort') === 'featured') {
+            $search = 'featured';
         }
  
         // dd(is_object($request->user()) && $request->user()->exists());
@@ -57,7 +61,7 @@ class PaperController extends Controller
             ->withLikeCount()
             ->withDownloadCount()
             ->withPermissions($request->user())
-            ->withSearch($request->input('search', ''))
+            ->withSearch($search)
             ->limit($limit)
             ->offset($offset)
             ->withOrderBy($sort, 'DESC')
@@ -66,7 +70,7 @@ class PaperController extends Controller
 
         $count = Paper::query()
             ->withPermissions($request->user())
-            ->withSearch($request->input('search', ''))
+            ->withSearch($search)
             ->count();
 
 
@@ -91,6 +95,37 @@ class PaperController extends Controller
         ->get();
 
         return response()->json($papers);
+    }
+
+    public function fetch_liked(Request $request)
+    {
+        if (!$request->user()) {
+            return response()->json(["error" => "Unauthorized"], 401);
+        }
+
+        $offset = $request->input('offset', 0);
+        $limit = $this->get_limit($request);
+       
+        $papers = Paper::query()
+            ->withLikeCount()
+            ->withDownloadCount()
+            ->withPermissions($request->user())
+            ->withLiked($request->user())
+            ->limit($limit)
+            ->offset($offset)
+            ->orderBy('created_at', 'DESC')
+            ->get();
+
+            $count = Paper::query()
+            ->withPermissions($request->user())
+            ->withLiked($request->user())
+            ->count();
+
+
+        return response()->json([
+            'papers' => $papers, 
+            'total' => $count
+        ]);
     }
 
     public function random_image(Request $request)
@@ -186,6 +221,9 @@ class PaperController extends Controller
         }
         if ($request->has('approved') && $request->user()->can('publish paper')) {
             $paper->approved = $request->input('approved') ? 1 : 0;
+        }
+        if ($request->has('featured') && $request->user()->can('publish paper')) {
+            $paper->featured = $request->input('featured') ? 1 : 0;
         }
 
         $paper->save();

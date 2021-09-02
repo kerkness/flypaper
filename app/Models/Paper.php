@@ -84,14 +84,28 @@ class Paper extends Model
 
     public function scopeWithSearch($query, $search)
     {
+        if ($search === 'featured') {
+            return $query->where('featured', '=', 1);
+        }
+
         if ($search) {
             return $query->whereHas('tags', function($query) use ($search) {
-                $query->where('slug', 'like', '%'.strtolower($search).'%');
+                $query->where('slug', 'like', '%'.strtolower($search).'%')
+                    ->orWhere('label', 'like', '%'.strtolower($search).'%');
             })->orWhereHas('user', function($query) use ($search) {
                 $query->where('name', '=', $search);
             })->orWhere('category', '=', $search);    
         }
         return $query;
+    }
+
+    public function scopeWithLiked($query, User $user)
+    {
+        if (! $user) return $query;
+
+        return $query->whereHas('likes', function($query) use ($user) {
+            $query->where('user_id', '=', $user->id);
+        });
     }
 
     public function scopeWithOrderBy($query, $sort, $dir)

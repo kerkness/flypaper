@@ -3,14 +3,25 @@ import {
     Switch,
     Route,
 } from "react-router-dom";
-import SubmitPaper from "../submit/SubmitPaper";
 import PaperBrowser from "../paper/PaperBrowser";
+import UserLiked from "../paper/UserLiked";
+import AllTags from "../tagged/AllTags";
+import AllCreators from "../creators/AllCreators";
 
 const PaperRoutes = (props) => {
     return (
         <Switch>
-            <Route path="/">
+            <Route exact path="/">
                 <PaperBrowser />
+            </Route>
+            <Route path="/tags">
+                <AllTags />
+            </Route>
+            <Route path="/creators">
+                <AllCreators />
+            </Route>
+            <Route path="/liked">
+                <UserLiked />
             </Route>
         </Switch>
     )
