@@ -14,7 +14,7 @@ class TagController extends Controller
 {
 
     public $user;
-    public $limit = 60;
+    public $limit = 100;
     public $valid_sort = [
         'label',
         'slug',
@@ -33,7 +33,7 @@ class TagController extends Controller
     {
         $limit = intval($request->input('limit', $this->limit));
 
-        return $limit < 20 ? $limit : 20;
+        return $limit < 100 ? $limit : 100;
     }
 
     public function fetch(Request $request)

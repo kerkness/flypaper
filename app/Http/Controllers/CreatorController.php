@@ -27,7 +27,7 @@ class CreatorController extends Controller
     {
         $limit = intval($request->input('limit', $this->limit));
 
-        return $limit < 20 ? $limit : 20;
+        return $limit < 60 ? $limit : 60;
     }
 
     public function fetch(Request $request)
