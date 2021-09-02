@@ -48,7 +48,7 @@ class TagController extends Controller
         }
  
         $tags = Tag::query()
-            ->withPaperCount()
+            ->hasPapers()
             ->limit($limit)
             ->offset($offset)
             ->orderBy($sort, 'ASC')
@@ -56,6 +56,7 @@ class TagController extends Controller
 
 
         $count = Tag::query()
+            ->hasPapers()
             ->count();
 
 
