@@ -146,6 +146,31 @@ class PaperController extends Controller
         }, 200, ['Content-Type' => $paper->mime_type]);
     }
 
+    public function render_image(Request $request, $paper_id)
+    {
+        $paper = Paper::find($paper_id);
+
+        $w = $request->input('w', 2056);
+
+        // dd($paper);
+
+        if (!$paper) {
+            abort(404, 'Paper not found');
+        }
+
+        $builder = new UrlBuilder("flypaper.imgix.net");
+        $url = $builder->createURL($paper->source, [
+            'w' => $w,
+            'txt' => 'FlyPaper by ' . $paper->user->name .' - flypaper.theflyingfabio.com',
+            'txt-size' => 22,
+            'txt-color' => 'FFFFFF'
+        ]);
+
+        return response()->stream(function() use ($url) {
+            echo file_get_contents($url);
+        }, 200, ['Content-Type' => $paper->mime_type]);
+    }
+
     public function browse_paper(Request $request)
     {
         // Get a token

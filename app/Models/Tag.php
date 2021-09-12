@@ -26,7 +26,7 @@ class Tag extends Model
 
     public function scopeHasPapers($query)
     {
-        return $query->withPaperCount()->having('papers_count', '>', 0);
+        return $query->withPaperCount()->having('papers_count', '>=', 2);
     }
 
 }

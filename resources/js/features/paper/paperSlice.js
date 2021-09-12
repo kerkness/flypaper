@@ -11,6 +11,7 @@ const initialState = {
 	customSize: { width: '', height: '' },
 	crop: 'crop',
 	resolution: 'default',
+	showInfo: true,
 }
 
 export const categories = [
@@ -70,6 +71,9 @@ export const paperSlice = createSlice({
 		setHasNextLikedPage: (state, action) => {
 			state.hasNextLikedPage = action.payload;
 		},
+		toggleInfo: (state, action) => {
+			state.showInfo = !state.showInfo;
+		},
 	},
 })
 
@@ -88,6 +92,7 @@ export const {
 	setError,
 	setHasNextPage,
 	setHasNextLikedPage,
+	toggleInfo,
 } = paperSlice.actions
 
 export const usePaper = () => {
@@ -110,6 +115,7 @@ export const usePaper = () => {
 		setError: payload => dispatch(setError(payload)),
 		setHasNextPage: payload => dispatch(setHasNextPage(payload)),
 		setHasNextLikedPage: payload => dispatch(setHasNextLikedPage(payload)),
+		toggleInfo: () => dispatch(toggleInfo()),
 	}
 }
 

@@ -7,6 +7,7 @@ import { ThemeProvider, createTheme } from '@material-ui/core/styles'
 import { store } from './store';
 import { Provider } from 'react-redux';
 import FlyPaperApp from './FlyPaperApp';
+import { PaperLoaderProvider } from "./features/paper/PaperLoader";
 
 const appTheme = createTheme({
     palette: {
@@ -22,7 +23,9 @@ const App = (props) => {
     return (
         <ThemeProvider theme={appTheme}>
             <Provider store={store}>
-                <FlyPaperApp {...props} />
+                <PaperLoaderProvider>
+                    <FlyPaperApp {...props} />
+                </PaperLoaderProvider>
             </Provider>
         </ThemeProvider>
     )

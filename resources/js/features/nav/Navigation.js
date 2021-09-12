@@ -7,6 +7,7 @@ import Fade from '@material-ui/core/Fade';
 import InfoIcon from '@material-ui/icons/Info';
 import ImageSearchIcon from "@material-ui/icons/ImageSearch";
 import ImageSearchTwoToneIcon from '@material-ui/icons/ImageSearchTwoTone';
+import Slideshow from '@material-ui/icons/Slideshow';
 import { useAuth } from "../admin/authSlice";
 import { useNav } from "../nav/navSlice";
 import SubmitPaper from "../submit/SubmitPaper";
@@ -16,7 +17,8 @@ import AccountIcon from '@material-ui/icons/AccountCircle';
 import IconButton from '../../components/IconButton';
 import AccountDrawer from "../admin/AccountDrawer";
 import FilterBar from "./FilterBar";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+import { usePaper } from "../paper/paperSlice";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -52,10 +54,12 @@ const useStyles = makeStyles((theme) => ({
 const FlyPaperNavigation = (props) => {
 
     const [showFilter, setShowFilter] = useState(false)
+    const { papers } = usePaper();
     const classes = useStyles();
     const { user } = useAuth();
     const { toggleDrawer } = useNav();
     const history = useHistory();
+    const location = useLocation();
 
 
     const toggleSubmit = (event) => {
@@ -91,9 +95,9 @@ const FlyPaperNavigation = (props) => {
         }
     };
 
-
     return (
         <div className={classes.grow}>
+            { location.pathname !== '/play' && 
             <AppBar position="fixed" className={classes.appbar}>
                 <Toolbar>
                     <Typography onClick={() => history.push('/')} variant="h6" className={classes.title}>
@@ -112,6 +116,9 @@ const FlyPaperNavigation = (props) => {
                     >
                         { showFilter ? <ImageSearchTwoToneIcon /> : <ImageSearchIcon />}
                     </IconButton>
+                    <IconButton disabled={papers.length < 1} onClick={() => history.push('/play')}>
+                        <Slideshow />
+                        </IconButton>
                     <IconButton
                         onClick={toggleSubmit}
                         color="inherit"
@@ -149,6 +156,7 @@ const FlyPaperNavigation = (props) => {
                 }
 
             </AppBar>
+            }
             <LoginDrawer />
             <SubmitPaper />
             <InfoDrawer />

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import _ from 'lodash';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { usePaper } from "./paperSlice";
@@ -10,6 +10,7 @@ import { useLocation } from "react-router-dom";
 import queryString from 'query-string';
 import { useNav } from "../nav/navSlice";
 import Loading from "../../components/Loading";
+import { usePaperLoader } from "./PaperLoader";
 
 const useStyles = makeStyles({
     noPaper: {
@@ -28,20 +29,17 @@ const PaperBrowser = (props) => {
 
     const classes = useStyles();
     const location = useLocation();
-    // const [offset, setOffset] = useState(0);
-    // const [sort, setSort] = useState('');
     const shouldRefresh = useRef();
     const isLoading = useRef();
-    const { sort, setSort, offset, setOffset, search, setSearch } = useNav();
+    const { sort, setSort, setOffset, search, setSearch } = useNav();
     const {
         papers,
-        addPapers,
         removeAllPaper,
         hasNextPage,
         error,
-        setError,
-        setHasNextPage
+        setHasNextPage,
     } = usePaper();
+    const { loadPaper } = usePaperLoader();
 
     const papier = papers && papers.length ? papers : []
 
@@ -77,26 +75,12 @@ const PaperBrowser = (props) => {
 
         isLoading.current = true;
 
-        api.axiosGet('/api/paper', {
-            offset,
-            sort,
-            search,
-        })
-        .then(response => {
-            if (response.data && response.data.papers) {
-                const loadedPaper = response.data.papers;
-
-                if (papers.length + loadedPaper.length >= response.data.total) {
-                    setHasNextPage(false);
-                }
-                setOffset(papers.length + response.data.papers.length);
-                addPapers(response.data.papers);
-            }
+        loadPaper().then(response => {
             isLoading.current = false;
         }).catch(error => {
-            setError(true);
             isLoading.current = false;
         })
+
     }
 
     const [sentryRef] = useInfiniteScroll({
@@ -111,8 +95,6 @@ const PaperBrowser = (props) => {
         // visible, instead of becoming fully visible on the screen.
         rootMargin: '0px 0px 400px 0px',
     });
-
-    // console.log("location", location)
 
     return (
         <Fragment>

@@ -31,7 +31,6 @@ const ParallaxGrid = (props) => {
         api.axiosGet('/api/paper/random', {
             limit: 1
         }).then(response => {
-            console.log("random", response);
             if (response.data) {
                 const paper = response.data[0];
 
@@ -39,10 +38,7 @@ const ParallaxGrid = (props) => {
                     h: win.height,
                 }
                 
-                console.log("random paper", paper);
-                const bg = paper && paper.source ? buildURL(`https://${process.env.IMGIX_URL}/${paper.source}`, params) : '';
-                
-                console.log("background", bg);
+                const bg = paper && paper.source ? buildURL(`https://${process.env.IMGIX_URL}/${paper.source}`, params) : '';                
                 setSrc(bg);
             }
             backgroundLoaded.current = true;
