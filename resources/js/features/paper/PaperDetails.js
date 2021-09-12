@@ -5,7 +5,7 @@ import { Grid, Typography } from "@material-ui/core";
 import ContentBox from "../../components/ContentBox";
 import IconButton from "../../components/IconButton";
 import { displayByteSize } from "../../components/useFileSizeConverter";
-import CloseIcon from "@material-ui/icons/Cancel";
+import CloseIcon from "@material-ui/icons/Close";
 import InfoIcon from '@material-ui/icons/Info';
 import OpenInBrowser from '@material-ui/icons/OpenInBrowser';
 import { categories, usePaper } from "./paperSlice";
@@ -32,12 +32,14 @@ const useStyles = makeStyles({
         textAlign: 'right',
     },
     closeButton: {
+        color: 'rgba(20,20,20,0.5)',
         position: 'relative',
-        top: -175,
+        top: -185,
         float: 'left',
-        margin: 0
+        marginLeft: 10
     },
     infoButton: {
+        color: 'rgba(255,255,255,0.5)',
         position: 'relative',
         top: 0,
         float: 'left',
