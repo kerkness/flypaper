@@ -1,13 +1,13 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Grid from '@material-ui/core/Grid';
-import VerifiedUser from '@material-ui/icons/VerifiedUser';
+import { makeStyles, withStyles } from '@mui/styles';
+import Drawer from '@mui/material/Drawer';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Grid from '@mui/material/Grid';
+import VerifiedUser from '@mui/icons-material/VerifiedUser';
 import { useNav } from '../nav/navSlice';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 import CustomDrawer from '../../components/CustomDrawer';
 
 const useStyles = makeStyles({
@@ -63,18 +63,10 @@ export default function LoginDrawer() {
                 </Typography>
 
                 <Grid item>
-                    <Button
-                        variant="contained"
-                        color="default"
-                        href="/auth/discord/redirect"
-                    >Login Discord</Button>
+                    <Button variant="contained" href="/auth/discord/redirect">Login Discord</Button>
                 </Grid>
                 <Grid item>
-                    <Button
-                        variant="contained"
-                        color="default"
-                        href="/auth/twitch/redirect"
-                    >Login Twitch</Button>
+                    <Button variant="contained" href="/auth/twitch/redirect">Login Twitch</Button>
                 </Grid>
             </Grid>
         </div>

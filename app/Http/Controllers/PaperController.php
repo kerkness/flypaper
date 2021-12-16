@@ -9,6 +9,7 @@ use App\Models\PaperTag;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Imgix\UrlBuilder;
 
@@ -126,6 +127,42 @@ class PaperController extends Controller
             'papers' => $papers, 
             'total' => $count
         ]);
+    }
+
+    public function sync_paper(Request $request) {
+
+        $files = $request->input('files');
+        $category = $request->input('category');
+
+        if ($category === 'featured') {
+
+            $papers = Paper::query()
+            ->withLikeCount()
+            ->withDownloadCount()
+            ->withPermissions($request->user())
+            ->withSearch('featured')
+            ->whereNotIn('filename', $files)
+            ->get();
+
+
+        }
+        if ($category === 'likes') {
+
+            $papers = Paper::query()
+            ->withLikeCount()
+            ->withDownloadCount()
+            ->withPermissions($request->user())
+            ->withLiked($request->user())
+            ->whereNotIn('filename', $files)
+            ->get();
+
+        }
+
+        if (!$papers) {
+            $papers = [];
+        }
+
+        return response()->json($papers);
     }
 
     public function random_image(Request $request)
@@ -270,7 +307,7 @@ class PaperController extends Controller
         $user = Auth::user();
 
         $paper = new Paper();
-        $paper->filename = $request->input('filename');
+        $paper->filename = $this->uniqueFilename($request->input('filename'));
         $paper->source = $request->input('source');
         $paper->mime_type = $request->input('mime_type');
         $paper->width = $request->input('width');
@@ -283,6 +320,8 @@ class PaperController extends Controller
             $paper->approved = 1;
         }
 
+        // Ensure Get unique FileName
+
         $paper->save();
 
         // Add tags
@@ -293,6 +332,11 @@ class PaperController extends Controller
         $paper = Paper::query()->find($paper->id);
 
         return response()->json($paper);
+    }
+
+    public function uniqueFilename($filename) {
+        $count = DB::table('papers')->where('filename', $filename)->count();
+        return $count > 0 ? $this->uniqueFilename($count . '-' . $filename) : $filename;
     }
 
     public function add_tags( $tags, $paper_id )

@@ -1,11 +1,11 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Grid } from '@material-ui/core';
+import { makeStyles } from '@mui/styles';
+import { Grid } from '@mui/material';
 import PaperDetails from './PaperDetails';
 import { buildURL } from 'react-imgix';
 import useWindowSize from '../../components/useWindowSize';
 import useDebounce from '../../components/useDebounce';
-import Hidden from '@material-ui/core/Hidden';
+import Hidden from '@mui/material/Hidden';
 
 const useStyles = makeStyles({
     root: {
@@ -85,7 +85,7 @@ const BackgroundPaper = (props) => {
                             height: size.height
                         }}
                     >
-                        <Hidden xsDown>
+                        <Hidden smDown>
                             <PaperDetails paper={paper} />
                         </Hidden>
                     </Grid>
@@ -93,7 +93,7 @@ const BackgroundPaper = (props) => {
             }
             { loaded && <Hidden smUp><PaperDetails paper={paper} fullWidth /></Hidden> }
         </Fragment>
-    )
+    );
 
 }
 

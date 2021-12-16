@@ -1,9 +1,9 @@
 import React, { Fragment, useState, useRef } from "react";
 import _ from 'lodash';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import { useTags } from "./tagSlice";
 import { useNav } from '../nav/navSlice';
-import { Grid, Avatar } from "@material-ui/core";
+import { Grid, Avatar } from "@mui/material";
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import Loading from "../../components/Loading";
 import CustomChip from '../../components/CustomChip';
@@ -93,7 +93,7 @@ const AllTags = (props) => {
                         avatar={<Avatar>{tag.papers_count}</Avatar>}
                         label={tag.label}
                         clickable
-                        color="default"
+                        // color="default"
                         onClick={() => clickTag(tag.slug)}
                     />
                 </Grid>)}

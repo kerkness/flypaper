@@ -34,6 +34,9 @@ Route::middleware(['auth:sanctum', 'sanitizer'])->post('/paper',
     [App\Http\Controllers\PaperController::class, 'create_paper']
 )->name("add-paper");
 
+Route::middleware(['auth:sanctum'])->post('/paper/sync',
+    [App\Http\Controllers\PaperController::class, 'sync_paper']
+)->name('sync-paper');
 
 Route::middleware(['auth:sanctum', 'sanitizer'])->put('/paper/{paper_id}',  
     [App\Http\Controllers\PaperController::class, 'update_paper']

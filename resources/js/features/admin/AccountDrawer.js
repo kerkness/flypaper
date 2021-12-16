@@ -1,15 +1,12 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
+import { makeStyles, withStyles } from '@mui/styles';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
 import { useNav } from '../nav/navSlice';
-import { Typography } from '@material-ui/core';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import { Typography } from '@mui/material';
 import { useAuth } from '../admin/authSlice';
 import CustomDrawer from '../../components/CustomDrawer';
-import { Link } from "react-router-dom";
 
 
 const useStyles = makeStyles({
@@ -40,6 +37,8 @@ export default function AccountDrawer() {
     const { account, toggleDrawer } = useNav();
     const { user } = useAuth();
 
+    console.log("Art we installed?", window.getDisplayMode());
+
     const list = () => (
         <div
             className={clsx(classes.list)}
@@ -64,11 +63,7 @@ export default function AccountDrawer() {
 
                 </Grid>
                 <Grid item>
-                    <Button
-                        variant="contained"
-                        color="default"
-                        href="/logout"
-                    >Logout</Button>
+                    <Button variant="contained" href="/logout">Logout</Button>
                 </Grid>
             </Grid>
         </div>

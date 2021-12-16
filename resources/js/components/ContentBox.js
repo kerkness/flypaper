@@ -1,9 +1,9 @@
 import * as React from 'react';
 import clsx from 'clsx';
-import Box from '@material-ui/core/Box';
-import { makeStyles } from '@material-ui/core/styles';
+import Box from '@mui/material/Box';
+import { makeStyles } from '@mui/styles';
 
-// import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@mui/styles';
 
 
 const useStyles = makeStyles({

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import _ from 'lodash';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { Grid, Typography } from "@material-ui/core";
+import { makeStyles, withStyles } from '@mui/styles';
+import { Grid, Typography } from "@mui/material";
 import ContentBox from "../../components/ContentBox";
 import IconButton from "../../components/IconButton";
 import { displayByteSize } from "../../components/useFileSizeConverter";
-import CloseIcon from "@material-ui/icons/Close";
-import InfoIcon from '@material-ui/icons/Info';
-import OpenInBrowser from '@material-ui/icons/OpenInBrowser';
+import CloseIcon from "@mui/icons-material/Close";
+import InfoIcon from '@mui/icons-material/Info';
+import OpenInBrowser from '@mui/icons-material/OpenInBrowser';
 import { categories, usePaper } from "./paperSlice";
 import { useAuth } from "../admin/authSlice";
 import PaperDownload from "./PaperDownload";
@@ -130,7 +130,7 @@ const PaperDetails = (props) => {
                                 canPublish() && <Fragment>
                                     <PaperApprove paper={paper} />
                                     <PaperFeatured paper={paper} />
-                                    <IconButton onClick={() => window.open(`/render/${paper.id}`)}>
+                                    <IconButton onClick={() => window.open(`/render/${paper.id}`)} size="large">
                                         <OpenInBrowser />
                                     </IconButton>
                                 </Fragment>
@@ -146,11 +146,14 @@ const PaperDetails = (props) => {
             </ContentBox>
 
             }
-            <IconButton onClick={toggleInfo} className={ showInfo ? classes.closeButton : classes.infoButton}>
+            <IconButton
+                onClick={toggleInfo}
+                className={ showInfo ? classes.closeButton : classes.infoButton}
+                size="large">
                 { showInfo ? <CloseIcon /> : <InfoIcon />}
             </IconButton>
         </div>
-    )
+    );
 }
 
 export default PaperDetails;

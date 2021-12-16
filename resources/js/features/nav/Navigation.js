@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import clsx from "clsx";
-import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, Typography } from "@material-ui/core";
+import { makeStyles } from '@mui/styles';
+import { AppBar, Toolbar, Typography } from "@mui/material";
 import LoginDrawer from "../admin/Login";
-import Fade from '@material-ui/core/Fade';
-import InfoIcon from '@material-ui/icons/Info';
-import ImageSearchIcon from "@material-ui/icons/ImageSearch";
-import ImageSearchTwoToneIcon from '@material-ui/icons/ImageSearchTwoTone';
-import Slideshow from '@material-ui/icons/Slideshow';
+import Fade from '@mui/material/Fade';
+import InfoIcon from '@mui/icons-material/Info';
+import ImageSearchIcon from "@mui/icons-material/ImageSearch";
+import ImageSearchTwoToneIcon from '@mui/icons-material/ImageSearchTwoTone';
+import Slideshow from '@mui/icons-material/Slideshow';
 import { useAuth } from "../admin/authSlice";
 import { useNav } from "../nav/navSlice";
 import SubmitPaper from "../submit/SubmitPaper";
 import InfoDrawer from "../paper/InfoDrawer";
-import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
-import AccountIcon from '@material-ui/icons/AccountCircle';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import AccountIcon from '@mui/icons-material/AccountCircle';
 import IconButton from '../../components/IconButton';
 import AccountDrawer from "../admin/AccountDrawer";
 import FilterBar from "./FilterBar";
@@ -26,7 +26,8 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     appbar: {
-        backgroundColor: 'rgba(20, 20, 20, .5)',
+        backgroundColor: 'rgb(20, 20, 20, 0.5)',
+        // backgroundColor: 'pink',
     },
     title: {
         cursor: "pointer",
@@ -53,11 +54,11 @@ const useStyles = makeStyles((theme) => ({
 
 const FlyPaperNavigation = (props) => {
 
-    const [showFilter, setShowFilter] = useState(false)
+    const { toggleDrawer, showFilter, setShowFilter } = useNav();
+    // const [showFilter, setShowFilter] = useState(false)
     const { papers } = usePaper();
     const classes = useStyles();
     const { user } = useAuth();
-    const { toggleDrawer } = useNav();
     const history = useHistory();
     const location = useLocation();
 
@@ -113,31 +114,34 @@ const FlyPaperNavigation = (props) => {
                             [classes.iconbutton]: true,
                             [classes.iconbuttonActive]: showFilter,
                         })}
-                    >
+                        size="large">
                         { showFilter ? <ImageSearchTwoToneIcon /> : <ImageSearchIcon />}
                     </IconButton>
-                    <IconButton disabled={papers.length < 1} onClick={() => history.push('/play')}>
+                    {papers.length > 0 && <IconButton
+                        disabled={papers.length < 1}
+                        onClick={() => history.push('/play')}
+                        size="large">
                         <Slideshow />
-                        </IconButton>
+                    </IconButton>}
                     <IconButton
                         onClick={toggleSubmit}
                         color="inherit"
                         className={classes.iconbutton}
-                    >
+                        size="large">
                         <AddPhotoAlternateIcon />
                     </IconButton>
                     <IconButton
                         onClick={toggleInfo}
                         aria-label="info"
                         className={classes.iconbutton}
-                    >
+                        size="large">
                         <InfoIcon />
                     </IconButton>
                     <IconButton
                         onClick={toggleAccount}
                         aria-label="info"
                         className={classes.iconbutton}
-                    >
+                        size="large">
                         <AccountIcon />
                     </IconButton>
                 </Toolbar>
@@ -162,7 +166,7 @@ const FlyPaperNavigation = (props) => {
             <InfoDrawer />
             <AccountDrawer />
         </div>
-    )
+    );
 }
 
 export default FlyPaperNavigation;

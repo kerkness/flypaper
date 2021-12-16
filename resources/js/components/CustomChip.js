@@ -1,5 +1,5 @@
-import { withStyles } from '@material-ui/core/styles';
-import { Chip } from "@material-ui/core";
+import { withStyles } from '@mui/styles';
+import { Chip } from "@mui/material";
 
 const CssChip = withStyles({
     root: {

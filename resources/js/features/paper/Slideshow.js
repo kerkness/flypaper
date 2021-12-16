@@ -1,20 +1,20 @@
 import React, { Fragment, useState, useRef, useEffect } from "react";
 import _ from 'lodash';
-import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Hidden, BottomNavigation, BottomNavigationAction, Fade } from "@material-ui/core";
-import PauseIcon from '@material-ui/icons/Pause';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import StopIcon from '@material-ui/icons/Stop';
-import TimerIcon from '@material-ui/icons/Timer';
-import SkipNextIcon from "@material-ui/icons/SkipNext";
-import SkipPrevIcon from '@material-ui/icons/SkipPrevious';
+import { makeStyles } from '@mui/styles';
+import { Grid, Hidden, BottomNavigation, BottomNavigationAction, Fade } from "@mui/material";
+import PauseIcon from '@mui/icons-material/Pause';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import StopIcon from '@mui/icons-material/Stop';
+import TimerIcon from '@mui/icons-material/Timer';
+import SkipNextIcon from "@mui/icons-material/SkipNext";
+import SkipPrevIcon from '@mui/icons-material/SkipPrevious';
 import PaperDetails from "./PaperDetails";
 import { useHistory } from "react-router-dom";
 import { usePaper } from "./paperSlice";
 import useWindowSize from "../../components/useWindowSize";
 import { buildURL } from 'react-imgix';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import { usePaperLoader } from "./PaperLoader";
 
 const useStyles = makeStyles({
@@ -90,21 +90,21 @@ const PaperSlide = (props) => {
 
 
     return (
-            <Grid container
-                spacing={2}
-                direction="row"
-                justifyContent="flex-start"
-                alignItems="flex-start"
-                className={classes.container}
-                style={styles}
-            >
-                <Fragment>
-                    <Hidden xsDown>
-                        <PaperDetails paper={paper} />
-                    </Hidden>
-                </Fragment>
-            </Grid>
-    )
+        <Grid container
+            spacing={2}
+            direction="row"
+            justifyContent="flex-start"
+            alignItems="flex-start"
+            className={classes.container}
+            style={styles}
+        >
+            <Fragment>
+                <Hidden smDown>
+                    <PaperDetails paper={paper} />
+                </Hidden>
+            </Fragment>
+        </Grid>
+    );
 }
 
 const Slideshow = (props) => {

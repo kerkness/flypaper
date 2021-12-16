@@ -1,9 +1,9 @@
 import React, { Fragment, useState } from 'react';
 import _ from 'lodash';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Popover from '@material-ui/core/Popover';
-import Button from '@material-ui/core/Button';
-import SaveIcon from '@material-ui/icons/Save';
+import { makeStyles, withStyles } from '@mui/styles';
+import Popover from '@mui/material/Popover';
+import Button from '@mui/material/Button';
+import SaveIcon from '@mui/icons-material/Save';
 import {
     Grid,
     Typography,
@@ -11,9 +11,9 @@ import {
     FormControlLabel,
     RadioGroup,
     Radio,
-} from "@material-ui/core";
+} from "@mui/material";
 import { saveAs } from 'file-saver';
-import FileDownloadIcon from '@material-ui/icons/GetApp';
+import FileDownloadIcon from '@mui/icons-material/GetApp';
 import { useAuth } from '../admin/authSlice';
 import { useNav } from '../nav/navSlice';
 import InputTextField from '../../components/InputTextField';
@@ -144,11 +144,9 @@ export default function PaperDownload(props) {
 
     return (
         <Fragment>
-            <IconButton
-                aria-describedby={id}
-                color="default"
-                onClick={handleClick}
-            >
+            <IconButton aria-describedby={id} 
+                // color="default" 
+                onClick={handleClick} size="large">
                 <FileDownloadIcon />
             </IconButton>
             <CssPopOver
@@ -268,12 +266,10 @@ export default function PaperDownload(props) {
 
 
                     <Button
-                        color="default"
                         variant="contained"
                         className={classes.downloadButton}
                         startIcon={<SaveIcon />}
-                        onClick={downloadPaper}
-                    >Save Paper</Button>
+                        onClick={downloadPaper}>Save Paper</Button>
 
                 </Grid>
             </CssPopOver>

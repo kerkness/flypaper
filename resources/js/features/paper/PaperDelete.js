@@ -1,11 +1,11 @@
 import React, { Fragment, useState } from 'react';
 import _ from 'lodash';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Popover from '@material-ui/core/Popover';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import Typography from "@material-ui/core/Typography";
-import DeleteIcon from '@material-ui/icons/Delete';
+import { makeStyles, withStyles } from '@mui/styles';
+import Popover from '@mui/material/Popover';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Typography from "@mui/material/Typography";
+import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '../../components/IconButton';
 import { usePaper } from './paperSlice';
 
@@ -57,11 +57,9 @@ export default function PaperDelete(props) {
 
     return (
         <Fragment>
-            <IconButton
-                aria-describedby={id}
-                color="default"
-                onClick={handleClick}
-            >
+            <IconButton aria-describedby={id} 
+                // color="default" 
+                onClick={handleClick} size="large">
                 <DeleteIcon />
             </IconButton>
             <CssPopOver
@@ -80,7 +78,7 @@ export default function PaperDelete(props) {
             >
                 <Typography className={classes.root}>Are you sure you want to delete this paper?</Typography>
 
-                <ButtonGroup className={classes.buttonGroup} variant="contained" color="default">
+                <ButtonGroup className={classes.buttonGroup} variant="contained">
                     <Button onClick={deletePaper}>Yes</Button>
                     <Button onClick={handleClose}>No</Button>
                 </ButtonGroup>

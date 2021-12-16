@@ -8,6 +8,7 @@ import UserLiked from "../paper/UserLiked";
 import AllTags from "../tagged/AllTags";
 import AllCreators from "../creators/AllCreators";
 import Slideshow from "../paper/Slideshow";
+import DesktopDownloader from "../desktop/DesktopDownloader";
 
 const PaperRoutes = (props) => {
     return (
@@ -27,6 +28,10 @@ const PaperRoutes = (props) => {
             <Route path="/liked">
                 <UserLiked />
             </Route>
+            <Route path="/desktop">
+                <DesktopDownloader />
+            </Route>
+
         </Switch>
     )
 }

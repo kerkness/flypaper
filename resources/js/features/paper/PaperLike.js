@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import _ from 'lodash';
-import { withStyles } from '@material-ui/core/styles';
-import { Badge } from "@material-ui/core";
+import { withStyles } from '@mui/styles';
+import { Badge } from "@mui/material";
 import IconButton from "../../components/IconButton";
-import FavoriteIcon from "@material-ui/icons/Favorite";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useAuth } from "../admin/authSlice";
 import { useNav } from "../nav/navSlice";
 
@@ -64,7 +64,7 @@ const PaperLike = (props) => {
     }
 
     return (
-        <IconButton color={liked ? "secondary" : "default"} onClick={heartPaper}>
+        <IconButton color={liked ? "secondary" : "default"} onClick={heartPaper} size="large">
             <StyledBadge
                 // anchorOrigin={{
                 //     vertical: 'center',
@@ -73,10 +73,10 @@ const PaperLike = (props) => {
                 showZero={false}
                 badgeContent={count}
                 max={99}
-                color="default"
+                // color="default"
             ><FavoriteIcon /></StyledBadge>
         </IconButton>
-    )
+    );
 }
 
 export default PaperLike;

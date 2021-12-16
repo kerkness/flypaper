@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { useSelector, useDispatch } from 'react-redux';
 
 const initialState = {
+	showFilter: false,
 	login: false,
 	submit: false,
 	info: false,
@@ -32,6 +33,9 @@ export const navSlice = createSlice({
 		setSearch: (state, action) => {
 			state.search = action.payload;
 		},
+		setShowFilter: (state, action) => {
+			state.showFilter = action.payload;
+		}
 	},
 })
 
@@ -42,6 +46,7 @@ export const {
 	setLikedOffset,
 	setSort,
 	setSearch,
+	setShowFilter,
 } = navSlice.actions
 
 export const useNav = () => {
@@ -55,6 +60,7 @@ export const useNav = () => {
 		setLikedOffset: payload => dispatch(setLikedOffset(payload)),
 		setSort: payload => dispatch(setSort(payload)),
 		setSearch: payload => dispatch(setSearch(payload)),
+		setShowFilter: payload => dispatch(setShowFilter(payload)),
 	}
 }
 

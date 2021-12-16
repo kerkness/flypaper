@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
-import StarOutlineIcon from '@material-ui/icons/StarOutline';
-import StarIcon from '@material-ui/icons/Star';
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import StarIcon from '@mui/icons-material/Star';
 import IconButton from '../../components/IconButton';
 import { usePaper } from './paperSlice';
 
@@ -21,10 +21,9 @@ export default function PaperFeatured (props) {
 
     return (
         <Fragment>
-            <IconButton
-                color="default"
-                onClick={featurePaper}
-            >
+            <IconButton 
+                // color="default" 
+                onClick={featurePaper} size="large">
                 {
                     paper.featured === 1 &&
                     <StarIcon />

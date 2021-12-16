@@ -1,5 +1,5 @@
-import { withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
+import { withStyles } from '@mui/styles';
+import Drawer from '@mui/material/Drawer';
 
 const CustomDrawer = withStyles({
     paper: {

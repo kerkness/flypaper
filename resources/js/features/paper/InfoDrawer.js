@@ -1,15 +1,15 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import { makeStyles, withStyles } from '@mui/styles';
+import Grid from '@mui/material/Grid';
 import { useNav } from '../nav/navSlice';
-import { Typography } from '@material-ui/core';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import VerifiedUser from '@material-ui/icons/VerifiedUser';
-import Copyright from '@material-ui/icons/Copyright';
+import { Typography } from '@mui/material';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import VerifiedUser from '@mui/icons-material/VerifiedUser';
+import Copyright from '@mui/icons-material/Copyright';
 import CustomDrawer from '../../components/CustomDrawer';
 import { Link, useLocation } from "react-router-dom";
 

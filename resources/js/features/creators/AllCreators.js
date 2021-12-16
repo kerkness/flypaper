@@ -1,9 +1,9 @@
 import React, { Fragment, useState, useRef } from "react";
 import _ from 'lodash';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import { useCreators } from "./creatorSlice";
 import { useNav } from '../nav/navSlice';
-import { Grid, Avatar } from "@material-ui/core";
+import { Grid, Avatar } from "@mui/material";
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import Loading from "../../components/Loading";
 import CustomChip from '../../components/CustomChip';
@@ -105,7 +105,7 @@ const AllCreators = (props) => {
                         avatar={<Avatar>{creator.papers_count}</Avatar>}
                         label={creator.name}
                         clickable
-                        color="default"
+                        // color="default"
                         onClick={() => clickCreator(creator.name)}
                     />
                 </Grid>)}

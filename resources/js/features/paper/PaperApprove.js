@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
-import LibraryAddCheckIcon from '@material-ui/icons/LibraryAddCheck';
-import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
+import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import IconButton from '../../components/IconButton';
 import { usePaper } from './paperSlice';
 
@@ -21,10 +21,9 @@ export default function PaperApprove (props) {
 
     return (
         <Fragment>
-            <IconButton
-                color="default"
-                onClick={approvePaper}
-            >
+            <IconButton 
+                // color="default" 
+                onClick={approvePaper} size="large">
                 {
                     paper.approved === 1 &&
                     <RemoveCircleIcon />

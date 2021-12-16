@@ -1,11 +1,11 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import _ from 'lodash';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@mui/styles';
 import { usePaper } from "./paperSlice";
 import BackgroundPaper from "./BackgroundPaper";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography } from "@mui/material";
 import useInfiniteScroll from 'react-infinite-scroll-hook';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useLocation } from "react-router-dom";
 import queryString from 'query-string';
 import { useNav } from "../nav/navSlice";

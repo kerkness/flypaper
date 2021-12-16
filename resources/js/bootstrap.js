@@ -2,6 +2,9 @@
 import _ from "lodash";
 import Api from './api';
 
+// Load our service worker
+require('./sw');
+
 window._ = require('lodash');
 
 /**
@@ -20,19 +23,17 @@ window.api = new Api();
 
 
 /**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
+ * Lets check to see how the PWA has been installed
  */
 
-// import Echo from 'laravel-echo';
+ function getPWADisplayMode() {
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    if (document.referrer.startsWith('android-app://')) {
+      return 'twa';
+    } else if (navigator.standalone || isStandalone) {
+      return 'standalone';
+    }
+    return 'browser';
+  }
 
-// window.Pusher = require('pusher-js');
-
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: process.env.MIX_PUSHER_APP_KEY,
-//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-//     forceTLS: true
-// });
-
+  window.getDisplayMode = getPWADisplayMode;

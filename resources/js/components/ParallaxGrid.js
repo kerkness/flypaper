@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useRef, useEffect } from "react";
 import _ from 'lodash';
-import { makeStyles } from '@material-ui/core/styles';
-import { Grid } from "@material-ui/core";
+import { makeStyles } from '@mui/styles';
+import { Grid } from "@mui/material";
 import { buildURL } from 'react-imgix';
 import useWindowSize from './useWindowSize';
 

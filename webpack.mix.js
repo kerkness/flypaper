@@ -1,9 +1,10 @@
 // Require env
-require('dotenv').config(); 
+require('dotenv').config();
 
 const webpack = require('webpack');
 const mix = require('laravel-mix');
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -18,7 +19,7 @@ const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 // console.log(process.env.UPPY_SERVERLESS);
 
 
- const dotenvplugin = new webpack.DefinePlugin({
+const dotenvplugin = new webpack.DefinePlugin({
     'process.env': {
         APP_NAME: JSON.stringify(process.env.APP_NAME || 'Default app name'),
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
@@ -27,11 +28,11 @@ const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
     }
 })
 
- mix.webpackConfig(webpack => {
+mix.webpackConfig(webpack => {
     return {
         plugins: [
             new NodePolyfillPlugin(),
-            dotenvplugin,
+            dotenvplugin,    
         ]
     };
 });
@@ -39,4 +40,3 @@ const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 mix.js('resources/js/app.js', 'public/js')
     .react()
     .sass('resources/sass/app.scss', 'public/css');
-

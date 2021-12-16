@@ -1,15 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Fade from '@material-ui/core/Fade';
-import Typography from '@material-ui/core/Typography';
-// import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from '@mui/styles';
+import Drawer from '@mui/material/Drawer';
+import Button from '@mui/material/Button';
+import LinearProgress from '@mui/material/LinearProgress';
+import Fade from '@mui/material/Fade';
+import Typography from '@mui/material/Typography';
+// import IconButton from '@mui/material/IconButton';
 import IconButton from '../../components/IconButton';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle'
-import Grid from '@material-ui/core/Grid';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import Grid from '@mui/material/Grid';
 import SelectField from '../../components/InputSelectField';
 import InputTagsField from '../../components/InputTagsField';
 import Uppy from '@uppy/core';
@@ -309,15 +309,9 @@ export default function SubmitPaper(props) {
                             <Grid item>
                                 <Button
                                     variant="contained"
-                                    color="default"
                                     onClick={handleSubmit}
-                                    disabled={!submission.filename || !form.isValid || upload.uploading}
-                                >Submit</Button>
-                                <Button
-                                    className={classes.cancelButton}
-                                    color="default"
-                                    onClick={cancelSubmit}
-                                >Cancel</Button>
+                                    disabled={!submission.filename || !form.isValid || upload.uploading}>Submit</Button>
+                                <Button className={classes.cancelButton} onClick={cancelSubmit}>Cancel</Button>
                             </Grid>
                         </Grid>
                         }
@@ -335,7 +329,9 @@ export default function SubmitPaper(props) {
                                     <Typography align="center" className={classes.paragraph} variant="body2">
                                         Your submission will be manually approved. To skip this step, contact Kerkness on discord.
                                     </Typography>
-                                    <IconButton color="default" onClick={cancelSubmit}>
+                                    <IconButton 
+                                        // color="default" 
+                                        onClick={cancelSubmit} size="large">
                                         <CheckCircleIcon fontSize="large" />
                                     </IconButton>
                             </Grid>

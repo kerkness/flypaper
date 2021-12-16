@@ -1,14 +1,14 @@
 import React, { Fragment, useState } from 'react';
 import _ from 'lodash';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Popover from '@material-ui/core/Popover';
+import { makeStyles, withStyles } from '@mui/styles';
+import Popover from '@mui/material/Popover';
 import InputTagsField from '../../components/InputTagsField';
 import SelectField from '../../components/InputSelectField';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import {
     Grid,
-} from "@material-ui/core";
-import EditIcon from '@material-ui/icons/Edit';
+} from "@mui/material";
+import EditIcon from '@mui/icons-material/Edit';
 import { useFormik } from 'formik';
 import IconButton from '../../components/IconButton';
 import { usePaper } from './paperSlice';
@@ -84,11 +84,9 @@ export default function PaperEdit(props) {
 
     return (
         <Fragment>
-            <IconButton
-                aria-describedby={id}
-                color="default"
-                onClick={handleClick}
-            >
+            <IconButton aria-describedby={id} 
+                // color="default" 
+                onClick={handleClick} size="large">
                 <EditIcon />
             </IconButton>
             <CssPopOver
@@ -133,11 +131,7 @@ export default function PaperEdit(props) {
                         />
                     </Grid>
                     <Grid item>
-                        <Button
-                            variant="contained"
-                            color="default"
-                            onClick={handleSave}
-                        >
+                        <Button variant="contained" onClick={handleSave}>
                             Save
                         </Button>
                         <Button

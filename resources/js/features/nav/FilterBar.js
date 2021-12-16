@@ -1,50 +1,50 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { alpha } from '@material-ui/core/styles';
-import { Grid, Toolbar, Typography, Button, ButtonGroup } from "@material-ui/core";
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import { makeStyles, withStyles } from '@mui/styles';
+import { alpha } from '@mui/material/styles';
+import { Grid, Toolbar, Typography, Button, ButtonGroup, } from "@mui/material";
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useAuth } from "../admin/authSlice";
-import SearchIcon from '@material-ui/icons/Search';
-import CloseIcon from '@material-ui/icons/Close';
-import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@mui/icons-material/Search';
+import CloseIcon from '@mui/icons-material/Close';
+import InputBase from '@mui/material/InputBase';
 import IconButton from '../../components/IconButton';
-import FavoriteIcon from "@material-ui/icons/Favorite";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useHistory, useLocation } from "react-router-dom";
 import { useNav } from "./navSlice";
 import queryString from 'query-string';
 
 
-const CssToggleButton = withStyles({
-    label: {
-        color: '#EEEEEE',
-        paddingLeft: 10,
-        paddingRight: 10,
-    },
-    selected: {
-        color: 'hotpink'
-    },
-    root: {
-        '&.Mui-selected': {
-            backgroundColor: 'rgba(20,20,20,0.5)',
-            '& span': {
-                color: '#FFFFFF'
-            },
-        },
-        backgroundColor: 'transparent',
-    },
-})(ToggleButton)
+// const CssToggleButton = withStyles({
+//     label: {
+//         color: '#EEEEEE',
+//         paddingLeft: 10,
+//         paddingRight: 10,
+//     },
+//     selected: {
+//         color: 'hotpink'
+//     },
+//     root: {
+//         '&.Mui-selected': {
+//             backgroundColor: 'rgba(20,20,20,0.5)',
+//             '& span': {
+//                 color: '#FFFFFF'
+//             },
+//         },
+//         backgroundColor: 'transparent',
+//     },
+// })(ToggleButton)
 
 
 
-const CssGroupButton = withStyles({
-    root: {
-        backgroundColor: 'rgba(20,20,20,0.5)',
-        '& span': {
-            color: '#EEEEEE'
-        },
-    },
-})(Button)
+// const CssGroupButton = withStyles({
+//     root: {
+//         backgroundColor: 'rgba(20,20,20,0.5)',
+//         '& span': {
+//             color: '#EEEEEE'
+//         },
+//     },
+// })(Button)
 
 
 const useStyles = makeStyles((theme) => ({
@@ -96,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
     },
     inputInput: {
         padding: theme.spacing(1, 1, 1, 0),
-        paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
         width: '100%',
     },
     toggleButton: {
@@ -198,7 +198,7 @@ const FilterBar = (props) => {
                             color="inherit"
                             className={classes.searchClear}
                             onClick={() => clearSearch()}
-                        >
+                            size="large">
                             <CloseIcon />
                         </IconButton>
                     </div>
@@ -208,19 +208,17 @@ const FilterBar = (props) => {
                     xs={12}
                     className={classes.buttonItem}
                     >
-                    <ToggleButtonGroup
-                        variant="contained"
-                        exclusive
-                        color="default"
-                        value={sortValue}
-                        onChange={(e, v) => handleSort(v)}
-                        size='small'
-                    >
-                        <CssToggleButton value="featured">Featured</CssToggleButton>
-                        <CssToggleButton value="created_at">Recent</CssToggleButton>
-                        <CssToggleButton value="likes_count">Popular</CssToggleButton>
-                        <CssToggleButton value="downloads_count">Downloads</CssToggleButton>
-                    </ToggleButtonGroup>
+                        <ToggleButtonGroup
+                            exclusive
+                            value={sortValue}
+                            onChange={(e, v) => handleSort(v)}
+                            size="small"
+                        >
+                            <ToggleButton value="featured">Featured</ToggleButton>
+                            <ToggleButton value="created_at">Recent</ToggleButton>
+                            <ToggleButton value="likes_count">Popular</ToggleButton>
+                            <ToggleButton value="downloads_count">Downloads</ToggleButton>
+                        </ToggleButtonGroup>
 
                 </Grid>
 
@@ -232,17 +230,18 @@ const FilterBar = (props) => {
                     <ButtonGroup
                         disableElevation
                         variant="outlined"
-                        color="default"
+                        // color="default"
                     >
-                        <CssGroupButton onClick={() => goto('liked')} endIcon={<FavoriteIcon />}>Your</CssGroupButton>
-                        <CssGroupButton onClick={() => goto('tags')}>Tags</CssGroupButton>
-                        <CssGroupButton onClick={() => goto('creators')}>Creators</CssGroupButton>
+                        <Button onClick={() => goto('liked')} endIcon={<FavoriteIcon />}>Your</Button>
+                        <Button onClick={() => goto('tags')}>Tags</Button>
+                        <Button onClick={() => goto('creators')}>Creators</Button>
+                        <Button onClick={() => goto('desktop')}>Sync</Button>
                     </ButtonGroup>
                 </Grid>
 
             </Grid>
         </Toolbar>
-    )
+    );
 }
 
 export default FilterBar;
