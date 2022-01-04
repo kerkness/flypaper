@@ -1,12 +1,14 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles, withStyles } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import { useNav } from '../nav/navSlice';
 import { Typography } from '@mui/material';
 import { useAuth } from '../admin/authSlice';
 import CustomDrawer from '../../components/CustomDrawer';
+import { useHistory } from 'react-router-dom';
+import queryString from 'query-string';
 
 
 const useStyles = makeStyles({
@@ -18,6 +20,10 @@ const useStyles = makeStyles({
     link: {
         textDecoration: 'none',
         color: '#F1F1F1',
+        border: 1,
+        borderRadius: 2,
+        borderColor: '#F1F1F1',
+        padding: 2,
     },
     grid: {
         minHeight: '100%',
@@ -36,8 +42,18 @@ export default function AccountDrawer() {
 
     const { account, toggleDrawer } = useNav();
     const { user } = useAuth();
+    const history = useHistory();
 
-    console.log("Art we installed?", window.getDisplayMode());
+    const pushWithQuery = (params) => {
+        console.log("Push with", params);
+        history.push(params ? `/?${queryString.stringify(params)}` : `/`)
+    }
+
+    const gotoUserPaper = () => {
+        pushWithQuery({
+            search: user.name
+        })
+    }
 
     const list = () => (
         <div
@@ -62,6 +78,10 @@ export default function AccountDrawer() {
                     </Typography>
 
                 </Grid>
+                <Grid item>
+                    <Button variant="contained" onClick={gotoUserPaper}>View your paper</Button>
+                </Grid>
+
                 <Grid item>
                     <Button variant="contained" href="/logout">Logout</Button>
                 </Grid>

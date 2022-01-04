@@ -14,10 +14,11 @@ const PaperLoaderProvider = (props) => {
         addPapers,
         setError,
         setHasNextPage,
+        mosaic,
     } = usePaper();
 
 
-    const loadPaper = () => {
+    const loadPaper = (win) => {
 
         return new Promise( (resolve, reject) => {
 
@@ -25,6 +26,8 @@ const PaperLoaderProvider = (props) => {
                 offset,
                 sort,
                 search,
+                ...win,
+                mosaic,
             })
             .then(response => {
                 if (response.data && response.data.papers) {

@@ -7,6 +7,7 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Laravel\Socialite\Two\InvalidStateException;
 use Spatie\Permission\Models\Role;
 
 class LoginController extends Controller
@@ -42,7 +43,15 @@ class LoginController extends Controller
 
     public function auth_callback(Request $request, $social)
     {
-        $user = Socialite::driver($social)->user();
+
+        $user = Socialite::driver($social)->stateless()->user();
+        // try {
+        //     $user = Socialite::driver($social)->user();
+        // } catch (InvalidStateException $e) {
+        //     $user = Socialite::driver($social)->stateless()->user();
+        // }
+
+        // $user = Socialite::driver($social)->user();
 
         $users = User::where(['email' => $user->getEmail()])->first();
     

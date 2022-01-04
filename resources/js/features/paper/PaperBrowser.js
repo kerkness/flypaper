@@ -10,7 +10,16 @@ import { useLocation } from "react-router-dom";
 import queryString from 'query-string';
 import { useNav } from "../nav/navSlice";
 import Loading from "../../components/Loading";
+import Stack from '@mui/material/Stack';
+import Paper from '@mui/material/Paper';
+import Masonry from '@mui/lab/Masonry';
 import { usePaperLoader } from "./PaperLoader";
+import TiledPaper from "./TiledPaper";
+import useWindowSize from '../../components/useWindowSize';
+import useDebounce from '../../components/useDebounce';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import ImageListItemBar from '@mui/material/ImageListItemBar';
 
 const useStyles = makeStyles({
     noPaper: {
@@ -32,12 +41,15 @@ const PaperBrowser = (props) => {
     const shouldRefresh = useRef();
     const isLoading = useRef();
     const { sort, setSort, setOffset, search, setSearch } = useNav();
+    const win = useWindowSize();
+    const debouncedWin = useDebounce(win, 1000);
     const {
         papers,
         removeAllPaper,
         hasNextPage,
         error,
         setHasNextPage,
+        mosaic,
     } = usePaper();
     const { loadPaper } = usePaperLoader();
 
@@ -47,14 +59,14 @@ const PaperBrowser = (props) => {
 
         const query = queryString.parse(location.search);
 
-        shouldRefresh.current = false; 
-        
-        if('sort' in query && query.sort !== sort) {
+        shouldRefresh.current = false;
+
+        if ('sort' in query && query.sort !== sort) {
             setSort(query.sort);
             shouldRefresh.current = true;
         }
 
-        if('search' in query && query.search !== search) {
+        if ('search' in query && query.search !== search) {
             setSearch(query.search);
             shouldRefresh.current = true;
         }
@@ -75,7 +87,7 @@ const PaperBrowser = (props) => {
 
         isLoading.current = true;
 
-        loadPaper().then(response => {
+        loadPaper(debouncedWin).then(response => {
             isLoading.current = false;
         }).catch(error => {
             isLoading.current = false;
@@ -96,6 +108,16 @@ const PaperBrowser = (props) => {
         rootMargin: '0px 0px 400px 0px',
     });
 
+    const renderMasonry = () => {
+        return (
+            <ImageList variant="standard" cols={4} spacing={0}>
+                {papier.map((pap, index) => <TiledPaper key={index} paper={pap} />)}
+            </ImageList>
+        )
+    }
+
+    console.log("load with location", location);
+
     return (
         <Fragment>
 
@@ -105,16 +127,17 @@ const PaperBrowser = (props) => {
                 justifyContent="center"
                 alignItems="center"
             >
-                {papier.map((pap, index) => <BackgroundPaper key={index} paper={pap} />)}
+                {location.pathname === '/grid' ? renderMasonry() : papier.map((pap, index) => <BackgroundPaper key={index} paper={pap} />)}
+                
 
                 {papier.length === 0 && <Grid container
                     justifyContent='center'
                     alignItems='center'
-                    className={classes.noPaper} 
+                    className={classes.noPaper}
                 >
                     <Grid item>
-                    <Typography>NO PAPER</Typography>    
-                </Grid>
+                        <Typography>NO PAPER</Typography>
+                    </Grid>
                 </Grid>}
 
                 {(hasNextPage) && (

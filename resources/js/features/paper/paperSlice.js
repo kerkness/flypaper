@@ -12,6 +12,7 @@ const initialState = {
 	crop: 'crop',
 	resolution: 'default',
 	showInfo: true,
+	mosaic: false,
 }
 
 export const categories = [
@@ -74,6 +75,9 @@ export const paperSlice = createSlice({
 		toggleInfo: (state, action) => {
 			state.showInfo = !state.showInfo;
 		},
+		toggleMosaic: (state, action) => {
+			state.mosaic = !state.mosaic;
+		}
 	},
 })
 
@@ -93,6 +97,7 @@ export const {
 	setHasNextPage,
 	setHasNextLikedPage,
 	toggleInfo,
+	toggleMosaic,
 } = paperSlice.actions
 
 export const usePaper = () => {
@@ -116,6 +121,7 @@ export const usePaper = () => {
 		setHasNextPage: payload => dispatch(setHasNextPage(payload)),
 		setHasNextLikedPage: payload => dispatch(setHasNextLikedPage(payload)),
 		toggleInfo: () => dispatch(toggleInfo()),
+		toggleMosaic: () => dispatch(toggleMosaic()),
 	}
 }
 

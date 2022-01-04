@@ -18,7 +18,7 @@ class PaperController extends Controller
 {
 
     public $user;
-    public $limit = 6;
+    public $limit = 24;
     public $valid_sort = [
         'created_at',
         'likes_count',
@@ -38,7 +38,7 @@ class PaperController extends Controller
     {
         $limit = intval($request->input('limit', $this->limit));
 
-        return $limit < 20 ? $limit : 20;
+        return $limit < 36 ? $limit : 36;
     }
 
     public function fetch(Request $request)
@@ -47,6 +47,9 @@ class PaperController extends Controller
         $limit = $this->get_limit($request);
         $sort = $request->input('sort', 'created_at');
         $search = $request->input('search', '');
+        $winWidth = $request->input('width');
+        $winHeight = $request->input('height');
+        $mosaic = $request->input('mosaic', false);
 
         // Validate sort methods
         if (!in_array($sort, $this->valid_sort)) {
@@ -74,12 +77,30 @@ class PaperController extends Controller
             ->withSearch($search)
             ->count();
 
+        // Loop over paper and pre-calculate image ratio
+        $papers = collect($papers->toArray())->map(function($paper) use ($winWidth, $winHeight, $mosaic) {
+            $maxWidth = $mosaic ? $winWidth / 4 : $winWidth;
+            $maxHeight = $mosaic ? $winHeight / 2 : $winHeight;
+            $paper['scale'] = $this->calculateAspectRatioFit($paper['width'], $paper['height'], $maxWidth, $maxHeight);
+            $builder = new UrlBuilder("flypaper.imgix.net");
+            $paper['scaled_url'] = $builder->createURL($paper['source'], ['w' => $paper['scale']['width']]);
+            return $paper;
+        });
 
         return response()->json([
             'user' => is_object($request->user()),
             'papers' => $papers, 
             'total' => $count
         ]);
+    }
+
+    public function calculateAspectRatioFit($srcWidth, $srcHeight, $maxWidth, $maxHeight) {
+
+        $ratio = min($maxWidth / $srcWidth, $maxHeight / $srcHeight);
+    
+        return [
+            'width' => $srcWidth * $ratio, 'height' => $srcHeight * $ratio
+        ];
     }
 
     public function random(Request $request)

@@ -19,7 +19,8 @@ import AccountDrawer from "../admin/AccountDrawer";
 import FilterBar from "./FilterBar";
 import { useHistory, useLocation } from "react-router-dom";
 import { usePaper } from "../paper/paperSlice";
-
+import AutoAwesomeMosaicIcon from '@mui/icons-material/AutoAwesomeMosaic';
+import TableRowsIcon from '@mui/icons-material/TableRows';
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -56,7 +57,7 @@ const FlyPaperNavigation = (props) => {
 
     const { toggleDrawer, showFilter, setShowFilter } = useNav();
     // const [showFilter, setShowFilter] = useState(false)
-    const { papers } = usePaper();
+    const { papers, toggleMosaic, mosaic } = usePaper();
     const classes = useStyles();
     const { user } = useAuth();
     const history = useHistory();
@@ -102,11 +103,14 @@ const FlyPaperNavigation = (props) => {
             <AppBar position="fixed" className={classes.appbar}>
                 <Toolbar>
                     <Typography onClick={() => history.push('/')} variant="h6" className={classes.title}>
-                        FlyPaper <span className={classes.name}>
-                        BETA
-                        </span>
+                        FlyPaper 
                     </Typography>
                     <Typography className={classes.spacer}></Typography>
+                    <IconButton
+                        onClick={() => history.push(location.pathname === '/grid' ? '/' : '/grid')}
+                    >
+                        {location.pathname === '/grid' ? <TableRowsIcon /> : <AutoAwesomeMosaicIcon />}
+                    </IconButton>
                     <IconButton
                         onClick={() => setShowFilter(!showFilter)}
                         color="inherit"

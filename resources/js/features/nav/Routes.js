@@ -16,6 +16,9 @@ const PaperRoutes = (props) => {
             <Route exact path="/">
                 <PaperBrowser />
             </Route>
+            <Route exact path="/grid">
+                <PaperBrowser />
+            </Route>
             <Route path="/play">
                 <Slideshow />
             </Route>

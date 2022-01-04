@@ -50,6 +50,7 @@
         "dropbox": "^9.8.6",
         "file-saver": "^2.0.5",
         "formik": "^2.2.9",
+        "mui-image": "^1.0.4",
         "node-polyfill-webpack-plugin": "^1.1.2",
         "query-string": "^7.0.1",
         "react-imgix": "^9.3.0",
