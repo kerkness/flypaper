@@ -11,11 +11,11 @@ import OpenInBrowser from '@mui/icons-material/OpenInBrowser';
 import { categories, usePaper } from "./paperSlice";
 import { useAuth } from "../admin/authSlice";
 import PaperDownload from "./PaperDownload";
+import PaperLike from "./PaperLike";
 import PaperDelete from "./PaperDelete";
 import PaperEdit from "./PaperEdit";
 import PaperApprove from "./PaperApprove";
 import PaperFeatured from "./PaperFeatured";
-import PaperLike from "./PaperLike";
 import { Link, useLocation } from "react-router-dom";
 import queryString from 'query-string';
 import { Fragment } from "react-is";
@@ -48,7 +48,7 @@ const useStyles = makeStyles({
 
 });
 
-const TagLink = (props) => {
+export const TagLink = (props) => {
 
     const classes = useStyles()
     const { tag, index } = props;
@@ -60,7 +60,7 @@ const TagLink = (props) => {
     )
 }
 
-const SearchLink = (props) => {
+export const SearchLink = (props) => {
 
     const classes = useStyles()
     const location = useLocation();

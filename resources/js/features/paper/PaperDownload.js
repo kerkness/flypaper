@@ -62,7 +62,7 @@ const CssRadio = withStyles({
 
 export default function PaperDownload(props) {
 
-    const { paper } = props;
+    const { paper, small } = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const { isUser } = useAuth();
@@ -144,10 +144,14 @@ export default function PaperDownload(props) {
 
     return (
         <Fragment>
-            <IconButton aria-describedby={id} 
-                // color="default" 
+            <IconButton aria-describedby={id}
+                sx={{
+                    ...small ? { height: 25, width: 25 } : {}
+                }}
                 onClick={handleClick} size="large">
-                <FileDownloadIcon />
+                <FileDownloadIcon sx={{
+                ...small ? { fontSize: 18 } : {}
+            }}/>
             </IconButton>
             <CssPopOver
                 id={id}
@@ -175,62 +179,62 @@ export default function PaperDownload(props) {
                             aria-label="resolution"
                             name="row-radio-buttons-group"
                         >
-                        <Grid container
-                            direction='column'
-                        >
-                            <Grid item>
-                                <FormControlLabel className={classes.label} value="default" control={<CssRadio />} label={`Original size: ${paper.width} x ${paper.height}`} />    
-                            </Grid>
-                            <Grid item>
-                            {resolutions.map((res, index) => <FormControlLabel className={classes.label}
-                                key={index}
-                                value={res.label}
-                                control={<CssRadio />}
-                                label={res.label}
-                            />)}
-                            </Grid>
-                            <Grid item>
-                           
-                           
-                            <Grid
-                                container
-                                direction="row"
-                                spacing={2}
-                                justifyContent="space-between"
-                                alignItems="center"
+                            <Grid container
+                                direction='column'
                             >
-                            <Grid item>
-                            <FormControlLabel className={classes.label} value="custom" control={<CssRadio />} label="Custom" />
-                            </Grid>
-                                <Grid item className={classes.inputContainer}>
-                                    <InputTextField
-                                        disabled={resolution !== 'custom'}
-                                        size="small"
-                                        fullWidth={false}
-                                        placeholder='Width'
-                                        value={customSize.width}
-                                        onChange={e => changeCustom('width', e.target.value)}
-                                    />
+                                <Grid item>
+                                    <FormControlLabel className={classes.label} value="default" control={<CssRadio />} label={`Original size: ${paper.width} x ${paper.height}`} />
                                 </Grid>
-                                <Typography
-                                    variant="body2"
-                                    className={resolution === 'custom' ? classes.label : classes.disabled}
-                                > X </Typography>
-                                <Grid item className={classes.inputContainer}>
-                                    <InputTextField
-                                        disabled={resolution !== 'custom'}
-                                        size="small"
-                                        fullWidth={false}
-                                        placeholder='Height'
-                                        value={customSize.height}
-                                        onChange={e => changeCustom('height', e.target.value)}
-                                    />
+                                <Grid item>
+                                    {resolutions.map((res, index) => <FormControlLabel className={classes.label}
+                                        key={index}
+                                        value={res.label}
+                                        control={<CssRadio />}
+                                        label={res.label}
+                                    />)}
                                 </Grid>
-                            </Grid>
+                                <Grid item>
 
-                           
-                           
-                            </Grid>
+
+                                    <Grid
+                                        container
+                                        direction="row"
+                                        spacing={2}
+                                        justifyContent="space-between"
+                                        alignItems="center"
+                                    >
+                                        <Grid item>
+                                            <FormControlLabel className={classes.label} value="custom" control={<CssRadio />} label="Custom" />
+                                        </Grid>
+                                        <Grid item className={classes.inputContainer}>
+                                            <InputTextField
+                                                disabled={resolution !== 'custom'}
+                                                size="small"
+                                                fullWidth={false}
+                                                placeholder='Width'
+                                                value={customSize.width}
+                                                onChange={e => changeCustom('width', e.target.value)}
+                                            />
+                                        </Grid>
+                                        <Typography
+                                            variant="body2"
+                                            className={resolution === 'custom' ? classes.label : classes.disabled}
+                                        > X </Typography>
+                                        <Grid item className={classes.inputContainer}>
+                                            <InputTextField
+                                                disabled={resolution !== 'custom'}
+                                                size="small"
+                                                fullWidth={false}
+                                                placeholder='Height'
+                                                value={customSize.height}
+                                                onChange={e => changeCustom('height', e.target.value)}
+                                            />
+                                        </Grid>
+                                    </Grid>
+
+
+
+                                </Grid>
                             </Grid>
 
                         </RadioGroup>
@@ -240,9 +244,9 @@ export default function PaperDownload(props) {
                         justifyContent="space-between"
                         alignItems="center"
                     >
-                    <Grid item>
-                        <Typography>Resize mode</Typography>
-                    </Grid>
+                        <Grid item>
+                            <Typography>Resize mode</Typography>
+                        </Grid>
 
                         <Grid item>
                             <FormControl component="fieldset">

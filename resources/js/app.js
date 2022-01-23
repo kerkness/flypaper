@@ -8,11 +8,18 @@ import { Provider } from 'react-redux';
 import FlyPaperApp from './FlyPaperApp';
 import { PaperLoaderProvider } from "./features/paper/PaperLoader";
 
-const appTheme = createTheme({
+
+const appTheme = createTheme(adaptV4Theme ({
     palette: {
         mode: 'dark',
+        primary: {
+            main: '#3f51b5',
+        },
+        secondary: {
+            main: '#FB7CA5',
+        },
     },
-});
+}));
 
 // const appTheme = createTheme();
 

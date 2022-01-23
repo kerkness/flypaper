@@ -21,6 +21,8 @@ import { useHistory, useLocation } from "react-router-dom";
 import { usePaper } from "../paper/paperSlice";
 import AutoAwesomeMosaicIcon from '@mui/icons-material/AutoAwesomeMosaic';
 import TableRowsIcon from '@mui/icons-material/TableRows';
+import queryString from 'query-string';
+
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -97,6 +99,35 @@ const FlyPaperNavigation = (props) => {
         }
     };
 
+    const showGrid = () => {
+        pushWithQuery({
+            ...getParams(),
+            'grid': 1
+        })
+    }
+    const hideGrid = () => {
+        const params = getParams();
+        delete params['grid'];
+
+        pushWithQuery({
+            ...params,
+        })
+    }
+
+    const getParams = () => {
+        return queryString.parse(location.search);
+    }
+
+    const pushWithQuery = (params) => {
+        console.log("push with", params);
+        history.push(params ? `/?${queryString.stringify(params)}` : `/`)
+    }
+
+    const params = queryString.parse(location.search);
+    const hasGrid = params.grid ? true : false;
+
+    // console.log("QWuery Params ", params, location);
+
     return (
         <div className={classes.grow}>
             { location.pathname !== '/play' && 
@@ -107,9 +138,9 @@ const FlyPaperNavigation = (props) => {
                     </Typography>
                     <Typography className={classes.spacer}></Typography>
                     <IconButton
-                        onClick={() => history.push(location.pathname === '/grid' ? '/' : '/grid')}
+                        onClick={() => hasGrid ? hideGrid() : showGrid()}
                     >
-                        {location.pathname === '/grid' ? <TableRowsIcon /> : <AutoAwesomeMosaicIcon />}
+                        {hasGrid ? <TableRowsIcon /> : <AutoAwesomeMosaicIcon />}
                     </IconButton>
                     <IconButton
                         onClick={() => setShowFilter(!showFilter)}

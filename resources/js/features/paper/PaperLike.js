@@ -20,11 +20,12 @@ const StyledBadge = withStyles((theme) => ({
 
 const PaperLike = (props) => {
 
-    const { paper } = props;
+    const { paper, small } = props;
     const [liked, setLiked] = useState(false);
     const [count, setCount] = useState(0);
     const { isUser } = useAuth();
     const { toggleDrawer } = useNav();
+
 
     useEffect(() => {
 
@@ -46,7 +47,7 @@ const PaperLike = (props) => {
         if (liked) recordUnLike();
         if (!liked) recordLike();
 
-        setCount(!liked ? count+1 : count-1)
+        setCount(!liked ? count + 1 : count - 1)
         setLiked(!liked);
 
     }
@@ -63,18 +64,33 @@ const PaperLike = (props) => {
             .catch(error => console.log("error", error));
     }
 
+    const color = liked ? "secondary" : "default";
+
     return (
-        <IconButton color={liked ? "secondary" : "default"} onClick={heartPaper} size="large">
-            <StyledBadge
-                // anchorOrigin={{
-                //     vertical: 'center',
-                //     horizontal: 'center',
-                // }}
-                showZero={false}
-                badgeContent={count}
-                max={99}
-                // color="default"
-            ><FavoriteIcon /></StyledBadge>
+        <IconButton
+            sx={{
+                ...small ? { height: 25, width: 25 } : {}
+            }}
+            color={color}
+            onClick={heartPaper}
+            size={small ? "small" : "large"}
+        >
+            {small ? <FavoriteIcon color={color} sx={{
+             ...small ? { 
+                 fontSize: 18 
+             } : {}
+         }} />
+             : <StyledBadge
+             showZero={false}
+             badgeContent={count}
+             max={99}
+         ><FavoriteIcon color={color} sx={{
+             ...small ? { 
+                 fontSize: 18 
+             } : {}
+         }} /></StyledBadge>
+             }
+            
         </IconButton>
     );
 }

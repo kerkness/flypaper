@@ -143,7 +143,7 @@ const FilterBar = (props) => {
 
     const handleSort = (newSort) => {
         pushWithQuery({
-            ...getParams,
+            ...getParams(),
             'sort': newSort
         })
     }

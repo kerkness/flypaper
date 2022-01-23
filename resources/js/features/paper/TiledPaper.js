@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { makeStyles } from '@mui/styles';
-import { Box } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import PaperDetails from './PaperDetails';
 import { buildURL } from 'react-imgix';
 import useWindowSize from '../../components/useWindowSize';
@@ -11,6 +11,11 @@ import { Image } from 'mui-image'
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
+import Skeleton from '@mui/material/Skeleton';
+import PaperDownload from "./PaperDownload";
+import PaperLike from "./PaperLike";
+import { useLightbox } from './lightbox/LightboxContextProvider';
+
 
 const useStyles = makeStyles({
     root: {
@@ -46,46 +51,47 @@ const TiledPaper = (props) => {
     const [loaded, setLoaded] = useState(false);
     const classes = useStyles();
     const { paper } = props;
+    const { openPaper } = useLightbox();
 
-    // const win = useWindowSize();
-    // const debouncedWin = useDebounce(win, 1000);
-
-    // const tileSize = { width: (debouncedWin.width / 4), height: (debouncedWin.height / 4) }
-
-    // const size = calculateAspectRatioFit(paper.width, paper.height, tileSize.width, tileSize.height);
-
-    // useEffect(() => {
-
-    //     if (!isNaN(size.width) && !isNaN(size.height)) {
-    //         setLoaded(true);
-    //     }
-
-    // }, [debouncedWin, size]);
-
-    // const params = {
-    //     w: tileSize.width,
-    // }
-
-    // const src = paper && paper.source ? buildURL(`https://${process.env.IMGIX_URL}/${paper.source}`, params) : '';
+    // console.log(paper.scaled_url, paper.scale.width);
 
     return (
-        <ImageListItem>
-            {/* <Box  sx={{
-            width: paper.scale.width,
-            height: paper.scale.height
-        }}> */}
+        <ImageListItem>            
            <Image
+                onClick={() => openPaper(paper)}
+                sx={{
+                    "&:hover": {
+                        cursor: 'pointer'
+                    }
+                }}
                 fit="scale-down"
                 src={paper.scaled_url}
                 duration={500}
                 showLoading
-                // imageWidth={paper.scale.width}
-                // imageHeight={paper.scale.height}
                 width={paper.scale.width}
                 heigth={paper.scale.height}
+                showLoading={<Skeleton variant="rectangular" width={paper.scale.width} height={paper.scale.height} />}
             />
-            <ImageListItemBar position='below' title={paper.user.name} />
-            {/* </Box> */}
+            <ImageListItemBar 
+                title={<Box
+                    sx={{
+                        display: 'flex'
+                    }}
+                >
+                    <Typography 
+                        variant="body1"
+                        sx={{
+                            flex: 1,
+                            fontSize: 12,
+                        }}
+                    >
+                        {paper.user.name}
+                    </Typography>
+                        <PaperLike paper={paper} small/>
+                        <PaperDownload paper={paper} small/>
+
+                </Box>} 
+            />
         </ImageListItem>
     );
 

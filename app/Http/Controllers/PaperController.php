@@ -10,6 +10,7 @@ use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Imgix\UrlBuilder;
 
@@ -18,7 +19,7 @@ class PaperController extends Controller
 {
 
     public $user;
-    public $limit = 24;
+    public $limit = 36;
     public $valid_sort = [
         'created_at',
         'likes_count',
@@ -38,7 +39,7 @@ class PaperController extends Controller
     {
         $limit = intval($request->input('limit', $this->limit));
 
-        return $limit < 36 ? $limit : 36;
+        return $limit;
     }
 
     public function fetch(Request $request)
@@ -79,7 +80,7 @@ class PaperController extends Controller
 
         // Loop over paper and pre-calculate image ratio
         $papers = collect($papers->toArray())->map(function($paper) use ($winWidth, $winHeight, $mosaic) {
-            $maxWidth = $mosaic ? $winWidth / 4 : $winWidth;
+            $maxWidth = $mosaic ? $winWidth / 3 : $winWidth;
             $maxHeight = $mosaic ? $winHeight / 2 : $winHeight;
             $paper['scale'] = $this->calculateAspectRatioFit($paper['width'], $paper['height'], $maxWidth, $maxHeight);
             $builder = new UrlBuilder("flypaper.imgix.net");
@@ -96,7 +97,7 @@ class PaperController extends Controller
 
     public function calculateAspectRatioFit($srcWidth, $srcHeight, $maxWidth, $maxHeight) {
 
-        $ratio = min($maxWidth / $srcWidth, $maxHeight / $srcHeight);
+        $ratio = min(($maxWidth - 8) / $srcWidth, $maxHeight / $srcHeight);
     
         return [
             'width' => $srcWidth * $ratio, 'height' => $srcHeight * $ratio

@@ -35,7 +35,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') .'?v='. config('app.version') }}" rel="stylesheet">
     <link rel="manifest" href="{{ url('manifest.json') }}">
 </head>
 
@@ -47,7 +47,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') .'?v='. config('app.version') }}" defer></script>
 </body>
 
 </html>

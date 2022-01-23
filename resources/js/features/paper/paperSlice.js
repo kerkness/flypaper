@@ -34,6 +34,9 @@ export const paperSlice = createSlice({
 		addNewPaper: (state, action) => {
 			state.papers = [action.payload, ...state.papers];
 		},
+		setPapers: (state, action) => {
+			state.papers = action.payload;
+		},
 		addLikedPapers: (state, action) => {
 			state.liked = [...state.liked, ...action.payload];
 		},
@@ -84,6 +87,7 @@ export const paperSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
 	addPapers,
+	setPapers,
 	addNewPaper,
 	addLikedPapers,
 	addNewLikedPaper,
@@ -106,6 +110,7 @@ export const usePaper = () => {
 	return {
 		...state,
 		addPapers: payload => dispatch(addPapers(payload)),
+		setPapers: payload => dispatch(setPapers(payload)),
 		addNewPaper: payload => dispatch(addNewPaper(payload)),
 		addLikedPapers: payload => dispatch(addLikedPapers(payload)),
 		addNewLikedPaper: payload => dispatch(addNewLikedPaper(payload)),
