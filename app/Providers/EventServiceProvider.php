@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Paper;
+use App\Observers\PaperObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -32,5 +34,6 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        Paper::observe(PaperObserver::class);
     }
 }

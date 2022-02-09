@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "26a41553709374de51590d385f7099b3",
+    "content-hash": "779f8989179fe132a80255ddadad65ce",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3442,6 +3442,80 @@
                 }
             ],
             "time": "2021-08-17T18:37:17+00:00"
+        },
+        {
+            "name": "spatie/laravel-webhook-server",
+            "version": "3.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-webhook-server.git",
+                "reference": "4ae12a688cc0edfd85f17d5e02b8dd0e66e69caa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-webhook-server/zipball/4ae12a688cc0edfd85f17d5e02b8dd0e66e69caa",
+                "reference": "4ae12a688cc0edfd85f17d5e02b8dd0e66e69caa",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^6.3|^7.3",
+                "illuminate/bus": "^8.50",
+                "illuminate/queue": "^8.50",
+                "illuminate/support": "^8.50",
+                "php": "^8.0",
+                "spatie/laravel-package-tools": "^1.9"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.4.3",
+                "orchestra/testbench": "^6.19",
+                "phpunit/phpunit": "^9.3.0",
+                "spatie/test-time": "^1.2.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\WebhookServer\\WebhookServerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\WebhookServer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Send webhooks in Laravel apps",
+            "homepage": "https://github.com/spatie/laravel-webhook-server",
+            "keywords": [
+                "laravel-webhook-server",
+                "server",
+                "spatie",
+                "webhook"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-webhook-server/issues",
+                "source": "https://github.com/spatie/laravel-webhook-server/tree/3.1.1"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                }
+            ],
+            "time": "2021-12-10T12:12:55+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

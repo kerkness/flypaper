@@ -26,6 +26,8 @@ class Paper extends Model
 
     protected $appends = [
         'src',
+        'preview',
+        'render',
         // 'like_count',
         // 'download_count',
         'user_liked',
@@ -122,6 +124,18 @@ class Paper extends Model
         $builder = new UrlBuilder("flypaper.imgix.net");
         return $builder->createURL($this->source, []);
     }
+
+    public function getPreviewAttribute()
+    {
+        $builder = new UrlBuilder("flypaper.imgix.net");
+        return $builder->createURL($this->source, ['w' => 1024]);
+    }
+
+    public function getRenderAttribute()
+    {
+        return url('/render/' . $this->id);
+    }
+
 
     // public function getLikeCountAttribute()
     // {

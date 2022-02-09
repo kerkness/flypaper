@@ -17,6 +17,7 @@
         "socialiteproviders/discord": "^4.1",
         "socialiteproviders/twitch": "^5.3",
         "spatie/laravel-permission": "^4.3",
+        "spatie/laravel-webhook-server": "^3.1",
         "tapp/laravel-uppy-s3-multipart-upload": "^0.3.4"
     },
     "require-dev": {
