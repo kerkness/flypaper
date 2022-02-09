@@ -209,7 +209,7 @@ class PaperController extends Controller
     {
         $paper = Paper::find($paper_id);
 
-        $w = $request->input('w', 2056);
+        $w = $request->query('w', 2056);
 
         // dd($paper);
 
@@ -222,7 +222,9 @@ class PaperController extends Controller
             'w' => $w,
             'txt' => 'FlyPaper by ' . $paper->user->name .' - flypaper.theflyingfabio.com',
             'txt-size' => 22,
-            'txt-color' => 'FFFFFF'
+            'txt-color' => 'FFFFFF',
+            'txt-align' => 'top,center',
+            'txt-shad' => 5,
         ]);
 
         return response()->stream(function() use ($url) {

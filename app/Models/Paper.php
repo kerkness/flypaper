@@ -90,6 +90,15 @@ class Paper extends Model
             return $query->where('featured', '=', 1);
         }
 
+        if (substr( $search, 0, 6 ) === "liked:") {
+            $username = substr($search, 6);
+            $user = User::query()->where('name', $username)->first();
+            if ($user) {
+                $query->withLiked($user);
+            }
+            $search = null;
+        }
+
         if ($search) {
             return $query->whereHas('tags', function($query) use ($search) {
                 $query->where('slug', 'like', '%'.strtolower($search).'%')
