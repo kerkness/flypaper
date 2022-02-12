@@ -220,11 +220,11 @@ class PaperController extends Controller
         $builder = new UrlBuilder("flypaper.imgix.net");
         $url = $builder->createURL($paper->source, [
             'w' => $w,
-            'txt' => 'FlyPaper by ' . $paper->user->name .' - flypaper.theflyingfabio.com',
-            'txt-size' => 22,
-            'txt-color' => 'FFFFFF',
-            'txt-align' => 'top,center',
-            'txt-shad' => 5,
+            // 'txt' => 'FlyPaper by ' . $paper->user->name .' - flypaper.theflyingfabio.com',
+            // 'txt-size' => 22,
+            // 'txt-color' => 'FFFFFF',
+            // 'txt-align' => 'top,center',
+            // 'txt-shad' => 5,
         ]);
 
         return response()->stream(function() use ($url) {
