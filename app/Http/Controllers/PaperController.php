@@ -7,6 +7,7 @@ use App\Models\PaperDownload;
 use App\Models\PaperLike;
 use App\Models\PaperTag;
 use App\Models\Tag;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -106,18 +107,44 @@ class PaperController extends Controller
 
     public function random(Request $request)
     {
+        Log::debug("SKIP URLS", [$request->query('skip')]);
+
+        $skip = $request->query('skip', '[]');
+
+        try {
+            $skip = json_decode($skip);
+        } catch (Exception $ex) {
+            // Ignore json decode errors
+            $skip = [];
+        }
+
+        Log::debug("decoded", [$skip]);
         $limit = $this->get_limit($request);
        
         $papers = Paper::query()
         ->withLikeCount()
         ->withDownloadCount()
         ->withApproved()
+        ->whereNotIn('id', $skip)
         ->withSearch($request->input('search', ''))
         ->inRandomOrder()
         ->limit($limit)
         ->get();
 
-        return response()->json($papers);
+        // Count all possible matches for this
+        $count = Paper::query()
+        ->withLikeCount()
+        ->withDownloadCount()
+        ->withApproved()
+        // ->whereNotIn('id', $skip)
+        ->withSearch($request->input('search', ''))
+        ->count();
+
+
+        return response()->json([
+            'papers' => $papers,
+            'count' => $count
+        ]);
     }
 
     public function fetch_liked(Request $request)
@@ -189,6 +216,7 @@ class PaperController extends Controller
 
     public function random_image(Request $request)
     {
+
         $paper = Paper::query()
         ->withApproved()
         ->withSearch($request->input('search', ''))
