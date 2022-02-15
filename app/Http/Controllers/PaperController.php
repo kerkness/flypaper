@@ -107,8 +107,6 @@ class PaperController extends Controller
 
     public function random(Request $request)
     {
-        Log::debug("SKIP URLS", [$request->query('skip')]);
-
         $skip = $request->query('skip', '[]');
 
         try {
@@ -118,7 +116,6 @@ class PaperController extends Controller
             $skip = [];
         }
 
-        Log::debug("decoded", [$skip]);
         $limit = $this->get_limit($request);
        
         $papers = Paper::query()
