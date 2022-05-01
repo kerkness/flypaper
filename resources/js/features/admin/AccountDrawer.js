@@ -51,7 +51,8 @@ export default function AccountDrawer() {
 
     const gotoUserPaper = () => {
         pushWithQuery({
-            search: user.name
+            search: user.name,
+            sort: 'created_at'
         })
     }
 

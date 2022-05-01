@@ -38,39 +38,40 @@ export default function NavigationMenu() {
     toggleDrawer('info', true);
     handleClose();
     // openInfo();
-}
-const handleSort = (newSort) => {
-  pushWithQuery({
+  }
+  const handleSort = (newSort) => {
+    pushWithQuery({
       ...getParams(),
       'sort': newSort
-  })
-  handleClose();
-}
-const getParams = () => {
-  return queryString.parse(location.search);
-}
-
-const pushWithQuery = (params) => {
-  history.push(params ? `/?${queryString.stringify(params)}` : `/`)
-}
-const goto = (page) => {
-  if (!isUser) {
-      toggleDrawer('login', true);
-      return;
+    })
+    handleClose();
+  }
+  const getParams = () => {
+    return queryString.parse(location.search);
   }
 
-  history.push(`/${page}`);
-}
-const gotoUserPaper = () => {
-  if (!isUser) {
-    toggleDrawer('login', true);
-    return;
-}
-pushWithQuery({
-      search: user.name
-  })
-  handleClose();
-}
+  const pushWithQuery = (params) => {
+    history.push(params ? `/?${queryString.stringify(params)}` : `/`)
+  }
+  const goto = (page) => {
+    if (!isUser) {
+      toggleDrawer('login', true);
+      return;
+    }
+
+    history.push(`/${page}`);
+  }
+  const gotoUserPaper = () => {
+    if (!isUser) {
+      toggleDrawer('login', true);
+      return;
+    }
+    pushWithQuery({
+      search: user.name,
+      sort: 'created_at'
+    })
+    handleClose();
+  }
 
   return (
     <div>
@@ -99,29 +100,29 @@ pushWithQuery({
           Most Recent
         </MenuItem>
         <MenuItem onClick={() => handleSort('featured')}>
-        <ListItemIcon>
+          <ListItemIcon>
             <StarIcon fontSize="small" />
           </ListItemIcon>
           Featured
-          </MenuItem>
+        </MenuItem>
         <MenuItem onClick={() => handleSort('likes_count')}>
-        <ListItemIcon>
+          <ListItemIcon>
             <ThumbUpIcon fontSize="small" />
           </ListItemIcon>
           Popular</MenuItem>
         <MenuItem onClick={() => handleSort('downloads_count')}>
-        <ListItemIcon>
+          <ListItemIcon>
             <DownloadIcon fontSize="small" />
           </ListItemIcon>
           Most Downloaded</MenuItem>
         <Divider />
         <MenuItem onClick={() => goto('liked')}>
-        <ListItemIcon>
+          <ListItemIcon>
             <FavoriteIcon fontSize="small" />
           </ListItemIcon>
           Your Favorite</MenuItem>
         <MenuItem onClick={gotoUserPaper}>
-        <ListItemIcon>
+          <ListItemIcon>
             <PublishIcon fontSize="small" />
           </ListItemIcon>
           Your Paper</MenuItem>
@@ -134,18 +135,21 @@ pushWithQuery({
         <MenuItem onClick={() => {
           history.push('/play')
           handleClose()
-          }}> 
-        <ListItemIcon>
+        }}>
+          <ListItemIcon>
             <Slideshow fontSize="small" />
           </ListItemIcon>
           Slideshow</MenuItem>
-        <MenuItem onClick={handleClose}>
-        <ListItemIcon>
+        <MenuItem onClick={() => {
+          history.push(`/desktop`)
+          handleClose()
+        }}>
+          <ListItemIcon>
             <InstallDesktopIcon fontSize="small" />
           </ListItemIcon>
           FlyTrap Desktop</MenuItem>
         <MenuItem onClick={toggleInfo}>
-        <ListItemIcon>
+          <ListItemIcon>
             <InfoIcon fontSize="small" />
           </ListItemIcon>
           About</MenuItem>

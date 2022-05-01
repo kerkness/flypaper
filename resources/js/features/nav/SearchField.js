@@ -95,7 +95,8 @@ const SearchField = (props) => {
         if (e.keyCode == 13) {
             pushWithQuery({
                 ...getParams(),
-                search: inputSearch
+                search: inputSearch,
+                sort: 'created_at'
             });
         }
     }

@@ -105,29 +105,29 @@ const FlyPaperNavigation = (props) => {
         }
     };
 
-    const showGrid = () => {
-        pushWithQuery({
-            ...getParams(),
-            'grid': 1
-        })
-    }
-    const hideGrid = () => {
-        const params = getParams();
-        delete params['grid'];
+    // const showGrid = () => {
+    //     pushWithQuery({
+    //         ...getParams(),
+    //         'grid': 1
+    //     })
+    // }
+    // const hideGrid = () => {
+    //     const params = getParams();
+    //     delete params['grid'];
 
-        pushWithQuery({
-            ...params,
-        })
-    }
+    //     pushWithQuery({
+    //         ...params,
+    //     })
+    // }
 
-    const getParams = () => {
-        return queryString.parse(location.search);
-    }
+    // const getParams = () => {
+    //     return queryString.parse(location.search);
+    // }
 
-    const pushWithQuery = (params) => {
-        console.log("push with", params);
-        history.push(params ? `/?${queryString.stringify(params)}` : `/`)
-    }
+    // const pushWithQuery = (params) => {
+    //     console.log("push with", params);
+    //     history.push(params ? `/?${queryString.stringify(params)}` : `/`)
+    // }
 
     const params = queryString.parse(location.search);
     const hasGrid = params.grid ? true : false;
