@@ -61,7 +61,7 @@ class PaperController extends Controller
         if ($request->has('sort') && $request->input('sort') === 'featured') {
             $search = 'featured';
         }
- 
+
         // dd(is_object($request->user()) && $request->user()->exists());
         $papers = Paper::query()
             ->withLikeCount()

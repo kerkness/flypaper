@@ -16,113 +16,68 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
         color: '#FFF'
     },
+    link: {
+        textDecoration: 'none',
+        color: '#F1F1F1',
+    },
+
 }));
 
 
 const DesktopDownloader = () => {
 
     const classes = useStyles();
-    const [category, setCategory] = React.useState('featured');
-    const [existingFiles, setExistingFiles] = React.useState([]);
     const [paddingTop, setPaddingTop] = React.useState(0);
-    const [filesToSync, setFilesToSync] = React.useState([]);
-    // const []
 
     const win = useWindowSize();
     const debouncedWin = useDebounce(win, 1000);
 
-    let directory = undefined;
-
     React.useEffect(() => {
         if (debouncedWin.width < 920) {
-            setPaddingTop(8)
+            setPaddingTop(2)
         } else {
             setPaddingTop(0)
         }
 
     }, [debouncedWin])
 
-    const handleCategoryChange = (e) => {
-        setCategory(e.target.value);
-    }
-
-    const onPathSelected = (dir, files) => {
-
-        console.log("File Names", files);
-        directory = dir;
-        setExistingFiles(files);
-        getFilesToSync(files);
-
-    }
-
-    const getFilesToSync = (files) => {
-        window.api.axiosPost(`/api/paper/sync`, { files, category })
-            .then(response => {
-                syncFiles(response.data);
-            })
-            .catch(error => console.log("sync error", error));
-    }
-
-    const syncFiles = async(files) => {
-        setFilesToSync(files);
-
-        files.forEach(async(file) => {
-            const params = {
-                w: file.width,
-                h: file.height,
-            }
-
-            const url = buildURL(`https://${process.env.IMGIX_URL}/${file.source}`, params);
-
-            // await saveAs(url, file.filename);
-
-            // window.api.axiosPost(`/api/paper/${file.id}/downloaded`)
-            //     .then(response => console.log("download recorded", response))
-            //     .catch(error => console.log("error", error));
-
-        });
-
-
-        // });
-    }
-
-
     return <ParallaxGrid>
-        <Box sx={{ mt: paddingTop }}>
-            <Grid
+        <Box sx={{ 
+            width: '100%', 
+            // mt: paddingTop, 
+            display: 'flex', 
+            justifyContent: 'space-evenly' 
+        }}>
 
-                container
-                direction='column'
-                className={classes.root}
-                spacing={2}
-            >
-                <Grid item>
-                    <Typography variant="h4">FlyPaper Desktop</Typography>
-                    <Typography variant="body1">These features are experimental and only supported by browsers which implement the latest File System Access API.</Typography>
-                    <Typography variant="body1">Choose a category of FlyPaper you wish to sync locally and then select a directory to sync with.</Typography>
-                </Grid>
+            <Box sx={{
+                flex: 1,
+                p: 2, 
+                backgroundColor: '#222', 
+                color: '#FFF'
+            }}>
+                <Typography variant='h1' sx={{ fontSize: '32px'}}>FlyTrap - Windows Wallpaper Client</Typography>
 
-                <Grid item>
-                    <Select
-                        value={category}
-                        onChange={handleCategoryChange}
-                        size='small'
-                        sx={{ mr: 2 }}
-                    >
-                        <MenuItem value={'featured'}>Featured</MenuItem>
-                        <MenuItem value={'likes'}>Your Likes</MenuItem>
-                    </Select>
-                    <SavePathButton category={category} onSelected={onPathSelected} />
-                </Grid>
+                <Typography sx={{ p:1 }}>
+                    FlyTrap is a small windows tray application that updates your desktop wallpaper/background from the FlyPaper database.
+                    Select a FlyPaper category, search term or creator and automatically rotate your wallpaper on a schedule.
 
-                {existingFiles.length > 0 && <Grid item>
-                    <Typography>{`Found ${existingFiles.length} files at destination`}</Typography>
-                </Grid>}
-                {filesToSync.length > 0 && <Grid item>
-                    <Typography>{`Found ${filesToSync.length} files to sync`}</Typography>
-                </Grid>}
+                </Typography>
+                <Typography sx={{ p:1 }}>
+                    FlyPaper and FlyTrap are free and come with no warrante or guarantee. Join <a className={classes.link} target="_blank" href='https://discord.gg/ZpGTDWfrxW'>TheFlyingFabio</a> discord for suggestions and/or assistance. Enjoy!
+                </Typography>
 
-            </Grid>
+
+
+                <Box sx={{ m: 2 }}>
+                <img src="/flytrap-screenshot.png" />
+                </Box>
+
+
+                <Box sx={{ p: 2 }}>
+                    <Button variant='contained' onClick={() => { window.location = 'https://theflyingfabio.com/tff-resource/flytrap/'}}>Download FlyTrap</Button>
+                </Box>
+            </Box>
+
         </Box>
     </ParallaxGrid>
 }

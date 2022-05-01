@@ -15,38 +15,6 @@ import { useNav } from "./navSlice";
 import queryString from 'query-string';
 
 
-// const CssToggleButton = withStyles({
-//     label: {
-//         color: '#EEEEEE',
-//         paddingLeft: 10,
-//         paddingRight: 10,
-//     },
-//     selected: {
-//         color: 'hotpink'
-//     },
-//     root: {
-//         '&.Mui-selected': {
-//             backgroundColor: 'rgba(20,20,20,0.5)',
-//             '& span': {
-//                 color: '#FFFFFF'
-//             },
-//         },
-//         backgroundColor: 'transparent',
-//     },
-// })(ToggleButton)
-
-
-
-// const CssGroupButton = withStyles({
-//     root: {
-//         backgroundColor: 'rgba(20,20,20,0.5)',
-//         '& span': {
-//             color: '#EEEEEE'
-//         },
-//     },
-// })(Button)
-
-
 const useStyles = makeStyles((theme) => ({
     spacer: {
         flexGrow: 1,

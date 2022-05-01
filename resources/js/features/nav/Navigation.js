@@ -14,6 +14,7 @@ import SubmitPaper from "../submit/SubmitPaper";
 import InfoDrawer from "../paper/InfoDrawer";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import AccountIcon from '@mui/icons-material/AccountCircle';
+import FiberNewIcon from '@mui/icons-material/FiberNew';
 import IconButton from '../../components/IconButton';
 import AccountDrawer from "../admin/AccountDrawer";
 import FilterBar from "./FilterBar";
@@ -22,6 +23,10 @@ import { usePaper } from "../paper/paperSlice";
 import AutoAwesomeMosaicIcon from '@mui/icons-material/AutoAwesomeMosaic';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import queryString from 'query-string';
+import SearchField from "./SearchField";
+import { Box } from "@mui/system";
+import NavigationMenu from "./NavigationMenu";
+import useWindowSize from '../../components/useWindowSize';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -64,6 +69,7 @@ const FlyPaperNavigation = (props) => {
     const { user } = useAuth();
     const history = useHistory();
     const location = useLocation();
+    const win = useWindowSize();
 
 
     const toggleSubmit = (event) => {
@@ -133,45 +139,26 @@ const FlyPaperNavigation = (props) => {
             { location.pathname !== '/play' && 
             <AppBar position="fixed" className={classes.appbar}>
                 <Toolbar>
+
+                    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+
                     <Typography onClick={() => history.push('/')} variant="h6" className={classes.title}>
                         FlyPaper 
                     </Typography>
-                    <Typography className={classes.spacer}></Typography>
-                    <IconButton
-                        onClick={() => hasGrid ? hideGrid() : showGrid()}
-                    >
-                        {hasGrid ? <TableRowsIcon /> : <AutoAwesomeMosaicIcon />}
-                    </IconButton>
-                    <IconButton
-                        onClick={() => setShowFilter(!showFilter)}
-                        color="inherit"
-                        className={clsx({
-                            [classes.iconbutton]: true,
-                            [classes.iconbuttonActive]: showFilter,
-                        })}
-                        size="large">
-                        { showFilter ? <ImageSearchTwoToneIcon /> : <ImageSearchIcon />}
-                    </IconButton>
-                    {papers.length > 0 && <IconButton
-                        disabled={papers.length < 1}
-                        onClick={() => history.push('/play')}
-                        size="large">
-                        <Slideshow />
-                    </IconButton>}
-                    <IconButton
+
+                    {win.width >= 600 && <Box>
+                        <SearchField />
+                    </Box>}
+
+                        <Box sx={{ display: 'flex' , justifyContent: 'space-between', alignItems: 'center' }}>
+                        <IconButton
                         onClick={toggleSubmit}
                         color="inherit"
                         className={classes.iconbutton}
                         size="large">
                         <AddPhotoAlternateIcon />
                     </IconButton>
-                    <IconButton
-                        onClick={toggleInfo}
-                        aria-label="info"
-                        className={classes.iconbutton}
-                        size="large">
-                        <InfoIcon />
-                    </IconButton>
+
                     <IconButton
                         onClick={toggleAccount}
                         aria-label="info"
@@ -179,6 +166,13 @@ const FlyPaperNavigation = (props) => {
                         size="large">
                         <AccountIcon />
                     </IconButton>
+
+                        <NavigationMenu />
+
+                        </Box>
+                    </Box>
+
+
                 </Toolbar>
 
                 {showFilter &&

@@ -7,7 +7,7 @@ const initialState = {
 	submit: false,
 	info: false,
 	account: false,
-	sort: 'created_at',
+	sort: 'featured',
 	offset: 0,
 	likedOffset: 0,
 	page: 0,
