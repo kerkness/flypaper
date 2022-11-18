@@ -267,11 +267,13 @@ class PaperController extends Controller
             $token = $user->createToken('app')->plainTextToken;
         }
 
-        return view('flypaper', [
-            'user' => Auth::check() ? Auth::user() : [],
-            'serverless' => getenv('UPPY_SERVERLESS'),
-            'token' => $token,
-        ]);
+        return view('home', []);
+
+        // return view('flypaper', [
+        //     'user' => Auth::check() ? Auth::user() : [],
+        //     'serverless' => getenv('UPPY_SERVERLESS'),
+        //     'token' => $token,
+        // ]);
     }
 
     public function record_download(Request $request, $paper_id)

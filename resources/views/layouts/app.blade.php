@@ -34,17 +34,14 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') .'?v='. config('app.version') }}" rel="stylesheet">
     <link rel="manifest" href="{{ url('manifest.json') }}">
 </head>
 
-<body>
-    <div id="app">
-        <main class="py-4">
-            @yield('content')
-        </main>
-    </div>
+<body class="bg-white dark:bg-slate-800">
+    @yield('content')
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') .'?v='. config('app.version') }}" defer></script>
